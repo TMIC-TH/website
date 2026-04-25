@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us - Trade Master International Co., Ltd.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&family=Kanit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0a1628;
+      --blue:    #0d3b6e;
+      --cyan:    #00b4d8;
+      --green:   #1db954;
+      --green2:  #22c55e;
+      --orange:  #f97316;
+      --white:   #ffffff;
+      --light:   #f0f4f8;
+      --gray:    #64748b;
+      --border:  #e2e8f0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Sarabun', sans-serif;
+      color: #1e293b;
+      background: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ========== NAVBAR ========== */
+    nav {
+      position: sticky; top: 0; z-index: 999;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .nav-logo img { height: 42px; object-fit: contain; }
+    .nav-logo-text {
+      font-family: 'Kanit', sans-serif;
+      font-weight: 700; font-size: 13px;
+      color: var(--navy); line-height: 1.3;
+    }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      font-size: 14px; font-weight: 500; color: #334155;
+      text-decoration: none; white-space: nowrap;
+      transition: color .2s; padding-bottom: 2px;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-links a.active {
+      color: var(--cyan);
+      border-bottom: 2px solid var(--cyan);
+    }
+    .btn-consult {
+      background: var(--green); color: #fff;
+      border: none; padding: 10px 20px;
+      border-radius: 6px; font-size: 14px; font-weight: 600;
+      font-family: 'Sarabun', sans-serif;
+      cursor: pointer; white-space: nowrap;
+      display: flex; align-items: center; gap: 6px;
+      transition: background .2s, transform .15s;
+    }
+    .btn-consult:hover { background: #16a34a; transform: translateY(-1px); }
+
+    /* ========== HERO BANNER ========== */
+    .about-hero {
+      position: relative;
+      min-height: 280px;
+      overflow: hidden;
+      display: flex; align-items: center;
+    }
+    .about-hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('assets/about/01.png');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(.55);
+    }
+    .about-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(10,22,40,.85) 45%, rgba(10,22,40,.2) 100%);
+    }
+    .about-hero-content {
+      position: relative; z-index: 2;
+      padding: 52px 80px;
+      max-width: 760px;
+    }
+    .about-hero-content h1 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 60px; font-weight: 900;
+      color: #fff; line-height: 1.05;
+      letter-spacing: -1px;
+    }
+    .about-hero-content p {
+      font-size: 18px; color: #cbd5e1;
+      margin-top: 14px; font-weight: 400;
+      line-height: 1.6; max-width: 560px;
+    }
+    .about-hero-badges {
+      display: flex; gap: 40px; margin-top: 28px; flex-wrap: wrap;
+    }
+    .hero-badge-item {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .hero-badge-icon {
+      width: 44px; height: 44px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .hero-badge-text strong {
+      font-family: 'Kanit', sans-serif;
+      font-size: 20px; font-weight: 800; color: #fff; display: block;
+    }
+    .hero-badge-text span { font-size: 12px; color: #94a3b8; }
+
+    /* ========== ABOUT COMPANY ========== */
+    .company-section {
+      padding: 72px 80px;
+      display: grid; grid-template-columns: 1fr 420px;
+      gap: 56px; align-items: start;
+      max-width: 1280px; margin: 0 auto;
+    }
+    .company-text h2 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 26px; font-weight: 800;
+      color: var(--navy);
+      border-left: 4px solid var(--cyan);
+      padding-left: 14px; margin-bottom: 20px;
+    }
+    .company-text p {
+      font-size: 15.5px; color: #475569;
+      line-height: 1.85; margin-bottom: 16px;
+    }
+    .company-text p strong { color: var(--navy); }
+    .company-img {
+      border-radius: 14px; overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,.14);
+    }
+    .company-img img { width: 100%; display: block; object-fit: cover; }
+
+    /* ========== EXPERTISE ========== */
+    .expertise-section {
+      background: #f8fafc;
+      padding: 64px 80px;
+    }
+    .section-label {
+      text-align: center;
+      font-family: 'Kanit', sans-serif;
+      font-size: 13px; font-weight: 700;
+      color: var(--cyan); letter-spacing: 2.5px;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .section-title {
+      text-align: center;
+      font-family: 'Kanit', sans-serif;
+      font-size: 30px; font-weight: 800;
+      color: var(--navy); margin-bottom: 40px;
+    }
+    .expertise-grid {
+      display: grid; grid-template-columns: repeat(6, 1fr);
+      gap: 20px; max-width: 1100px; margin: 0 auto;
+    }
+    .expertise-card {
+      background: #fff; border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 28px 16px; text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,.05);
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+    }
+    .expertise-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,180,216,.12);
+      border-color: var(--cyan);
+    }
+    .expertise-icon {
+      font-size: 36px; margin-bottom: 14px;
+      display: block;
+    }
+    .expertise-card h3 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 13px; font-weight: 700;
+      color: var(--navy); margin-bottom: 8px;
+    }
+    .expertise-card p {
+      font-size: 12px; color: var(--gray);
+      line-height: 1.55;
+    }
+
+    /* ========== APPROACH SECTION ========== */
+    .approach-section {
+      position: relative;
+      overflow: hidden;
+      min-height: 380px;
+    }
+    .approach-bg {
+      position: absolute; inset: 0;
+      background-image: url('assets/about/04.png');
+      background-size: cover;
+      background-position: center;
+    }
+    .approach-bg-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(10,22,40,.92) 0%, rgba(10,22,40,.75) 100%);
+    }
+    .approach-inner {
+      position: relative; z-index: 2;
+      display: grid; grid-template-columns: 420px 1fr;
+      gap: 60px; align-items: center;
+      padding: 56px 80px;
+      max-width: 1280px; margin: 0 auto;
+    }
+
+    /* Venn Diagram */
+    .venn-wrap {
+      display: flex; align-items: center; justify-content: center;
+    }
+    .venn {
+      position: relative;
+      width: 320px; height: 280px;
+    }
+    .venn-circle {
+      position: absolute;
+      width: 170px; height: 170px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      font-size: 11px; font-weight: 700;
+      color: #fff; font-family: 'Kanit', sans-serif;
+      line-height: 1.3;
+    }
+    .venn-c1 {
+      background: rgba(0,180,216,.35);
+      border: 2px solid rgba(0,180,216,.7);
+      top: 0; left: 50%; transform: translateX(-50%);
+    }
+    .venn-c2 {
+      background: rgba(13,59,110,.45);
+      border: 2px solid rgba(0,180,216,.5);
+      bottom: 0; left: 10px;
+    }
+    .venn-c3 {
+      background: rgba(29,185,84,.25);
+      border: 2px solid rgba(29,185,84,.6);
+      bottom: 0; right: 10px;
+    }
+    .venn-center {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -30%);
+      background: rgba(0,180,216,.8);
+      border: 2px solid var(--cyan);
+      border-radius: 50%;
+      width: 90px; height: 90px;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      font-size: 10px; font-weight: 700;
+      color: #fff; font-family: 'Kanit', sans-serif;
+      box-shadow: 0 0 24px rgba(0,180,216,.5);
+      line-height: 1.3;
+    }
+    .venn-label {
+      position: absolute;
+      font-size: 10.5px; font-weight: 700;
+      color: #fff; font-family: 'Kanit', sans-serif;
+      text-align: center; line-height: 1.3;
+    }
+    .vl-top  { top: 48px; left: 50%; transform: translateX(-50%); }
+    .vl-bl   { bottom: 52px; left: 22px; }
+    .vl-br   { bottom: 52px; right: 22px; }
+
+    /* Approach text */
+    .approach-text h2 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 28px; font-weight: 800;
+      color: #fff; margin-bottom: 14px;
+    }
+    .approach-text > p {
+      font-size: 15px; color: #94a3b8;
+      line-height: 1.75; margin-bottom: 24px;
+    }
+    .approach-check {
+      display: flex; align-items: flex-start; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .approach-check .chk {
+      width: 22px; height: 22px; flex-shrink: 0;
+      background: var(--green2); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; color: #fff; font-weight: 700;
+      margin-top: 1px;
+    }
+    .approach-check p { font-size: 14.5px; color: #cbd5e1; line-height: 1.5; }
+
+    /* ========== VISION + LEADERSHIP ========== */
+    .vision-leadership {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    /* Vision */
+    .vision-side {
+      background: #fff;
+      padding: 60px 56px;
+      border-right: 1px solid var(--border);
+    }
+    .block-label {
+      font-family: 'Kanit', sans-serif;
+      font-size: 13px; font-weight: 700;
+      color: var(--cyan); letter-spacing: 2px;
+      text-transform: uppercase; margin-bottom: 6px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .block-label::before {
+      content: '';
+      width: 28px; height: 3px;
+      background: var(--cyan); border-radius: 2px;
+    }
+    .vision-quote {
+      margin: 24px 0;
+      position: relative;
+      padding-left: 20px;
+    }
+    .vision-quote::before {
+      content: '\201C';
+      position: absolute; left: -8px; top: -8px;
+      font-size: 72px; color: var(--cyan);
+      opacity: .3; font-family: Georgia, serif;
+      line-height: 1;
+    }
+    .vision-quote p {
+      font-family: 'Kanit', sans-serif;
+      font-size: 26px; font-weight: 700;
+      color: var(--navy); line-height: 1.35;
+    }
+    .vision-quote p em { color: var(--cyan); font-style: normal; }
+    .vision-quote::after {
+      content: '\201D';
+      font-size: 72px; color: var(--cyan);
+      opacity: .3; font-family: Georgia, serif;
+      line-height: 0; vertical-align: -28px; margin-left: 4px;
+    }
+    .vision-desc {
+      font-size: 15px; color: #475569;
+      line-height: 1.75; margin-top: 16px;
+    }
+
+    /* Leadership */
+    .leadership-side {
+      background: #f8fafc;
+      padding: 60px 56px;
+    }
+    .leader-profile {
+      display: flex; gap: 24px; align-items: flex-start;
+      margin-top: 20px;
+    }
+    .leader-photo {
+      width: 100px; height: 120px; flex-shrink: 0;
+      border-radius: 10px; overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,.15);
+    }
+    .leader-photo img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .leader-info h3 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 22px; font-weight: 800; color: var(--navy);
+    }
+    .leader-role {
+      color: var(--cyan); font-size: 14px; font-weight: 600;
+      margin-top: 2px; margin-bottom: 10px;
+    }
+    .leader-info p {
+      font-size: 13.5px; color: #475569;
+      line-height: 1.65;
+    }
+    .leader-values {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; margin-top: 28px;
+    }
+    .value-item {
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .value-icon {
+      font-size: 22px; flex-shrink: 0; margin-top: 2px;
+    }
+    .value-item h4 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 13px; font-weight: 700; color: var(--navy);
+    }
+    .value-item p { font-size: 12px; color: var(--gray); line-height: 1.45; }
+
+    /* ========== STATS BAR ========== */
+    .stats-bar {
+      background: var(--navy);
+      padding: 36px 80px;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    .stat-item {
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,.12);
+      padding: 0 20px;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-icon { font-size: 28px; color: var(--cyan); margin-bottom: 8px; }
+    .stat-value {
+      font-family: 'Kanit', sans-serif;
+      font-size: 36px; font-weight: 900; color: #fff;
+    }
+    .stat-label { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+
+    /* ========== TRUSTED BY ========== */
+    .trusted-section {
+      padding: 60px 80px;
+      background: #fff;
+    }
+    .trusted-logos {
+      display: flex; flex-wrap: wrap;
+      gap: 14px; justify-content: center;
+      margin-top: 32px;
+    }
+    .trusted-logo {
+      background: var(--light); border-radius: 8px;
+      padding: 14px 24px;
+      display: flex; align-items: center; justify-content: center;
+      height: 60px; min-width: 100px;
+      transition: transform .2s, box-shadow .2s;
+      border: 1px solid var(--border);
+    }
+    .trusted-logo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 16px rgba(0,0,0,.1);
+    }
+    .trusted-logo span {
+      font-family: 'Kanit', sans-serif;
+      font-weight: 800; font-size: 15px;
+      color: var(--navy);
+    }
+    .trusted-logo.toyota span { color: #eb0a1e; }
+    .trusted-logo.honda span  { color: #c00; }
+    .trusted-logo.ptt span    { color: #006a2e; }
+    .trusted-logo.scg span    { color: #003087; }
+    .trusted-logo.ais span    { color: #f37021; }
+    .trusted-logo.cpall span  { color: #1a5cb3; }
+    .trusted-logo.thaibev span{ color: #00703c; }
+
+    /* ========== CTA FOOTER ========== */
+    .cta-bar {
+      background: var(--navy);
+      padding: 40px 80px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 24px; flex-wrap: wrap;
+      position: relative; overflow: hidden;
+    }
+    .cta-bar::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url('assets/about/01.png');
+      background-size: cover; background-position: center;
+      opacity: .08;
+    }
+    .cta-bar-text { position: relative; z-index: 1; }
+    .cta-bar-text h2 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 24px; font-weight: 800; color: #fff;
+    }
+    .cta-bar-text p { font-size: 14px; color: #94a3b8; margin-top: 4px; }
+    .cta-bar-btns {
+      display: flex; gap: 14px;
+      position: relative; z-index: 1;
+    }
+    .btn-cta-green {
+      background: var(--green); color: #fff;
+      padding: 13px 26px; border-radius: 6px;
+      font-size: 14px; font-weight: 700;
+      font-family: 'Sarabun', sans-serif;
+      border: none; cursor: pointer;
+      display: flex; align-items: center; gap: 7px;
+      white-space: nowrap;
+      transition: background .2s;
+    }
+    .btn-cta-green:hover { background: #16a34a; }
+    .btn-cta-outline {
+      background: transparent; color: #fff;
+      padding: 13px 26px; border-radius: 6px;
+      font-size: 14px; font-weight: 700;
+      font-family: 'Sarabun', sans-serif;
+      border: 2px solid rgba(255,255,255,.45); cursor: pointer;
+      white-space: nowrap;
+      transition: border-color .2s;
+    }
+    .btn-cta-outline:hover { border-color: #fff; }
+
+    /* ========== FOOTER ========== */
+    footer {
+      background: #070d19;
+      color: #475569; font-size: 13px;
+      padding: 18px 80px;
+      text-align: center;
+    }
+    footer a { color: var(--cyan); text-decoration: none; }
+
+    /* ========== ANIMATIONS ========== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1024px) {
+      .company-section { grid-template-columns: 1fr; padding: 48px 32px; }
+      .expertise-grid  { grid-template-columns: repeat(3,1fr); }
+      .approach-inner  { grid-template-columns: 1fr; padding: 40px 32px; }
+      .vision-leadership { grid-template-columns: 1fr; }
+      .vision-side, .leadership-side { padding: 40px 32px; border-right: none; border-bottom: 1px solid var(--border); }
+      .stats-bar { grid-template-columns: repeat(2,1fr); padding: 32px; gap: 20px; }
+      .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,.1); padding-bottom: 20px; }
+      .trusted-section { padding: 48px 32px; }
+      .cta-bar { flex-direction: column; text-align: center; padding: 40px 32px; }
+      .nav-links { display: none; }
+      nav { padding: 0 20px; }
+      .about-hero-content { padding: 40px 24px; }
+      .about-hero-content h1 { font-size: 40px; }
+    }
+    @media (max-width: 640px) {
+      .expertise-grid { grid-template-columns: repeat(2,1fr); }
+      .leader-values  { grid-template-columns: 1fr; }
+      .about-hero-badges { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ====== NAVBAR ====== -->
+<nav>
+  <a class="nav-logo" href="index.html" title="กลับหน้าหลัก">
+    <img src="assets/hero/00.png" alt="TMIC Logo"
+         onerror="this.style.display='none'" />
+    <div class="nav-logo-text">TRADE MASTER<br>INTERNATIONAL CO., LTD.</div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Solutions</a>
+    <a href="index.html">AI Projects</a>
+    <a href="index.html">Training</a>
+    <a href="index.html">ROI &amp; Case Studies</a>
+    <a href="about.html" class="active">About Us</a>
+    <a href="index.html">Contact</a>
+  </div>
+  <button class="btn-consult">🟢 ปรึกษาฟรี</button>
+</nav>
+
+<!-- ====== HERO BANNER ====== -->
+<section class="about-hero">
+  <div class="about-hero-bg"></div>
+  <div class="about-hero-overlay"></div>
+  <div class="about-hero-content">
+    <h1>ABOUT US</h1>
+    <p>
+      ผู้นำด้านที่ปรึกษาและพัฒนาองค์กรอุตสาหกรรม<br>
+      ด้วยมาตรฐานสากล ผสานเทคโนโลยี AI และ Smart Factory
+    </p>
+    <div class="about-hero-badges">
+      <div class="hero-badge-item">
+        <div class="hero-badge-icon">🏆</div>
+        <div class="hero-badge-text">
+          <strong>20+</strong>
+          <span>ปี ประสบการณ์จริง</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <div class="hero-badge-icon">🛡️</div>
+        <div class="hero-badge-text">
+          <strong>0 NC</strong>
+          <span>จากลูกค้า</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <div class="hero-badge-icon">👥</div>
+        <div class="hero-badge-text">
+          <strong>1500+</strong>
+          <span>ผู้เข้าอบรม</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <div class="hero-badge-icon">🏭</div>
+        <div class="hero-badge-text">
+          <strong>100+</strong>
+          <span>โรงงานที่ปรึกษา</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== COMPANY INTRO ====== -->
+<div class="company-section reveal">
+  <div class="company-text">
+    <h2>Trade Master International Co., Ltd. (TMIC)</h2>
+    <p>
+      ตลอดระยะเวลากว่า 20 ปี TMIC ได้ร่วมพัฒนาองค์กรในหลากหลายอุตสาหกรรม
+      โดยเฉพาะ <strong>Automotive</strong> และ <strong>Electronics</strong>
+      ให้สามารถยกระดับคุณภาพ ลดต้นทุน และสร้างความได้เปรียบทางการแข่งขันอย่างยั่งยืน
+    </p>
+    <p>
+      เราไม่ได้เป็นเพียง <strong>"ที่ปรึกษา"</strong> แต่เป็น
+      <strong>Digital Transformation Partner</strong>
+      ที่ออกแบบและลงมือทำโซลูชันจริงในโรงงาน เพื่อให้เกิดผลลัพธ์ที่วัดได้จริง
+    </p>
+  </div>
+  <div class="company-img">
+    <img src="assets/about/02.png" alt="Trade Master Building"
+         onerror="this.style.minHeight='260px';this.style.background='#e2e8f0'" />
+  </div>
+</div>
+
+<!-- ====== OUR EXPERTISE ====== -->
+<section class="expertise-section">
+  <div class="section-label">What We Do</div>
+  <h2 class="section-title">OUR EXPERTISE</h2>
+  <div class="expertise-grid">
+    <div class="expertise-card reveal">
+      <span class="expertise-icon">🛡️</span>
+      <h3>ISO &amp; IATF</h3>
+      <p>ISO 9001, ISO 14001,<br>IATF 16949, ISO 45001<br>และมาตรฐานสากลอื่นๆ</p>
+    </div>
+    <div class="expertise-card reveal">
+      <span class="expertise-icon">🤖</span>
+      <h3>AI &amp; SMART FACTORY</h3>
+      <p>AI, Industrial IoT และระบบอัจฉริยะเพื่อเพิ่มประสิทธิภาพการผลิต</p>
+    </div>
+    <div class="expertise-card reveal">
+      <span class="expertise-icon">📷</span>
+      <h3>MACHINE VISION</h3>
+      <p>ระบบตรวจสอบคุณภาพด้วย AI Vision ความแม่นยำสูง</p>
+    </div>
+    <div class="expertise-card reveal">
+      <span class="expertise-icon">📊</span>
+      <h3>LEAN &amp; SIX SIGMA</h3>
+      <p>เพิ่มผลิตภาพ ลดความสูญเปล่า ด้วยแนวทาง Lean และ Six Sigma</p>
+    </div>
+    <div class="expertise-card reveal">
+      <span class="expertise-icon">🌿</span>
+      <h3>ESG &amp; CARBON</h3>
+      <p>Carbon Footprint, ESG และระบบการจัดการสิ่งแวดล้อม</p>
+    </div>
+    <div class="expertise-card reveal">
+      <span class="expertise-icon">🎓</span>
+      <h3>TRAINING &amp; COACHING</h3>
+      <p>หลักสูตรอบรม In-house และ Public Training โดยผู้เชี่ยวชาญ</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== OUR APPROACH ====== -->
+<section class="approach-section">
+  <div class="approach-bg"></div>
+  <div class="approach-bg-overlay"></div>
+  <div class="approach-inner">
+    <!-- Venn Diagram -->
+    <div class="venn-wrap">
+      <div class="venn">
+        <div class="venn-circle venn-c1"></div>
+        <div class="venn-circle venn-c2"></div>
+        <div class="venn-circle venn-c3"></div>
+        <div class="venn-center">INTEGRATED<br>SOLUTION</div>
+        <div class="venn-label vl-top">MANAGEMENT<br>SYSTEM<br>(ISO / IATF)</div>
+        <div class="venn-label vl-bl">DIGITAL<br>TECHNOLOGY<br>(AI / IoT)</div>
+        <div class="venn-label vl-br">DATA-DRIVEN<br>DECISION<br>(ANALYTICS)</div>
+      </div>
+    </div>
+    <!-- Text -->
+    <div class="approach-text">
+      <h2>OUR APPROACH</h2>
+      <p>
+        เรานำเสนอแนวทางแบบ Integrated System
+        ที่เชื่อมโยง Management System, Digital Technology
+        และ Data-Driven Decision เข้าด้วยกันอย่างเป็นระบบ
+      </p>
+      <div class="approach-check">
+        <div class="chk">✓</div>
+        <p>ลดของเสียและข้อบกพร่อง (Defect Reduction)</p>
+      </div>
+      <div class="approach-check">
+        <div class="chk">✓</div>
+        <p>เพิ่มประสิทธิภาพการผลิต (OEE Improvement)</p>
+      </div>
+      <div class="approach-check">
+        <div class="chk">✓</div>
+        <p>ลดต้นทุนพลังงานและทรัพยากร</p>
+      </div>
+      <div class="approach-check">
+        <div class="chk">✓</div>
+        <p>ผ่านการรับรองมาตรฐานโดยไม่มี Nonconformity</p>
+      </div>
+      <div class="approach-check">
+        <div class="chk">✓</div>
+        <p>สร้างความยั่งยืนและความเชื่อมั่นให้กับองค์กร</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== VISION + LEADERSHIP ====== -->
+<div class="vision-leadership">
+  <!-- Vision -->
+  <div class="vision-side reveal">
+    <div class="block-label">Our Vision</div>
+    <div class="vision-quote">
+      <p>
+        Empowering Industry<br>
+        through <em>AI and</em><br>
+        <em>International Standards</em>
+      </p>
+    </div>
+    <p class="vision-desc">
+      เรามุ่งมั่นเป็นผู้นำในการยกระดับโรงงานไทย
+      สู่ AI-Powered Industry 4.0 อย่างยั่งยืน
+    </p>
+  </div>
+
+  <!-- Leadership -->
+  <div class="leadership-side reveal">
+    <div class="block-label">Leadership</div>
+    <div class="leader-profile">
+      <div class="leader-photo">
+        <img src="assets/hero/Ryan.png" alt="อ.ไรอัน ธาตุสุวรรณ"
+             onerror="this.parentNode.style.background='#cbd5e1'" />
+      </div>
+      <div class="leader-info">
+        <h3>อ.ไรอัน ธาตุสุวรรณ</h3>
+        <div class="leader-role">Managing Director</div>
+        <p>
+          ISO Lead Auditor (IRCA Certified)<br>
+          AI Smart Factory Consultant<br><br>
+          ผู้เชี่ยวชาญด้าน ISO และ Digital Transformation
+          ด้วยประสบการณ์มากกว่า 20 ปี
+          ในอุตสาหกรรมระดับสากล
+        </p>
+      </div>
+    </div>
+    <div class="leader-values">
+      <div class="value-item">
+        <div class="value-icon">🎯</div>
+        <div>
+          <h4>มุ่งสู่ความเป็นเลิศ</h4>
+          <p>ด้วยมาตรฐานสากล</p>
+        </div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">💡</div>
+        <div>
+          <h4>พัฒนานวัตกรรมต่อเนื่อง</h4>
+          <p>เพื่อนวัตกรรมที่ยั่งยืน</p>
+        </div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">🤝</div>
+        <div>
+          <h4>เชื่อมั่นในความร่วมมือ</h4>
+          <p>และความสำเร็จไปด้วยกัน</p>
+        </div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">⭐</div>
+        <div>
+          <h4>สร้างคุณค่าให้ลูกค้า</h4>
+          <p>ด้วยโซลูชันที่ใช้ได้จริง</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== STATS BAR ====== -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-icon">📅</div>
+    <div class="stat-value">20+</div>
+    <div class="stat-label">ปี ประสบการณ์</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-icon">🏭</div>
+    <div class="stat-value">100+</div>
+    <div class="stat-label">โรงงานที่ให้คำปรึกษา</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-icon">👥</div>
+    <div class="stat-value">1500+</div>
+    <div class="stat-label">ผู้เข้าอบรมจากองค์กรชั้นนำ</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-icon">👍</div>
+    <div class="stat-value">98%</div>
+    <div class="stat-label">ความพึงพอใจจากลูกค้า</div>
+  </div>
+</div>
+
+<!-- ====== TRUSTED BY ====== -->
+<section class="trusted-section">
+  <div class="section-label">Our Clients</div>
+  <h2 class="section-title">TRUSTED BY LEADING ORGANIZATIONS</h2>
+  <div class="trusted-logos">
+    <div class="trusted-logo toyota"><span>TOYOTA</span></div>
+    <div class="trusted-logo honda"><span>🏍 HONDA</span></div>
+    <div class="trusted-logo ptt"><span>⛽ PTT</span></div>
+    <div class="trusted-logo scg"><span>◉ SCG</span></div>
+    <div class="trusted-logo ais"><span>AIS</span></div>
+    <div class="trusted-logo cpall"><span>🌿 CPALL</span></div>
+    <div class="trusted-logo thaibev"><span>ThaiBev</span></div>
+    <div class="trusted-logo"><span>Minebea</span></div>
+    <div class="trusted-logo"><span>✦ DAIKIN</span></div>
+    <div class="trusted-logo"><span>Panasonic</span></div>
+  </div>
+</section>
+
+<!-- ====== CTA BAR ====== -->
+<div class="cta-bar">
+  <div class="cta-bar-text">
+    <h2>พร้อมยกระดับองค์กรของคุณแล้วหรือยัง?</h2>
+    <p>ให้ TMIC เป็นพันธมิตรในการก้าวสู่ Smart Factory ที่ยั่งยืน</p>
+  </div>
+  <div class="cta-bar-btns">
+    <button class="btn-cta-green">💬 ปรึกษาฟรี</button>
+    <button class="btn-cta-outline">ดูตัวอย่างโครงการ</button>
+  </div>
+</div>
+
+<!-- ====== FOOTER ====== -->
+<footer>
+  <p>
+    © 2025 Trade Master International Co., Ltd. |
+    Tel: <a href="tel:0819246556">081-924-6556</a> |
+    Email: <a href="mailto:trademasterinter@gmail.com">trademasterinter@gmail.com</a> |
+    Line: <a href="#">@430awvsz</a>
+  </p>
+</footer>
+
+<script>
+  // Intersection Observer - reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        entry.target.style.transitionDelay = `${(i % 6) * 0.08}s`;
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Stagger expertise cards
+  document.querySelectorAll('.expertise-card').forEach((el, i) => {
+    el.style.transitionDelay = `${i * 0.07}s`;
+  });
+
+  // Prevent default for internal nav (demo mode)
+  document.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {});
+  });
+</script>
+</body>
+</html>
