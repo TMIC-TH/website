@@ -82,7 +82,7 @@
     }
     .about-hero-bg {
       position: absolute; inset: 0;
-      background-image: url('assets/about/01.png');
+      background-image: url('assets/images/about/01.png');
       background-size: cover;
       background-position: center;
       filter: brightness(.55);
@@ -200,27 +200,33 @@
     }
 
     /* ========== APPROACH SECTION ========== */
+    /* ========== APPROACH SECTION ========== */
     .approach-section {
       position: relative;
       overflow: hidden;
-      min-height: 380px;
+      min-height: 400px;
     }
     .approach-bg {
       position: absolute; inset: 0;
-      background-image: url('assets/about/04.png');
+      background-image: url('assets/images/about/03.png');
       background-size: cover;
-      background-position: center;
+      background-position: center right;
     }
     .approach-bg-overlay {
       position: absolute; inset: 0;
-      background: linear-gradient(90deg, rgba(10,22,40,.92) 0%, rgba(10,22,40,.75) 100%);
+      /* ซ้าย: ทึบสีกรมเพื่อให้อ่านข้อความได้  ขวา: โปร่งให้เห็นรูปวิศวกร */
+      background: linear-gradient(90deg,
+        rgba(10,22,40,.97) 0%,
+        rgba(10,22,40,.94) 35%,
+        rgba(10,22,40,.70) 58%,
+        rgba(10,22,40,.10) 100%);
     }
     .approach-inner {
       position: relative; z-index: 2;
-      display: grid; grid-template-columns: 420px 1fr;
+      display: grid; grid-template-columns: 380px 1fr;
       gap: 60px; align-items: center;
-      padding: 56px 80px;
-      max-width: 1280px; margin: 0 auto;
+      padding: 60px 80px;
+      max-width: 1200px; margin: 0 auto;
     }
 
     /* Venn Diagram */
@@ -429,33 +435,30 @@
     }
     .trusted-logos {
       display: flex; flex-wrap: wrap;
-      gap: 14px; justify-content: center;
+      gap: 16px; justify-content: center;
       margin-top: 32px;
     }
     .trusted-logo {
-      background: var(--light); border-radius: 8px;
-      padding: 14px 24px;
+      background: #fff; border-radius: 10px;
+      padding: 14px 20px;
       display: flex; align-items: center; justify-content: center;
-      height: 60px; min-width: 100px;
+      height: 70px; min-width: 120px;
       transition: transform .2s, box-shadow .2s;
       border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,.05);
     }
     .trusted-logo:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 16px rgba(0,0,0,.1);
+      transform: scale(1.06);
+      box-shadow: 0 6px 20px rgba(0,0,0,.12);
+      border-color: var(--cyan);
     }
-    .trusted-logo span {
-      font-family: 'Kanit', sans-serif;
-      font-weight: 800; font-size: 15px;
-      color: var(--navy);
+    .trusted-logo img {
+      max-height: 40px;
+      max-width: 110px;
+      width: auto; height: auto;
+      object-fit: contain;
+      display: block;
     }
-    .trusted-logo.toyota span { color: #eb0a1e; }
-    .trusted-logo.honda span  { color: #c00; }
-    .trusted-logo.ptt span    { color: #006a2e; }
-    .trusted-logo.scg span    { color: #003087; }
-    .trusted-logo.ais span    { color: #f37021; }
-    .trusted-logo.cpall span  { color: #1a5cb3; }
-    .trusted-logo.thaibev span{ color: #00703c; }
 
     /* ========== CTA FOOTER ========== */
     .cta-bar {
@@ -468,7 +471,7 @@
     .cta-bar::before {
       content: '';
       position: absolute; inset: 0;
-      background-image: url('assets/about/01.png');
+      background-image: url('assets/images/about/01.png');
       background-size: cover; background-position: center;
       opacity: .08;
     }
@@ -549,7 +552,7 @@
 <!-- ====== NAVBAR ====== -->
 <nav>
   <a class="nav-logo" href="index.html" title="กลับหน้าหลัก">
-    <img src="assets/hero/00.png" alt="TMIC Logo"
+    <img src="assets/images/about/00.png" alt="TMIC Logo"
          onerror="this.style.display='none'" />
     <div class="nav-logo-text">TRADE MASTER<br>INTERNATIONAL CO., LTD.</div>
   </a>
@@ -623,7 +626,7 @@
     </p>
   </div>
   <div class="company-img">
-    <img src="assets/about/02.png" alt="Trade Master Building"
+    <img src="assets/images/about/02.png" alt="Trade Master Building"
          onerror="this.style.minHeight='260px';this.style.background='#e2e8f0'" />
   </div>
 </div>
@@ -671,7 +674,7 @@
   <div class="approach-bg"></div>
   <div class="approach-bg-overlay"></div>
   <div class="approach-inner">
-    <!-- Venn Diagram -->
+    <!-- Venn Diagram (left) -->
     <div class="venn-wrap">
       <div class="venn">
         <div class="venn-circle venn-c1"></div>
@@ -683,7 +686,7 @@
         <div class="venn-label vl-br">DATA-DRIVEN<br>DECISION<br>(ANALYTICS)</div>
       </div>
     </div>
-    <!-- Text -->
+    <!-- Text (center) -->
     <div class="approach-text">
       <h2>OUR APPROACH</h2>
       <p>
@@ -712,6 +715,7 @@
         <p>สร้างความยั่งยืนและความเชื่อมั่นให้กับองค์กร</p>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -738,7 +742,7 @@
     <div class="block-label">Leadership</div>
     <div class="leader-profile">
       <div class="leader-photo">
-        <img src="assets/hero/Ryan.png" alt="อ.ไรอัน ธาตุสุวรรณ"
+        <img src="assets/images/about/Ryan.png" alt="อ.ไรอัน ธาตุสุวรรณ"
              onerror="this.parentNode.style.background='#cbd5e1'" />
       </div>
       <div class="leader-info">
@@ -815,16 +819,46 @@
   <div class="section-label">Our Clients</div>
   <h2 class="section-title">TRUSTED BY LEADING ORGANIZATIONS</h2>
   <div class="trusted-logos">
-    <div class="trusted-logo toyota"><span>TOYOTA</span></div>
-    <div class="trusted-logo honda"><span>🏍 HONDA</span></div>
-    <div class="trusted-logo ptt"><span>⛽ PTT</span></div>
-    <div class="trusted-logo scg"><span>◉ SCG</span></div>
-    <div class="trusted-logo ais"><span>AIS</span></div>
-    <div class="trusted-logo cpall"><span>🌿 CPALL</span></div>
-    <div class="trusted-logo thaibev"><span>ThaiBev</span></div>
-    <div class="trusted-logo"><span>Minebea</span></div>
-    <div class="trusted-logo"><span>✦ DAIKIN</span></div>
-    <div class="trusted-logo"><span>Panasonic</span></div>
+    <div class="trusted-logo">
+      <img src="assets/images/hero/cus_a.png" alt="Toyota"
+           onerror="this.outerHTML='<span style=font-family:Kanit,sans-serif;font-weight:800;font-size:14px;color:#eb0a1e>TOYOTA</span>'" />
+    </div>
+    <div class="trusted-logo">
+      <img src="assets/images/hero/cus_b.png" alt="Honda"
+           onerror="this.outerHTML='<span style=font-family:Kanit,sans-serif;font-weight:800;font-size:14px;color:#c00>HONDA</span>'" />
+    </div>
+    <div class="trusted-logo">
+      <img src="assets/images/hero/cus_c.png" alt="PTT"
+           onerror="this.outerHTML='<span style=font-family:Kanit,sans-serif;font-weight:800;font-size:14px;color:#006a2e>PTT</span>'" />
+    </div>
+    <div class="trusted-logo">
+      <img src="assets/images/hero/cus_d.png" alt="SCG"
+           onerror="this.outerHTML='<span style=font-family:Kanit,sans-serif;font-weight:800;font-size:14px;color:#003087>SCG</span>'" />
+    </div>
+    <div class="trusted-logo">
+      <img src="assets/images/hero/cus_e.png" alt="AIS"
+           onerror="this.outerHTML='<span style=font-family:Kanit,sans-serif;font-weight:800;font-size:14px;color:#f37021>AIS</span>'" />
+    </div>
+    <div class="trusted-logo">
+      <img src="assets/images/hero/cus_f.png" alt="CPALL"
+           onerror="this.outerHTML='<span style=font-family:Kanit,sans-serif;font-weight:800;font-size:14px;color:#1a5cb3>CPALL</span>'" />
+    </div>
+    <div class="trusted-logo">
+      <img src="assets/images/hero/cus_g.png" alt="ThaiBev"
+           onerror="this.outerHTML='<span style=font-family:Kanit,sans-serif;font-weight:800;font-size:14px;color:#00703c>ThaiBev</span>'" />
+    </div>
+    <div class="trusted-logo">
+      <img src="assets/images/hero/cus_h.png" alt="Minebea"
+           onerror="this.outerHTML='<span style=font-family:Kanit,sans-serif;font-weight:800;font-size:14px;color:#1e293b>Minebea</span>'" />
+    </div>
+    <div class="trusted-logo">
+      <img src="assets/images/hero/cus_i.png" alt="Daikin"
+           onerror="this.outerHTML='<span style=font-family:Kanit,sans-serif;font-weight:800;font-size:14px;color:#006bb6>DAIKIN</span>'" />
+    </div>
+    <div class="trusted-logo">
+      <img src="assets/images/hero/cus_j.png" alt="Panasonic"
+           onerror="this.outerHTML='<span style=font-family:Kanit,sans-serif;font-weight:800;font-size:14px;color:#1e293b>Panasonic</span>'" />
+    </div>
   </div>
 </section>
 
