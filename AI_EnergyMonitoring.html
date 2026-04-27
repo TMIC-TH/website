@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TMIC CoreMP135 Power Gateway — AI Energy Monitoring</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800;900&family=Sarabun:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  /* TMIC Brand Palette */
+  --navy:    #071428;
+  --navy2:   #0c1f3f;
+  --navy3:   #102040;
+  --blue:    #0d3b6e;
+  --cyan:    #00b4d8;
+  --cyan2:   #38d9f5;
+  --gold:    #c9933a;
+  --gold2:   #e8b45a;
+  --gold3:   #f5d08a;
+  --green:   #22c55e;
+  --green2:  #16a34a;
+  --red:     #ef4444;
+  --orange:  #f97316;
+  --yellow:  #facc15;
+  --text:    #e2e8f0;
+  --muted:   #94a3b8;
+  --faint:   #475569;
+  --border:  rgba(255,255,255,.09);
+  --border2: rgba(255,255,255,.05);
+  --card-bg: rgba(255,255,255,.035);
+  --card-bg2:rgba(13,59,110,.25);
+  --sidebar-w: 220px;
+}
+
+html{scroll-behavior:smooth}
+body{font-family:'Sarabun',sans-serif;background:var(--navy);color:var(--text);display:flex;min-height:100vh;overflow-x:hidden}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--navy)}
+::-webkit-scrollbar-thumb{background:rgba(201,147,58,.3);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+
+/* ══════════════════════════════════════
+   DEMO BANNER
+══════════════════════════════════════ */
+#demo-banner{
+  position:fixed;top:0;left:var(--sidebar-w);right:0;z-index:200;
+  background:linear-gradient(90deg,rgba(10,22,40,.98),rgba(13,59,110,.95));
+  border-bottom:1px solid rgba(201,147,58,.25);
+  padding:0 24px;height:38px;
+  display:flex;align-items:center;gap:12px;font-size:12px;
+  backdrop-filter:blur(6px);
+}
+.badge-demo{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy);padding:2px 10px;border-radius:10px;
+  font-weight:800;font-size:11px;letter-spacing:.6px;
+  font-family:'Kanit',sans-serif;
+}
+.badge-hw{
+  background:rgba(0,180,216,.12);color:var(--cyan);
+  border:1px solid rgba(0,180,216,.35);
+  padding:2px 10px;border-radius:10px;font-size:11px;
+  font-family:'JetBrains Mono',monospace;
+}
+#demo-banner .muted{color:var(--muted)}
+#demo-banner .brand-right{margin-left:auto;color:var(--gold2);font-size:11px;font-weight:600;opacity:.75}
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;
+  animation:pulse 1.8s infinite}
+@keyframes pulse{
+  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(34,197,94,.6)}
+  50%{opacity:.7;box-shadow:0 0 0 5px rgba(34,197,94,0)}
+}
+
+/* ══════════════════════════════════════
+   SIDEBAR
+══════════════════════════════════════ */
+#sidebar{
+  width:var(--sidebar-w);min-width:var(--sidebar-w);
+  background:linear-gradient(180deg,var(--navy2) 0%,#081222 100%);
+  border-right:1px solid rgba(201,147,58,.15);
+  display:flex;flex-direction:column;
+  position:fixed;top:0;bottom:0;left:0;z-index:300;
+  overflow-y:auto;
+}
+/* Logo area */
+.sb-logo{
+  padding:18px 18px 14px;
+  border-bottom:1px solid rgba(201,147,58,.2);
+  background:linear-gradient(135deg,rgba(10,30,60,.9),rgba(7,20,40,.95));
+}
+.sb-logo-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.sb-logo-icon{
+  width:38px;height:38px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+  box-shadow:0 4px 12px rgba(201,147,58,.35);
+}
+.sb-logo-text h2{
+  font-family:'Kanit',sans-serif;
+  font-size:13px;font-weight:800;color:#fff;
+  letter-spacing:.5px;line-height:1.2;
+}
+.sb-logo-text small{font-size:10px;color:var(--gold2);opacity:.8}
+.sb-hw-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(0,180,216,.1);color:var(--cyan);
+  border:1px solid rgba(0,180,216,.3);
+  border-radius:5px;padding:3px 9px;
+  font-size:10px;font-family:'JetBrains Mono',monospace;
+  letter-spacing:.5px;
+}
+
+/* Nav items */
+#sidenav{padding:8px 0;flex:1}
+.sb-section{
+  padding:12px 18px 4px;
+  font-size:9.5px;font-weight:700;
+  color:rgba(201,147,58,.45);
+  letter-spacing:1.5px;text-transform:uppercase;
+}
+#sidenav a{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 18px;
+  color:var(--muted);font-size:13px;font-weight:500;
+  text-decoration:none;cursor:pointer;
+  border-left:3px solid transparent;
+  transition:all .15s;
+  position:relative;
+}
+#sidenav a:hover{
+  background:rgba(255,255,255,.04);color:var(--text);
+  border-left-color:rgba(201,147,58,.3);
+}
+#sidenav a.active{
+  color:var(--gold2);
+  border-left-color:var(--gold);
+  background:linear-gradient(90deg,rgba(201,147,58,.12),transparent);
+  font-weight:600;
+}
+#sidenav a .nav-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;margin-left:auto}
+.status-dot.err{background:var(--red)}
+.status-dot.warn{background:var(--yellow)}
+
+/* ══════════════════════════════════════
+   MAIN CONTENT
+══════════════════════════════════════ */
+#main{
+  margin-left:var(--sidebar-w);flex:1;
+  padding:24px 28px;
+  padding-top:62px; /* banner height + gap */
+  max-width:1200px;
+}
+
+/* Topbar */
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;flex-wrap:wrap;gap:10px}
+.topbar h1{
+  font-family:'Kanit',sans-serif;
+  font-size:20px;font-weight:800;color:#fff;
+  display:flex;align-items:center;gap:10px;
+}
+.topbar h1 .page-icon{
+  width:36px;height:36px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:16px;box-shadow:0 3px 10px rgba(201,147,58,.3);
+}
+.badge{
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--border);border-radius:20px;
+  padding:5px 14px;font-size:11px;color:var(--muted);
+  font-family:'JetBrains Mono',monospace;
+}
+.badge.live{border-color:var(--green);color:var(--green);
+  background:rgba(34,197,94,.08);}
+.badge.gold{border-color:var(--gold);color:var(--gold2);
+  background:rgba(201,147,58,.1);}
+
+/* ── CARDS ── */
+.card{
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  border-radius:14px;padding:18px 20px;
+  margin-bottom:18px;
+  backdrop-filter:blur(4px);
+  transition:border-color .2s;
+}
+.card:hover{border-color:rgba(201,147,58,.2)}
+.card-title{
+  font-family:'Kanit',sans-serif;
+  font-size:11px;font-weight:700;
+  color:var(--gold2);
+  text-transform:uppercase;letter-spacing:1px;
+  margin-bottom:14px;
+  display:flex;align-items:center;gap:6px;
+  opacity:.9;
+}
+.card-title::before{content:'';width:3px;height:14px;background:var(--gold);border-radius:2px}
+
+/* ── KPI GRID ── */
+.row{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;margin-bottom:16px}
+
+.kpi{
+  background:var(--card-bg2);
+  border:1px solid var(--border);
+  border-radius:12px;padding:16px 14px;
+  position:relative;overflow:hidden;
+  transition:border-color .2s,transform .2s;
+}
+.kpi::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:currentColor;opacity:.5;border-radius:2px 2px 0 0;
+}
+.kpi:hover{border-color:var(--gold);transform:translateY(-2px)}
+.kpi .label{
+  font-size:10px;color:var(--muted);
+  margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px;
+  font-weight:600;
+}
+.kpi .val{font-size:26px;font-weight:700;font-family:'JetBrains Mono',monospace;line-height:1}
+.kpi .unit{font-size:11px;color:var(--muted);margin-left:3px;font-weight:400}
+.kpi.cyan {color:var(--cyan)} .kpi.cyan .val{color:var(--cyan)}
+.kpi.green{color:var(--green)}.kpi.green .val{color:var(--green)}
+.kpi.gold {color:var(--gold2)}.kpi.gold  .val{color:var(--gold2)}
+.kpi.blue {color:#60a5fa}    .kpi.blue  .val{color:#60a5fa}
+.kpi.orng {color:var(--orange)}.kpi.orng .val{color:var(--orange)}
+.kpi.red  {color:var(--red)}  .kpi.red  .val{color:var(--red)}
+
+/* Gauge bar */
+.gauge-bar{height:3px;border-radius:2px;background:rgba(255,255,255,.08);margin-top:8px;overflow:hidden}
+.gauge-fill{height:100%;border-radius:2px;transition:width .8s ease;background:currentColor;opacity:.8}
+
+/* ── POWER FLOW DIAGRAM ── */
+.pf-diagram{display:flex;align-items:center;justify-content:center;gap:0;padding:10px 0;flex-wrap:wrap}
+.pf-box{
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  border-radius:12px;padding:14px 20px;
+  text-align:center;min-width:120px;
+  transition:border-color .2s;
+}
+.pf-box.active-box{
+  border-color:rgba(0,180,216,.5);
+  background:rgba(0,180,216,.08);
+  box-shadow:0 0 20px rgba(0,180,216,.1);
+}
+.pf-box.cloud-box{
+  border-color:rgba(34,197,94,.4);
+  background:rgba(34,197,94,.06);
+}
+.pf-icon{font-size:28px;margin-bottom:6px}
+.pf-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.pf-val{font-size:18px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--cyan)}
+.pf-arrow{
+  font-size:24px;padding:0 10px;
+  color:var(--gold);opacity:.7;
+  animation:arrowPulse 2s infinite;
+}
+@keyframes arrowPulse{
+  0%,100%{opacity:.5;color:var(--gold)}
+  50%{opacity:1;color:var(--cyan)}
+}
+
+/* ── ACAMP ── */
+.acamp-logo-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.acamp-logo{
+  background:linear-gradient(135deg,rgba(5,40,30,.9),rgba(10,60,45,.9));
+  border:1px solid rgba(34,197,94,.3);border-radius:8px;
+  padding:8px 16px;font-size:13px;font-weight:700;
+  color:#4ade80;letter-spacing:.5px;font-family:'Kanit',sans-serif;
+}
+.acamp-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 12px;border-radius:20px;font-size:11px;border:1px solid;
+}
+.acamp-pill.ok{background:rgba(34,197,94,.1);border-color:var(--green);color:var(--green)}
+.acamp-pill.pending{background:rgba(250,204,21,.08);border-color:var(--yellow);color:var(--yellow)}
+.acamp-pill.err{background:rgba(239,68,68,.08);border-color:var(--red);color:var(--red)}
+
+/* ── CLOUD STATS ── */
+.cloud-stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.cloud-kpi{
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:12px;padding:14px;text-align:center;
+}
+.cloud-kpi .ck-val{font-size:24px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.cloud-kpi .ck-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:5px}
+
+/* ── TABLES ── */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{
+  text-align:left;padding:9px 12px;
+  color:var(--gold2);border-bottom:1px solid rgba(201,147,58,.2);
+  font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;
+  font-family:'Kanit',sans-serif;
+}
+td{
+  padding:9px 12px;
+  border-bottom:1px solid var(--border2);
+  font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--text);
+}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(201,147,58,.04)}
+
+/* ── FORMS ── */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-grid.cols3{grid-template-columns:1fr 1fr 1fr}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group label{
+  font-size:10.5px;color:var(--gold2);
+  text-transform:uppercase;letter-spacing:.6px;font-weight:700;
+  font-family:'Kanit',sans-serif;opacity:.85;
+}
+.form-group input,.form-group select{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:8px;padding:9px 12px;
+  color:var(--text);font-size:13px;
+  font-family:'JetBrains Mono',monospace;
+  outline:none;transition:border-color .15s,background .15s;
+}
+.form-group input:focus,.form-group select:focus{
+  border-color:var(--gold);background:rgba(201,147,58,.05);
+}
+.form-group input[readonly]{color:var(--muted);cursor:default}
+.form-group select option{background:#0c1f3f;color:var(--text)}
+
+/* ── BUTTONS ── */
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:9px 18px;border-radius:8px;border:none;
+  font-size:12.5px;cursor:pointer;font-weight:600;
+  font-family:'Sarabun',sans-serif;
+  transition:all .15s;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--green2),#15803d);
+  color:#fff;box-shadow:0 3px 10px rgba(34,197,94,.25);
+}
+.btn-primary:hover{background:linear-gradient(135deg,#16a34a,#166534);transform:translateY(-1px)}
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy);box-shadow:0 3px 12px rgba(201,147,58,.35);font-weight:700;
+}
+.btn-gold:hover{opacity:.88;transform:translateY(-1px)}
+.btn-info{
+  background:linear-gradient(135deg,#1d4ed8,#2563eb);
+  color:#fff;box-shadow:0 3px 10px rgba(37,99,235,.25);
+}
+.btn-info:hover{background:linear-gradient(135deg,#1e40af,#1d4ed8);transform:translateY(-1px)}
+.btn-warn{background:rgba(201,147,58,.15);color:var(--gold2);border:1px solid rgba(201,147,58,.35)}
+.btn-warn:hover{background:rgba(201,147,58,.25);border-color:var(--gold)}
+.btn-danger{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
+.btn-danger:hover{background:rgba(239,68,68,.25)}
+.btn-ghost{
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border);color:var(--muted);
+}
+.btn-ghost:hover{border-color:var(--gold2);color:var(--gold2);background:rgba(201,147,58,.07)}
+.btn-row{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+
+/* ── SUB TABS ── */
+.sub-tabs{display:flex;gap:4px;margin-bottom:18px;border-bottom:1px solid var(--border);padding-bottom:0;flex-wrap:wrap}
+.sub-tab{
+  padding:8px 16px;border-radius:6px 6px 0 0;font-size:12.5px;cursor:pointer;
+  color:var(--muted);background:transparent;border:none;
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+  transition:all .15s;font-family:'Sarabun',sans-serif;
+}
+.sub-tab:hover{color:var(--text)}
+.sub-tab.active{color:var(--gold2);border-bottom-color:var(--gold)}
+
+/* ── ALERTS ── */
+.alert{
+  border-left:3px solid var(--yellow);
+  background:rgba(250,204,21,.06);
+  padding:10px 16px;border-radius:0 8px 8px 0;
+  font-size:13px;color:var(--yellow);margin-bottom:14px;
+}
+.alert.err{border-color:var(--red);background:rgba(239,68,68,.06);color:var(--red)}
+.alert.ok{border-color:var(--green);background:rgba(34,197,94,.06);color:var(--green)}
+.alert.info{border-color:var(--cyan);background:rgba(0,180,216,.06);color:var(--cyan)}
+
+/* ── TOU PERIOD BADGE ── */
+.tou-period-badge{
+  padding:12px 24px;border-radius:10px;
+  font-family:'Kanit',sans-serif;font-size:20px;font-weight:800;
+  border:2px solid;text-align:center;min-width:150px;
+}
+
+/* ── DAY CHIPS ── */
+.day-chip{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:6px 12px;background:rgba(255,255,255,.04);
+  border:1px solid var(--border);border-radius:8px;
+  font-size:12.5px;cursor:pointer;user-select:none;transition:.15s;
+  font-family:'Sarabun',sans-serif;
+}
+.day-chip input{accent-color:var(--gold)}
+.day-chip:hover{border-color:var(--gold2);background:rgba(201,147,58,.08)}
+
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:28px;right:28px;
+  background:linear-gradient(135deg,var(--green2),#15803d);
+  color:#fff;padding:12px 20px;border-radius:10px;
+  font-size:13.5px;font-weight:600;
+  opacity:0;transition:opacity .3s,transform .3s;
+  z-index:999;pointer-events:none;
+  transform:translateY(10px);
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+  font-family:'Sarabun',sans-serif;
+}
+#toast.show{opacity:1;transform:translateY(0)}
+
+/* ── MISC ── */
+.hidden{display:none!important}
+canvas{width:100%!important;max-height:300px}
+.val-up{animation:flashUp .5s ease}
+.val-down{animation:flashDown .5s ease}
+@keyframes flashUp{0%{color:var(--green)}100%{color:inherit}}
+@keyframes flashDown{0%{color:var(--red)}100%{color:inherit}}
+
+/* Section divider */
+.section-sep{
+  height:1px;background:linear-gradient(90deg,rgba(201,147,58,.3),transparent);
+  margin:20px 0;
+}
+
+/* Info hint box */
+.hint-box{
+  background:rgba(0,180,216,.06);border:1px solid rgba(0,180,216,.2);
+  border-radius:8px;padding:10px 14px;
+  font-size:12.5px;color:var(--cyan);margin-bottom:14px;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:800px){
+  :root{--sidebar-w:56px}
+  .sb-logo h2,.sb-logo small,.sb-section,
+  #sidenav a span:not(.status-dot),.sb-hw-tag,.sb-logo-text{display:none}
+  .sb-logo-icon{margin:auto}
+  .sb-logo-top{justify-content:center}
+  #sidenav a{justify-content:center;padding:10px}
+  #main{padding:14px;padding-top:56px}
+  #demo-banner{left:var(--sidebar-w);font-size:11px}
+  .row{grid-template-columns:1fr 1fr}
+  .form-grid,.form-grid.cols3{grid-template-columns:1fr}
+  .cloud-stat-row{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ DEMO BANNER ══════════════ -->
+<div id="demo-banner">
+  <span class="badge-demo">⚡ DEMO</span>
+  <span class="badge-hw">M5Stack CoreMP135</span>
+  <span class="pulse-dot"></span>
+  <span class="muted">Simulated live data — TMIC Power Gateway v2b</span>
+  <span class="brand-right">🏭 Trade Master International Co., Ltd.</span>
+</div>
+
+<!-- ══════════════ SIDEBAR ══════════════ -->
+<div id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-top">
+      <div class="sb-logo-icon">⚡</div>
+      <div class="sb-logo-text">
+        <h2>TMIC GATEWAY</h2>
+        <small>Power Monitoring v2b</small>
+      </div>
+    </div>
+    <div class="sb-hw-tag">🖥 CoreMP135</div>
+  </div>
+
+  <nav id="sidenav">
+    <a class="active" onclick="showPage('dashboard',this)">
+      <span class="nav-icon">📊</span><span>Dashboard</span>
+      <span class="status-dot" id="conn-dot"></span>
+    </a>
+    <a onclick="showPage('monitor',this)">
+      <span class="nav-icon">📈</span><span>Live Monitor</span>
+    </a>
+    <a onclick="showPage('history',this)">
+      <span class="nav-icon">🗂</span><span>History</span>
+    </a>
+    <a onclick="showPage('alarm',this)">
+      <span class="nav-icon">🔔</span><span>Alarm Log</span>
+    </a>
+    <a onclick="showPage('send-log',this)">
+      <span class="nav-icon">☁</span><span>Cloud Send Log</span>
+    </a>
+    <a onclick="showPage('tou-dashboard',this)">
+      <span class="nav-icon">⏱</span><span>TOU Dashboard</span>
+    </a>
+
+    <div class="sb-section">Settings</div>
+
+    <a onclick="showPage('s-meter',this)">
+      <span class="nav-icon">⚙</span><span>Meter Setup</span>
+    </a>
+    <a onclick="showPage('s-modbus',this)">
+      <span class="nav-icon">🔌</span><span>Modbus</span>
+    </a>
+    <a onclick="showPage('s-logger',this)">
+      <span class="nav-icon">💾</span><span>Data Logger</span>
+    </a>
+    <a onclick="showPage('s-tariff',this)">
+      <span class="nav-icon">💰</span><span>Energy Tariff</span>
+    </a>
+    <a onclick="showPage('s-tou',this)">
+      <span class="nav-icon">⏱</span><span>TOU Tariff</span>
+    </a>
+    <a onclick="showPage('s-cloud',this)">
+      <span class="nav-icon">🌿</span><span>Cloud Push</span>
+    </a>
+    <a onclick="showPage('s-system',this)">
+      <span class="nav-icon">🖥</span><span>System</span>
+    </a>
+  </nav>
+</div>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<div id="main">
+
+<!-- ════════════ DASHBOARD ════════════ -->
+<div id="page-dashboard">
+  <div class="topbar">
+    <h1>
+      <div class="page-icon">📊</div>
+      Dashboard
+    </h1>
+    <span class="badge live" id="ts-badge">● Live</span>
+  </div>
+
+  <div id="conn-alert" class="alert err hidden">⚠ Gateway connection error</div>
+
+  <!-- Power Flow -->
+  <div class="card">
+    <div class="card-title">Power Flow</div>
+    <div class="pf-diagram">
+      <div class="pf-box">
+        <div class="pf-icon">🏭</div>
+        <div class="pf-label">Utility Grid</div>
+        <div class="pf-val" id="pf-grid" style="color:var(--gold2)">--</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:2px">V avg (3Φ)</div>
+      </div>
+      <div class="pf-arrow">→</div>
+      <div class="pf-box active-box">
+        <div class="pf-icon">📟</div>
+        <div class="pf-label">CoreMP135</div>
+        <div class="pf-val" id="pf-kw">--</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:2px">kW Active</div>
+      </div>
+      <div class="pf-arrow">→</div>
+      <div class="pf-box cloud-box">
+        <div class="pf-icon">🌿</div>
+        <div class="pf-label">ACAMP Hub</div>
+        <div id="pf-acamp" class="acamp-pill ok" style="margin:6px auto;font-size:10px;display:inline-flex">● CONNECTED</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core KPIs -->
+  <div class="row">
+    <div class="kpi cyan">
+      <div class="label">Frequency</div>
+      <div><span class="val" id="d-freq">--</span><span class="unit">Hz</span></div>
+      <div class="gauge-bar"><div class="gauge-fill" id="g-freq" style="width:90%"></div></div>
+    </div>
+    <div class="kpi green">
+      <div class="label">Total Energy</div>
+      <div><span class="val" id="d-energy">--</span><span class="unit">kWh</span></div>
+    </div>
+    <div class="kpi gold">
+      <div class="label">Active Power</div>
+      <div><span class="val" id="d-power">--</span><span class="unit">kW</span></div>
+      <div class="gauge-bar"><div class="gauge-fill" id="g-power" style="width:60%"></div></div>
+    </div>
+    <div class="kpi blue">
+      <div class="label">Power Factor</div>
+      <div><span class="val" id="d-pf">--</span></div>
+      <div class="gauge-bar"><div class="gauge-fill" id="g-pf" style="width:85%"></div></div>
+    </div>
+  </div>
+
+  <!-- Voltage / Current -->
+  <div class="row">
+    <div class="kpi blue"><div class="label">Volt A (R)</div><div><span class="val" id="d-va">--</span><span class="unit">V</span></div></div>
+    <div class="kpi blue"><div class="label">Volt B (S)</div><div><span class="val" id="d-vb">--</span><span class="unit">V</span></div></div>
+    <div class="kpi blue"><div class="label">Volt C (T)</div><div><span class="val" id="d-vc">--</span><span class="unit">V</span></div></div>
+    <div class="kpi orng"><div class="label">Amp A (R)</div><div><span class="val" id="d-ia">--</span><span class="unit">A</span></div></div>
+    <div class="kpi orng"><div class="label">Amp B (S)</div><div><span class="val" id="d-ib">--</span><span class="unit">A</span></div></div>
+    <div class="kpi orng"><div class="label">Amp C (T)</div><div><span class="val" id="d-ic">--</span><span class="unit">A</span></div></div>
+  </div>
+
+  <!-- Energy Summary -->
+  <div class="card">
+    <div class="card-title">Energy Summary</div>
+    <div class="row" style="grid-template-columns:repeat(4,1fr)">
+      <div class="kpi green"><div class="label">Today</div><div><span class="val" id="s-today">--</span><span class="unit">kWh</span></div></div>
+      <div class="kpi green"><div class="label">This Week</div><div><span class="val" id="s-week">--</span><span class="unit">kWh</span></div></div>
+      <div class="kpi green"><div class="label">This Month</div><div><span class="val" id="s-month">--</span><span class="unit">kWh</span></div></div>
+      <div class="kpi gold"><div class="label">Peak Power</div><div><span class="val" id="s-peak">--</span><span class="unit">kW</span></div></div>
+    </div>
+  </div>
+
+  <!-- Device Info -->
+  <div class="card">
+    <div class="card-title">Device Info</div>
+    <table>
+      <tr><th>Model</th><th>Slave ID</th><th>Port</th><th>Baud</th><th>Status</th></tr>
+      <tr>
+        <td id="d-model">Chint ADL400</td>
+        <td id="d-sid">1</td>
+        <td id="d-port">/dev/ttySTM3</td>
+        <td id="d-baud">9600</td>
+        <td id="d-status" style="color:var(--green)">● Connected</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════ LIVE MONITOR ════════════ -->
+<div id="page-monitor" class="hidden">
+  <div class="topbar">
+    <h1><div class="page-icon">📈</div>Live Monitor</h1>
+    <span class="badge live" id="mon-ts">--</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Real-time Readings — 3-Phase (Chint ADL400)</div>
+    <div style="overflow-x:auto">
+    <table id="mon-table">
+      <tr>
+        <th>Parameter</th>
+        <th style="color:#60a5fa">Phase A / R</th>
+        <th style="color:var(--green)">Phase B / S</th>
+        <th style="color:var(--gold2)">Phase C / T</th>
+        <th>Unit</th>
+      </tr>
+      <tr><td>Voltage</td><td id="m-va" style="color:#60a5fa">--</td><td id="m-vb" style="color:var(--green)">--</td><td id="m-vc" style="color:var(--gold2)">--</td><td>V (L-N)</td></tr>
+      <tr><td>Current</td><td id="m-ia" style="color:#60a5fa">--</td><td id="m-ib" style="color:var(--green)">--</td><td id="m-ic" style="color:var(--gold2)">--</td><td>A</td></tr>
+      <tr><td>Active Power</td><td colspan="3" id="m-p" style="color:var(--gold2)">--</td><td>kW</td></tr>
+      <tr><td>Total Energy</td><td colspan="3" id="m-e" style="color:var(--green)">--</td><td>kWh</td></tr>
+      <tr><td>Frequency</td><td colspan="3" id="m-f" style="color:var(--cyan)">--</td><td>Hz</td></tr>
+      <tr><td>Power Factor</td><td colspan="3" id="m-pf" style="color:#60a5fa">--</td><td></td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Cost Estimation — อัตรา MEA/PEA (Real-time)</div>
+    <div class="row" style="grid-template-columns:repeat(3,1fr)">
+      <div class="kpi gold"><div class="label">Tariff Rate (incl. Ft+VAT)</div><div><span class="val" id="m-rate">4.8779</span><span class="unit">THB/kWh</span></div></div>
+      <div class="kpi gold"><div class="label">Today Cost (est.)</div><div><span class="val" id="m-cost-today">--</span><span class="unit">THB</span></div></div>
+      <div class="kpi green"><div class="label">CO₂ Today (est.)</div><div><span class="val" id="m-co2">--</span><span class="unit">kg CO₂</span></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">TOU Period Status</div>
+    <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap">
+      <div id="mon-tou-period" class="tou-period-badge" style="color:#60a5fa;border-color:#60a5fa;background:rgba(96,165,250,.08)">On-Peak</div>
+      <div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">อัตราปัจจุบัน</div>
+        <div style="font-size:24px;font-weight:700;color:var(--gold2);font-family:'JetBrains Mono',monospace">
+          <span id="mon-tou-rate">4.7237</span>
+          <span style="font-size:12px;font-weight:400;color:var(--muted)"> THB/kWh</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ HISTORY ════════════ -->
+<div id="page-history" class="hidden">
+  <div class="topbar"><h1><div class="page-icon">🗂</div>Energy History</h1></div>
+  <div class="card">
+    <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap">
+      <button class="btn btn-gold" onclick="loadHistory('24h',this)">24 Hours</button>
+      <button class="btn btn-ghost" onclick="loadHistory('7d',this)">7 Days</button>
+      <button class="btn btn-ghost" onclick="loadHistory('1m',this)">1 Month</button>
+      <button class="btn btn-ghost" onclick="loadHistory('12m',this)">12 Months</button>
+    </div>
+    <canvas id="hist-chart"></canvas>
+  </div>
+  <div class="card">
+    <div class="card-title">Data Table</div>
+    <div style="overflow-x:auto">
+    <table>
+      <tr><th>Period</th><th>Avg Voltage (V)</th><th>Avg Current (A)</th><th>Avg Power (kW)</th><th>Energy (kWh)</th><th>Peak kW</th><th>Avg PF</th></tr>
+      <tbody id="hist-tbody"></tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ ALARM ════════════ -->
+<div id="page-alarm" class="hidden">
+  <div class="topbar"><h1><div class="page-icon">🔔</div>Alarm Log</h1></div>
+  <div class="alert ok">✓ No active alarms — System operating normally</div>
+  <div class="card">
+    <div class="card-title">Alarm History (Last 7 Days)</div>
+    <table>
+      <tr><th>Timestamp</th><th>Type</th><th>Description</th><th>Status</th></tr>
+      <tr><td>2026-04-10 14:32:05</td><td style="color:var(--gold2)">⚠ Warning</td><td>Modbus timeout (retry 2/5)</td><td style="color:var(--green)">Resolved</td></tr>
+      <tr><td>2026-04-09 09:11:20</td><td style="color:var(--cyan)">ℹ Info</td><td>Cloud push scheduled (hourly)</td><td style="color:var(--green)">OK</td></tr>
+      <tr><td>2026-04-08 22:00:01</td><td style="color:var(--green)">☁ Cloud</td><td>ACAMP API push success (delta 12.34 kWh)</td><td style="color:var(--green)">OK</td></tr>
+      <tr><td>2026-04-07 03:15:44</td><td style="color:var(--gold2)">⚠ Warning</td><td>Power factor low: 0.73 (threshold: 0.80)</td><td style="color:var(--green)">Resolved</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════ CLOUD SEND LOG ════════════ -->
+<div id="page-send-log" class="hidden">
+  <div class="topbar"><h1><div class="page-icon">☁</div>Cloud Send Log</h1></div>
+
+  <div class="acamp-logo-row">
+    <div class="acamp-logo">🌿 ACAMP Asia Carbon Hub</div>
+    <div class="acamp-pill ok">● API Connected</div>
+    <span style="font-size:11px;color:var(--muted)">beta.acamp.asiacarbonhub.com</span>
+  </div>
+
+  <div class="cloud-stat-row">
+    <div class="cloud-kpi"><div class="ck-val" style="color:var(--green)">247</div><div class="ck-lbl">Total Pushed</div></div>
+    <div class="cloud-kpi"><div class="ck-val" style="color:var(--cyan)">0</div><div class="ck-lbl">Pending</div></div>
+    <div class="cloud-kpi"><div class="ck-val" style="color:var(--red)">3</div><div class="ck-lbl">Failed (retry)</div></div>
+    <div class="cloud-kpi"><div class="ck-val" style="color:var(--gold2)" id="sl-last-kwh">--</div><div class="ck-lbl">Last Delta kWh</div></div>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+      <div class="card-title" style="margin-bottom:0">Send Log (Recent)</div>
+      <button class="btn btn-gold" onclick="pushNow()">☁ Push Now (Manual)</button>
+    </div>
+    <div style="overflow-x:auto">
+    <table>
+      <tr><th>Timestamp</th><th>Status</th><th>Delta kWh</th><th>Total kWh</th><th>CO₂ (kg)</th><th>Response</th></tr>
+      <tbody id="sl-tbody"></tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Next Scheduled Push</div>
+    <div style="display:flex;gap:32px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:11px;color:var(--muted)">Schedule</div>
+        <div style="color:var(--cyan);font-family:'JetBrains Mono',monospace;margin-top:4px" id="sl-schedule">Hourly</div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--muted)">Next Push</div>
+        <div style="color:var(--text);font-family:'JetBrains Mono',monospace;margin-top:4px" id="sl-next">--</div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--muted)">Last Push</div>
+        <div style="color:var(--green);font-family:'JetBrains Mono',monospace;margin-top:4px" id="sl-last-time">--</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ TOU DASHBOARD ════════════ -->
+<div id="page-tou-dashboard" class="hidden">
+  <div class="topbar">
+    <h1><div class="page-icon">⏱</div>TOU Dashboard</h1>
+    <span class="badge gold" id="tou-mode-badge">TOU MODE: ON</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Current TOU Period</div>
+    <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap">
+      <div id="tou-current-period-box" class="tou-period-badge" style="color:#60a5fa;border-color:#60a5fa;background:rgba(96,165,250,.08)">On-Peak</div>
+      <div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">อัตราค่าไฟปัจจุบัน</div>
+        <div style="font-size:26px;font-weight:700;color:var(--gold2);font-family:'JetBrains Mono',monospace">
+          <span id="tou-current-rate">4.7237</span>
+          <span style="font-size:13px;font-weight:400;color:var(--muted)"> THB/kWh (incl. Ft+VAT)</span>
+        </div>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div style="font-size:11px;color:var(--muted)">อัปเดตล่าสุด</div>
+        <div style="font-size:12px;color:var(--text);font-family:'JetBrains Mono',monospace;margin-top:4px" id="tou-updated-at">--</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Today — TOU Energy Summary</div>
+    <div class="row" style="grid-template-columns:repeat(4,1fr)">
+      <div class="kpi gold">
+        <div class="label">🔴 On-Peak</div>
+        <div><span class="val" id="tou-today-onpeak">--</span><span class="unit">kWh</span></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:5px"><span id="tou-today-onpeak-cost">--</span> THB</div>
+      </div>
+      <div class="kpi green">
+        <div class="label">🟢 Off-Peak</div>
+        <div><span class="val" id="tou-today-offpeak">--</span><span class="unit">kWh</span></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:5px"><span id="tou-today-offpeak-cost">--</span> THB</div>
+      </div>
+      <div class="kpi blue">
+        <div class="label">🔵 Holiday</div>
+        <div><span class="val" id="tou-today-holiday">--</span><span class="unit">kWh</span></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:5px"><span id="tou-today-holiday-cost">--</span> THB</div>
+      </div>
+      <div class="kpi cyan">
+        <div class="label">💰 Total Cost Today</div>
+        <div><span class="val" id="tou-today-total-cost">--</span><span class="unit">THB</span></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:5px">รวมทุก period</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px">
+    <div class="card">
+      <div class="card-title">This Week</div>
+      <div class="row" style="grid-template-columns:1fr 1fr">
+        <div class="kpi gold"><div class="label">On-Peak kWh</div><div><span class="val" id="tou-week-onpeak" style="font-size:20px">--</span></div></div>
+        <div class="kpi green"><div class="label">Off-Peak kWh</div><div><span class="val" id="tou-week-offpeak" style="font-size:20px">--</span></div></div>
+      </div>
+      <div style="margin-top:10px;font-size:13px;color:var(--muted)">ค่าไฟรวม: <span style="color:var(--gold2);font-weight:700" id="tou-week-cost">--</span> THB</div>
+    </div>
+    <div class="card">
+      <div class="card-title">This Month</div>
+      <div class="row" style="grid-template-columns:1fr 1fr">
+        <div class="kpi gold"><div class="label">On-Peak kWh</div><div><span class="val" id="tou-month-onpeak" style="font-size:20px">--</span></div></div>
+        <div class="kpi green"><div class="label">Off-Peak kWh</div><div><span class="val" id="tou-month-offpeak" style="font-size:20px">--</span></div></div>
+      </div>
+      <div style="margin-top:10px;font-size:13px;color:var(--muted)">ค่าไฟรวม: <span style="color:var(--gold2);font-weight:700" id="tou-month-cost">--</span> THB</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap">
+      <button class="btn btn-gold" onclick="loadTouHistory('24h',this)">24 Hours</button>
+      <button class="btn btn-ghost" onclick="loadTouHistory('7d',this)">7 Days</button>
+      <button class="btn btn-ghost" onclick="loadTouHistory('1m',this)">1 Month</button>
+    </div>
+    <canvas id="tou-hist-chart" style="max-height:280px"></canvas>
+  </div>
+
+  <div class="card">
+    <div class="card-title">TOU Energy Table</div>
+    <div style="overflow-x:auto">
+    <table>
+      <tr>
+        <th>Period</th>
+        <th style="color:var(--gold2)">On-Peak (kWh)</th>
+        <th style="color:var(--green)">Off-Peak (kWh)</th>
+        <th style="color:#60a5fa">Holiday (kWh)</th>
+        <th>Total (kWh)</th>
+        <th style="color:var(--gold2)">On-Peak Cost</th>
+        <th style="color:var(--green)">Off-Peak Cost</th>
+        <th>Total Cost (THB)</th>
+      </tr>
+      <tbody id="tou-hist-tbody"></tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ SETTINGS: METER ════════════ -->
+<div id="page-s-meter" class="hidden">
+  <div class="topbar"><h1><div class="page-icon">⚙</div>Meter Setup</h1></div>
+  <div class="card">
+    <div class="card-title">Active Meter Profile</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Select Meter Profile</label>
+        <select id="meter-select" onchange="onMeterChange()">
+          <option value="Chint-ADL400-1" selected>Chint ADL400 #1 (3P4W, Direct)</option>
+          <option value="Panasonic-KW1M-H-1">Panasonic KW1M-H #1 (3P4W, CT only)</option>
+          <option value="Chint-PD666-1">Chint PD666-3S3 #1 (3P4W, Direct)</option>
+          <option value="Chint-PD666-CT3000-1">Chint PD666 CT 3000/5A #1</option>
+          <option value="Selec-MPR53S-1">Selec MPR-53S #1</option>
+          <option value="Selec-MPR53S-CT500-1">Selec MPR-53S CT 500/5A #1</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Wiring Mode</label><select><option>3P4W (3-Phase 4-Wire)</option><option>3P3W</option></select></div>
+      <div class="form-group"><label>Connection Type</label><select id="m-conn-type"><option>Direct</option><option>CT Only</option></select></div>
+      <div class="form-group"><label>CT Primary (A)</label><input type="number" id="m-ct-pri" value="1"/></div>
+      <div class="form-group"><label>CT Secondary (A)</label><input type="number" id="m-ct-sec" value="1"/></div>
+      <div class="form-group"><label>Energy Scale</label><input type="number" id="m-escale" value="1.0" step="0.001"/></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="toast('✓ Meter profile saved','ok')">💾 Save Meter</button>
+      <button class="btn btn-info" onclick="toast('↺ Config reloaded')">↺ Reload Config</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ SETTINGS: MODBUS ════════════ -->
+<div id="page-s-modbus" class="hidden">
+  <div class="topbar"><h1><div class="page-icon">🔌</div>Modbus Settings</h1></div>
+  <div class="card">
+    <div class="card-title">RS-485 / Modbus RTU</div>
+    <div class="form-grid">
+      <div class="form-group"><label>Serial Port</label><input value="/dev/ttySTM3"/></div>
+      <div class="form-group"><label>Slave ID</label><input type="number" value="1" min="1" max="247"/></div>
+      <div class="form-group"><label>Baud Rate</label><select><option>9600</option><option>19200</option><option>38400</option><option>115200</option></select></div>
+      <div class="form-group"><label>Parity</label><select><option>N (None)</option><option>E (Even)</option><option>O (Odd)</option></select></div>
+      <div class="form-group"><label>Stop Bits</label><select><option>1</option><option>2</option></select></div>
+      <div class="form-group"><label>Timeout (sec)</label><input type="number" value="1.0" step="0.5"/></div>
+      <div class="form-group"><label>Poll Interval (sec)</label><input type="number" value="1.0" step="0.5"/></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="toast('✓ Modbus settings saved','ok')">💾 Save</button>
+      <button class="btn btn-warn" onclick="toast('🔌 Testing Modbus connection...')">🔌 Test Connection</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ SETTINGS: DATA LOGGER ════════════ -->
+<div id="page-s-logger" class="hidden">
+  <div class="topbar"><h1><div class="page-icon">💾</div>Data Logger</h1></div>
+  <div class="card">
+    <div class="card-title">SQLite Logger Settings</div>
+    <div class="form-grid">
+      <div class="form-group" style="grid-column:span 2"><label>DB Path</label><input value="/home/tmic/tmic_power_meter/power_datalogger.sqlite" readonly/></div>
+      <div class="form-group"><label>Log Interval (sec)</label><input type="number" value="60"/></div>
+      <div class="form-group"><label>Retention (days)</label><input type="number" value="1095"/></div>
+      <div class="form-group"><label>Offline Cache (days)</label><input type="number" value="7"/></div>
+      <div class="form-group"><label>Log Mode</label>
+        <select><option>Normal (อัตราเดียว)</option><option selected>TOU (On-Peak / Off-Peak / Holiday)</option></select>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn btn-primary" onclick="toast('✓ Logger settings saved','ok')">💾 Save</button></div>
+  </div>
+</div>
+
+<!-- ════════════ SETTINGS: ENERGY TARIFF ════════════ -->
+<div id="page-s-tariff" class="hidden">
+  <div class="topbar"><h1><div class="page-icon">💰</div>Energy Tariff</h1></div>
+  <div class="card">
+    <div class="card-title">อัตราค่าไฟฟ้า (MEA/PEA Thailand)</div>
+    <div class="form-grid">
+      <div class="form-group"><label>Base Rate (THB/kWh)</label><input type="number" value="4.2" step="0.0001"/></div>
+      <div class="form-group"><label>Ft Adjustment (THB/kWh)</label><input type="number" value="0.35" step="0.0001"/></div>
+      <div class="form-group"><label>VAT (%)</label><input type="number" value="7.0" step="0.1"/></div>
+      <div class="form-group"><label>CO₂ Emission Factor (kg/kWh)</label><input type="number" value="0.4999" step="0.0001"/></div>
+    </div>
+    <div class="hint-box" style="margin-top:14px">
+      💡 อัตรารวม (incl. Ft+VAT) = (4.2 + 0.35) × 1.07 = <strong style="color:var(--gold2)">4.8779 THB/kWh</strong>
+    </div>
+    <div class="btn-row"><button class="btn btn-primary" onclick="toast('✓ Tariff saved','ok')">💾 Save</button></div>
+  </div>
+</div>
+
+<!-- ════════════ SETTINGS: TOU TARIFF ════════════ -->
+<div id="page-s-tou" class="hidden">
+  <div class="topbar"><h1><div class="page-icon">⏱</div>TOU Tariff Settings</h1></div>
+  <div class="card">
+    <div class="card-title">TOU Mode</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Logging Mode</label>
+        <select id="tou-mode-select">
+          <option value="false">Normal (อัตราเดียว)</option>
+          <option value="true" selected>TOU — Time-of-Use (On-Peak / Off-Peak / Holiday)</option>
+        </select>
+      </div>
+      <div class="form-group" style="justify-content:flex-end;align-items:flex-end">
+        <button class="btn btn-primary" onclick="toast('✓ TOU mode saved','ok')">💾 Save Mode</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">On-Peak Period Settings</div>
+    <div class="hint-box">ℹ MEA/PEA TOU: On-Peak = วันจันทร์–ศุกร์ เวลา 09:00–22:00 น.</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+      <label class="day-chip"><input type="checkbox" checked> จันทร์</label>
+      <label class="day-chip"><input type="checkbox" checked> อังคาร</label>
+      <label class="day-chip"><input type="checkbox" checked> พุธ</label>
+      <label class="day-chip"><input type="checkbox" checked> พฤหัส</label>
+      <label class="day-chip"><input type="checkbox" checked> ศุกร์</label>
+      <label class="day-chip"><input type="checkbox"> เสาร์</label>
+      <label class="day-chip"><input type="checkbox"> อาทิตย์</label>
+    </div>
+    <div class="form-grid cols3">
+      <div class="form-group"><label>Start Hour</label><input type="number" value="9" min="0" max="23"/></div>
+      <div class="form-group"><label>Start Minute</label><input type="number" value="0" min="0" max="59"/></div>
+      <div class="form-group"></div>
+      <div class="form-group"><label>End Hour</label><input type="number" value="22" min="0" max="23"/></div>
+      <div class="form-group"><label>End Minute</label><input type="number" value="0" min="0" max="59"/></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">อัตราค่าไฟ TOU (THB/kWh)</div>
+    <div class="form-grid">
+      <div class="form-group"><label style="color:var(--gold2)">On-Peak Rate</label><input type="number" value="4.7237" step="0.0001"/></div>
+      <div class="form-group"><label style="color:var(--green)">Off-Peak Rate</label><input type="number" value="2.6369" step="0.0001"/></div>
+      <div class="form-group"><label style="color:#60a5fa">Holiday Rate</label><input type="number" value="2.6369" step="0.0001"/></div>
+      <div class="form-group"><label>Ft (THB/kWh)</label><input type="number" value="0.35" step="0.0001"/></div>
+      <div class="form-group"><label>VAT (%)</label><input type="number" value="7" step="0.1"/></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="toast('✓ TOU settings saved','ok')">💾 Save TOU Settings</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ SETTINGS: CLOUD PUSH ════════════ -->
+<div id="page-s-cloud" class="hidden">
+  <div class="topbar"><h1><div class="page-icon">🌿</div>Cloud Push — ACAMP</h1></div>
+  <div class="acamp-logo-row">
+    <div class="acamp-logo">🌿 ACAMP Asia Carbon Hub</div>
+    <div class="acamp-pill ok">● API Connected</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Cloud Push Settings</div>
+    <div class="form-grid">
+      <div class="form-group"><label>Enable Cloud Push</label><select><option selected>Enabled</option><option>Disabled</option></select></div>
+      <div class="form-group"><label>Device ID</label><input value="TMIC-001"/></div>
+      <div class="form-group" style="grid-column:span 2"><label>API URL</label><input value="https://beta.acamp.asiacarbonhub.com:443/odata/api/events/V2"/></div>
+      <div class="form-group" style="grid-column:span 2"><label>API Token</label><input type="password" value="b6e4bcf6-a386-b1fc-9ed7-b64062b83d06"/></div>
+      <div class="form-group"><label>Schedule</label><select><option selected>Hourly</option><option>Daily</option><option>Weekly</option><option>Monthly</option></select></div>
+      <div class="form-group"><label>Retry Max Attempts</label><input type="number" value="5"/></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="toast('✓ Cloud push config saved','ok')">💾 Save</button>
+      <button class="btn btn-gold" onclick="pushNow()">☁ Push Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ SETTINGS: SYSTEM ════════════ -->
+<div id="page-s-system" class="hidden">
+  <div class="topbar"><h1><div class="page-icon">🖥</div>System Settings</h1></div>
+  <div class="card">
+    <div class="card-title">System Configuration</div>
+    <div class="form-grid">
+      <div class="form-group"><label>Web Dashboard Port</label><input type="number" value="8080"/></div>
+      <div class="form-group"><label>Timezone</label><select><option selected>Asia/Bangkok (UTC+7)</option></select></div>
+      <div class="form-group"><label>Screen Sleep (min)</label><input type="number" value="0"/></div>
+      <div class="form-group"><label>Backlight Brightness (%)</label><input type="number" value="100" min="0" max="100"/></div>
+      <div class="form-group"><label>UI Advanced Mode</label><select><option selected>Enabled</option><option>Disabled</option></select></div>
+      <div class="form-group"><label>Admin Password</label><input type="password" value="000000"/></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="toast('✓ System settings saved','ok')">💾 Save</button>
+      <button class="btn btn-danger" onclick="confirmPowerOff()">⏻ Power Off</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Device Information</div>
+    <table>
+      <tr><td style="color:var(--muted);width:160px">Hardware</td><td>M5Stack CoreMP135 (STM32MP135)</td></tr>
+      <tr><td style="color:var(--muted)">OS</td><td>Ubuntu 22.04 LTS (ARM)</td></tr>
+      <tr><td style="color:var(--muted)">Firmware</td><td style="color:var(--gold2)">TMIC Power Gateway v2b</td></tr>
+      <tr><td style="color:var(--muted)">Python</td><td>3.10.x / MicroPython</td></tr>
+      <tr><td style="color:var(--muted)">Serial Port</td><td>/dev/ttySTM3 (RS-485 onboard)</td></tr>
+      <tr><td style="color:var(--muted)">Display</td><td>320×240 RGB565 Framebuffer</td></tr>
+      <tr><td style="color:var(--muted)">Uptime</td><td id="sys-uptime" style="color:var(--cyan)">--</td></tr>
+      <tr><td style="color:var(--muted)">Developed by</td><td style="color:var(--gold2)">Trade Master International Co., Ltd.</td></tr>
+    </table>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<div id="toast"></div>
+
+<!-- Power Off Modal -->
+<div id="poweroff-modal" class="hidden"
+  style="position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:flex;align-items:center;justify-content:center">
+  <div style="background:var(--navy2);border:1px solid var(--red);border-radius:16px;padding:32px;width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6)">
+    <div style="font-size:40px;margin-bottom:12px">⏻</div>
+    <h3 style="font-size:17px;margin-bottom:8px;color:#fff;font-family:'Kanit',sans-serif">Confirm Power Off</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin-bottom:20px">กรอก PIN 4 หลักเพื่อปิดระบบ</p>
+    <div id="pin-display"
+      style="font-size:26px;letter-spacing:14px;color:var(--cyan);margin-bottom:18px;font-family:'JetBrains Mono',monospace">
+      _ _ _ _
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px" id="pinpad"></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-ghost" style="flex:1" onclick="closePowerOff()">Cancel</button>
+      <button class="btn btn-danger" style="flex:1" onclick="submitPin()">OK</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════
+// SIMULATOR
+// ══════════════════════════════════════════════════
+const SIM = {
+  baseV:220, baseI:8.5, baseHz:50, basePF:0.92,
+  totalKwh:1284.56, deltaKwh:0, tick:0,
+  noise(a){ return (Math.random()-.5)*a*2; },
+  gen(){
+    this.tick++;
+    const t=this.tick;
+    const va=this.baseV+this.noise(2)+Math.sin(t*.07)*1.2;
+    const vb=this.baseV+this.noise(2)+Math.sin(t*.07+2.09)*1.2;
+    const vc=this.baseV+this.noise(2)+Math.sin(t*.07+4.18)*1.2;
+    const ia=this.baseI+this.noise(.3)+Math.sin(t*.05)*.5;
+    const ib=this.baseI+this.noise(.3)+Math.sin(t*.05+2.09)*.5;
+    const ic=this.baseI+this.noise(.3)+Math.sin(t*.05+4.18)*.5;
+    const pf=Math.min(.99,Math.max(.82,this.basePF+this.noise(.02)));
+    const p_kw=(va*ia+vb*ib+vc*ic)*pf/1000;
+    this.totalKwh+=p_kw/3600;
+    this.deltaKwh+=p_kw/3600;
+    const hz=this.baseHz+this.noise(.05)+Math.sin(t*.03)*.02;
+    return{ok:true,va_v:va,vb_v:vb,vc_v:vc,ia_a:ia,ib_a:ib,ic_a:ic,
+           p_kw,e_kwh:this.totalKwh,freq_hz:hz,pf,
+           timestamp:new Date().toLocaleString('th-TH',{timeZone:'Asia/Bangkok'}),
+           model:'Chint ADL400',slave_id:1};
+  }
+};
+
+function getTouPeriod(){
+  const now=new Date();
+  const h=now.getHours(),dow=now.getDay();
+  const holidays=['2026-04-13','2026-04-14','2026-04-15','2026-05-01','2026-05-04'];
+  if(holidays.includes(now.toISOString().slice(0,10))) return 'holiday';
+  if(dow>=1&&dow<=5&&h>=9&&h<22) return 'on_peak';
+  return 'off_peak';
+}
+
+function genHistory(period){
+  const arr=[];
+  let n=24,label=i=>i+'h ago',unit='hour';
+  if(period==='7d'){n=7;label=i=>{const d=new Date();d.setDate(d.getDate()-i);return d.toLocaleDateString('th-TH',{weekday:'short',month:'short',day:'numeric'})};unit='day'}
+  if(period==='1m'){n=30;label=i=>{const d=new Date();d.setDate(d.getDate()-i);return d.toLocaleDateString('th-TH',{month:'short',day:'numeric'})};unit='day'}
+  if(period==='12m'){n=12;label=i=>{const d=new Date();d.setMonth(d.getMonth()-i);return d.toLocaleDateString('th-TH',{month:'short',year:'2-digit'})};unit='month'}
+  for(let i=n-1;i>=0;i--){
+    const base=unit==='hour'?2.5:unit==='month'?180:24;
+    const e=Math.max(.1,base+(Math.random()-.5)*base*.4);
+    const pw=unit==='hour'?(e/1+Math.random()*2):(e/24+Math.random()*5);
+    arr.push({period:label(i),voltage:218+Math.random()*4,current:7.5+Math.random()*2,
+              power:pw,energy:e,max_power:pw*1.3+Math.random()*2,avg_pf:.88+Math.random()*.09});
+  }
+  return arr;
+}
+
+function genTouHistory(period){
+  const arr=[];
+  const n=period==='24h'?24:period==='7d'?7:30;
+  for(let i=n-1;i>=0;i--){
+    const on=Math.max(0,1.2+Math.random()*3);
+    const off=Math.max(0,.8+Math.random()*2);
+    const hol=Math.random()<.1?Math.random()*1.5:0;
+    const total=on+off+hol;
+    arr.push({
+      period:period==='24h'?i+'h ago':`Day -${i}`,
+      on_peak_kwh:on,off_peak_kwh:off,holiday_kwh:hol,total_kwh:total,
+      on_peak_cost:(on*4.7237*1.07).toFixed(2),
+      off_peak_cost:(off*2.6369*1.07).toFixed(2),
+      total_cost:((on*4.7237+off*2.6369+hol*2.6369)*1.07).toFixed(2)
+    });
+  }
+  return arr;
+}
+
+// ── LIVE UPDATE ──
+let liveData=null;
+const fv=(v,nd)=>typeof v==='number'?v.toFixed(nd):'--';
+
+function updateData(){
+  const d=SIM.gen();
+  liveData=d;
+  document.getElementById('conn-dot').className='status-dot';
+  setText('ts-badge','● '+d.timestamp);
+  setText('mon-ts',d.timestamp);
+  setText('d-freq',fv(d.freq_hz,2)); setText('d-energy',fv(d.e_kwh,2));
+  setText('d-power',fv(d.p_kw,3));  setText('d-pf',fv(d.pf,2));
+  setText('d-va',fv(d.va_v,1)); setText('d-vb',fv(d.vb_v,1)); setText('d-vc',fv(d.vc_v,1));
+  setText('d-ia',fv(d.ia_a,3)); setText('d-ib',fv(d.ib_a,3)); setText('d-ic',fv(d.ic_a,3));
+  document.getElementById('pf-grid').textContent=fv((d.va_v+d.vb_v+d.vc_v)/3,1);
+  document.getElementById('pf-kw').textContent=fv(d.p_kw,2);
+  setGauge('g-freq',((d.freq_hz-49.5)/1)*100);
+  setGauge('g-power',(d.p_kw/10)*100);
+  setGauge('g-pf',d.pf*100);
+  setText('m-va',fv(d.va_v,1)); setText('m-vb',fv(d.vb_v,1)); setText('m-vc',fv(d.vc_v,1));
+  setText('m-ia',fv(d.ia_a,3)); setText('m-ib',fv(d.ib_a,3)); setText('m-ic',fv(d.ic_a,3));
+  setText('m-p',fv(d.p_kw,3));  setText('m-e',fv(d.e_kwh,2));
+  setText('m-f',fv(d.freq_hz,2)); setText('m-pf',fv(d.pf,2));
+
+  const period=getTouPeriod();
+  const pm={
+    on_peak: {label:'🔴 On-Peak',  color:'var(--gold2)',   rate:4.7237},
+    off_peak:{label:'🟢 Off-Peak', color:'var(--green)',   rate:2.6369},
+    holiday: {label:'🔵 Holiday',  color:'#60a5fa', rate:2.6369}
+  }[period];
+  const pb=document.getElementById('tou-current-period-box');
+  if(pb){pb.textContent=pm.label;pb.style.color=pm.color;pb.style.borderColor=pm.color;pb.style.background='rgba(0,0,0,.3)'}
+  const mpb=document.getElementById('mon-tou-period');
+  if(mpb){mpb.textContent=pm.label;mpb.style.color=pm.color;mpb.style.borderColor=pm.color;mpb.style.background='rgba(0,0,0,.3)'}
+  setText('mon-tou-rate',pm.rate.toFixed(4));
+  const tcr=document.getElementById('tou-current-rate');
+  if(tcr){tcr.textContent=pm.rate.toFixed(4);tcr.style.color=pm.color}
+  const tua=document.getElementById('tou-updated-at');
+  if(tua) tua.textContent=d.timestamp;
+  const tmb=document.getElementById('tou-mode-badge');
+  if(tmb) tmb.textContent='TOU MODE: ON · '+pm.label;
+}
+
+function setText(id,val){const el=document.getElementById(id);if(el)el.textContent=val;}
+function setGauge(id,pct){const el=document.getElementById(id);if(el)el.style.width=Math.min(100,Math.max(0,pct))+'%';}
+
+function loadSummary(){
+  const today=45.23+Math.random()*2;
+  setText('s-today',today.toFixed(2));
+  setText('s-week',(today*5.8+Math.random()*5).toFixed(2));
+  setText('s-month',(today*22+Math.random()*20).toFixed(2));
+  setText('s-peak',(8.5+Math.random()*2).toFixed(3));
+  const rate=4.8779,em=0.4999;
+  setText('m-cost-today',(today*rate).toFixed(2));
+  setText('m-co2',(today*em).toFixed(2));
+  const on=today*.55,off=today*.43,hol=today*.02;
+  setText('tou-today-onpeak',on.toFixed(2));
+  setText('tou-today-offpeak',off.toFixed(2));
+  setText('tou-today-holiday',hol.toFixed(2));
+  setText('tou-today-onpeak-cost',(on*4.7237*1.07).toFixed(2));
+  setText('tou-today-offpeak-cost',(off*2.6369*1.07).toFixed(2));
+  setText('tou-today-holiday-cost',(hol*2.6369*1.07).toFixed(2));
+  setText('tou-today-total-cost',((on*4.7237+off*2.6369+hol*2.6369)*1.07).toFixed(2));
+  setText('tou-week-onpeak',(on*5.2).toFixed(1));
+  setText('tou-week-offpeak',(off*5.2).toFixed(1));
+  setText('tou-week-cost',((on*5.2*4.7237+off*5.2*2.6369)*1.07).toFixed(2));
+  setText('tou-month-onpeak',(on*22).toFixed(1));
+  setText('tou-month-offpeak',(off*22).toFixed(1));
+  setText('tou-month-cost',((on*22*4.7237+off*22*2.6369)*1.07).toFixed(2));
+}
+
+// ── CHARTS ──
+// Chart.js defaults — TMIC palette
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.borderColor = 'rgba(255,255,255,.07)';
+
+let histChart=null,touChart=null;
+
+function loadHistory(period,btn){
+  if(btn){
+    document.querySelectorAll('#page-history .btn').forEach(b=>{b.className='btn btn-ghost'});
+    btn.className='btn btn-gold';
+  }
+  const arr=genHistory(period);
+  if(histChart)histChart.destroy();
+  histChart=new Chart(document.getElementById('hist-chart'),{
+    type:'bar',
+    data:{
+      labels:arr.map(x=>x.period),
+      datasets:[
+        {label:'Energy (kWh)',data:arr.map(x=>x.energy),
+         backgroundColor:'rgba(34,197,94,.55)',borderColor:'#22c55e',borderWidth:1,yAxisID:'y'},
+        {label:'Avg Power (kW)',data:arr.map(x=>+x.power.toFixed(3)),
+         type:'line',borderColor:'#e8b45a',backgroundColor:'rgba(232,180,90,.1)',
+         borderWidth:2,pointRadius:2.5,pointBackgroundColor:'#e8b45a',tension:.4,yAxisID:'y2'}
+      ]
+    },
+    options:{
+      responsive:true,animation:{duration:500},
+      plugins:{legend:{labels:{color:'#94a3b8',font:{size:11,family:'Sarabun'}}}},
+      scales:{
+        x:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'rgba(255,255,255,.05)'}},
+        y:{ticks:{color:'#22c55e'},grid:{color:'rgba(255,255,255,.05)'},beginAtZero:true},
+        y2:{ticks:{color:'#e8b45a'},position:'right',grid:{drawOnChartArea:false},beginAtZero:true}
+      }
+    }
+  });
+  document.getElementById('hist-tbody').innerHTML=arr.map(r=>`
+    <tr>
+      <td>${r.period}</td><td>${r.voltage.toFixed(1)}</td><td>${r.current.toFixed(3)}</td>
+      <td style="color:var(--gold2)">${r.power.toFixed(3)}</td>
+      <td style="color:var(--green)">${r.energy.toFixed(3)}</td>
+      <td>${r.max_power.toFixed(3)}</td><td>${r.avg_pf.toFixed(2)}</td>
+    </tr>`).join('');
+}
+
+function loadTouHistory(period,btn){
+  if(btn){
+    document.querySelectorAll('#page-tou-dashboard .btn').forEach(b=>{b.className='btn btn-ghost'});
+    btn.className='btn btn-gold';
+  }
+  const arr=genTouHistory(period);
+  if(touChart)touChart.destroy();
+  touChart=new Chart(document.getElementById('tou-hist-chart'),{
+    type:'bar',
+    data:{
+      labels:arr.map(x=>x.period),
+      datasets:[
+        {label:'On-Peak kWh',data:arr.map(x=>x.on_peak_kwh),
+         backgroundColor:'rgba(232,180,90,.75)',borderColor:'#e8b45a',borderWidth:1},
+        {label:'Off-Peak kWh',data:arr.map(x=>x.off_peak_kwh),
+         backgroundColor:'rgba(34,197,94,.7)',borderColor:'#22c55e',borderWidth:1},
+        {label:'Holiday kWh',data:arr.map(x=>x.holiday_kwh),
+         backgroundColor:'rgba(96,165,250,.7)',borderColor:'#60a5fa',borderWidth:1}
+      ]
+    },
+    options:{
+      responsive:true,animation:{duration:500},
+      plugins:{legend:{labels:{color:'#94a3b8',font:{size:11,family:'Sarabun'}}}},
+      scales:{
+        x:{stacked:true,ticks:{color:'#64748b',font:{size:10}},grid:{color:'rgba(255,255,255,.05)'}},
+        y:{stacked:true,ticks:{color:'#94a3b8'},grid:{color:'rgba(255,255,255,.05)'},beginAtZero:true}
+      }
+    }
+  });
+  document.getElementById('tou-hist-tbody').innerHTML=arr.map(r=>`
+    <tr>
+      <td>${r.period}</td>
+      <td style="color:var(--gold2)">${r.on_peak_kwh.toFixed(3)}</td>
+      <td style="color:var(--green)">${r.off_peak_kwh.toFixed(3)}</td>
+      <td style="color:#60a5fa">${r.holiday_kwh.toFixed(3)}</td>
+      <td>${r.total_kwh.toFixed(3)}</td>
+      <td style="color:var(--gold2)">${r.on_peak_cost}</td>
+      <td style="color:var(--green)">${r.off_peak_cost}</td>
+      <td style="color:var(--cyan)">${r.total_cost}</td>
+    </tr>`).join('');
+}
+
+function loadSendLog(){
+  const now=new Date();
+  const rows=[];
+  let kwhAcc=SIM.totalKwh;
+  for(let i=0;i<12;i++){
+    const ok=Math.random()>.12;
+    const d=new Date(now-i*3600000);
+    const dk=(1.8+Math.random()*4).toFixed(3);
+    kwhAcc-=parseFloat(dk);
+    rows.push(`<tr>
+      <td>${d.toLocaleString('th-TH',{timeZone:'Asia/Bangkok'})}</td>
+      <td>${ok?'<span style="color:var(--green)">✓ OK</span>':'<span style="color:var(--red)">✗ Failed (retry 3/5)</span>'}</td>
+      <td style="color:var(--green)">${dk}</td>
+      <td>${kwhAcc.toFixed(2)}</td>
+      <td style="color:var(--green)">${(parseFloat(dk)*.4999).toFixed(3)}</td>
+      <td style="font-size:11px;color:var(--muted)">${ok?'HTTP 200 OK':'HTTP 504 Timeout'}</td>
+    </tr>`);
+  }
+  document.getElementById('sl-tbody').innerHTML=rows.join('');
+  setText('sl-last-kwh',(1.8+Math.random()*4).toFixed(3));
+  setText('sl-schedule','Hourly (every 00 min)');
+  const next=new Date(now);next.setHours(now.getHours()+1,0,0,0);
+  setText('sl-next',next.toLocaleString('th-TH',{timeZone:'Asia/Bangkok'}));
+  const last=new Date(now);last.setMinutes(0,0,0);
+  setText('sl-last-time',last.toLocaleString('th-TH',{timeZone:'Asia/Bangkok'}));
+}
+
+function pushNow(){
+  toast('☁ Pushing to ACAMP Asia Carbon Hub...');
+  setTimeout(()=>toast('✓ Push success! delta='+SIM.deltaKwh.toFixed(3)+' kWh','ok'),1500);
+  SIM.deltaKwh=0;
+}
+
+function onMeterChange(){toast('↺ Meter profile updated');}
+
+// ── PAGE ROUTING ──
+function showPage(id,el){
+  document.querySelectorAll('[id^="page-"]').forEach(p=>p.classList.add('hidden'));
+  const pg=document.getElementById('page-'+id);
+  if(pg)pg.classList.remove('hidden');
+  document.querySelectorAll('#sidenav a').forEach(a=>a.classList.remove('active'));
+  if(el)el.classList.add('active');
+  if(id==='history') loadHistory('24h',null);
+  if(id==='send-log') loadSendLog();
+  if(id==='tou-dashboard'){loadTouHistory('24h',null);loadSummary();}
+}
+
+// ── TOAST ──
+function toast(msg,type='info'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.background=type==='ok'
+    ?'linear-gradient(135deg,#16a34a,#15803d)'
+    :type==='err'
+    ?'linear-gradient(135deg,#b91c1c,#991b1b)'
+    :'linear-gradient(135deg,var(--gold),var(--gold2))';
+  if(type==='info') t.style.color='var(--navy)';
+  else t.style.color='#fff';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ── PIN PAD ──
+let pinVal='';
+function buildPinPad(){
+  const pad=document.getElementById('pinpad');
+  const keys=[1,2,3,4,5,6,7,8,9,'⌫',0,'✓'];
+  pad.innerHTML=keys.map(k=>`
+    <button class="btn btn-ghost" style="padding:10px;font-size:18px;justify-content:center;font-family:'JetBrains Mono',monospace"
+      onclick="pinKey('${k}')">${k}</button>`).join('');
+}
+function pinKey(k){
+  if(k==='⌫'){pinVal=pinVal.slice(0,-1);}
+  else if(k==='✓'){submitPin();return;}
+  else if(pinVal.length<4){pinVal+=k;}
+  document.getElementById('pin-display').textContent=
+    pinVal.padEnd(4,'_').split('').map((c,i)=>i<pinVal.length?'●':'_').join(' ');
+}
+function confirmPowerOff(){
+  pinVal='';
+  document.getElementById('pin-display').textContent='_ _ _ _';
+  document.getElementById('poweroff-modal').classList.remove('hidden');
+  buildPinPad();
+}
+function closePowerOff(){document.getElementById('poweroff-modal').classList.add('hidden');}
+function submitPin(){
+  if(pinVal==='1234'){
+    document.getElementById('poweroff-modal').classList.add('hidden');
+    toast('⏻ Shutdown initiated... (DEMO — no actual shutdown)','err');
+  } else {
+    document.getElementById('pin-display').textContent='✗  ✗  ✗  ✗';
+    document.getElementById('pin-display').style.color='var(--red)';
+    setTimeout(()=>{pinVal='';document.getElementById('pin-display').textContent='_ _ _ _';document.getElementById('pin-display').style.color='var(--cyan)';},1800);
+  }
+}
+
+// ── UPTIME ──
+let startTime=Date.now()-Math.floor(Math.random()*86400000*3);
+function updateUptime(){
+  const sec=Math.floor((Date.now()-startTime)/1000);
+  const d=Math.floor(sec/86400),h=Math.floor((sec%86400)/3600),m=Math.floor((sec%3600)/60),s=sec%60;
+  setText('sys-uptime',`${d}d ${h}h ${m}m ${s}s`);
+}
+
+// ── INIT ──
+updateData();
+loadSummary();
+setInterval(updateData,1000);
+setInterval(loadSummary,30000);
+setInterval(updateUptime,1000);
+updateUptime();
+setText('ts-badge','● '+new Date().toLocaleString('th-TH',{timeZone:'Asia/Bangkok'}));
+</script>
+</body>
+</html>

@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us - Trade Master International Co., Ltd.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&family=Kanit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #071428;
+      --navy2:   #0c1f3f;
+      --blue:    #0d3b6e;
+      --cyan:    #00b4d8;
+      --gold:    #c9933a;
+      --gold2:   #e8b45a;
+      --gold3:   #f5d08a;
+      --green:   #22c55e;
+      --white:   #ffffff;
+      --light:   #f0f4f8;
+      --gray:    #94a3b8;
+      --border:  rgba(255,255,255,.1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background: var(--navy);
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    .btn-consult-
+    
+
+    /* ===== HERO BANNER ===== */
+    .contact-hero {
+      position: relative;
+      min-height: 420px;
+      display: flex; align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg-img {
+      position: absolute; inset: 0;
+      background-image: url('assets/images/contact/01.png');
+      background-size: cover; background-position: center 30%;
+    }
+    .hero-bg-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(7,20,40,.92) 45%, rgba(7,20,40,.35) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 60px 80px;
+      max-width: 680px;
+    }
+    .hero-eyebrow {
+      font-size: 12px; font-weight: 700;
+      color: var(--gold2); letter-spacing: 3px;
+      text-transform: uppercase; margin-bottom: 14px;
+    }
+    .hero-content h1 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 52px; font-weight: 900;
+      color: #fff; line-height: 1.1;
+    }
+    .hero-content h1 span { color: var(--gold2); }
+    .hero-content p {
+      font-size: 16px; color: #94a3b8;
+      margin-top: 18px; line-height: 1.75;
+    }
+    .hero-badges {
+      display: flex; gap: 32px; margin-top: 32px; flex-wrap: wrap;
+    }
+    .hero-badge {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .badge-icon {
+      width: 46px; height: 46px; flex-shrink: 0;
+      border: 1.5px solid rgba(201,147,58,.5);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .badge-icon img {
+      width: 22px; height: 22px; object-fit: contain;
+    }
+    .badge-icon .ico-emoji { font-size: 20px; }
+    .badge-text strong {
+      font-family: 'Kanit', sans-serif;
+      font-size: 15px; font-weight: 700; color: #fff; display: block;
+    }
+    .badge-text span { font-size: 12px; color: #94a3b8; }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-grid {
+      display: grid; grid-template-columns: 380px 1fr;
+      gap: 32px;
+      max-width: 1100px; margin: 0 auto;
+      padding: 52px 40px;
+    }
+
+    /* ===== CONTACT INFO CARD ===== */
+    .contact-info-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 14px;
+      padding: 36px 30px;
+    }
+    .contact-info-card h2 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 22px; font-weight: 800; color: #fff;
+      margin-bottom: 6px;
+    }
+    .info-divider {
+      width: 40px; height: 3px;
+      background: var(--gold); border-radius: 2px;
+      margin-bottom: 28px;
+    }
+    .info-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .info-item:last-child { border-bottom: none; }
+    .info-icon-wrap {
+      width: 48px; height: 48px; flex-shrink: 0;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      overflow: hidden;
+    }
+    .info-icon-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      border-radius: 50%;
+      display: block;
+    }
+    .info-body {}
+    .info-label {
+      font-size: 12px; color: var(--gray);
+      letter-spacing: .5px; margin-bottom: 4px;
+    }
+    .info-value {
+      font-family: 'Kanit', sans-serif;
+      font-size: 17px; font-weight: 700; color: #fff;
+      line-height: 1.3;
+    }
+    .info-sub {
+      font-size: 12.5px; color: #64748b;
+      margin-top: 3px; line-height: 1.5;
+    }
+
+    /* ===== FORM CARD ===== */
+    .form-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 14px;
+      padding: 38px 36px;
+    }
+    .form-card h2 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 26px; font-weight: 800; color: #fff;
+      margin-bottom: 6px;
+    }
+    .form-card > p {
+      font-size: 14px; color: #64748b; margin-bottom: 28px;
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block; font-size: 13.5px; font-weight: 600;
+      color: #cbd5e1; margin-bottom: 8px;
+    }
+    .form-label span { color: #ef4444; }
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      background: rgba(255,255,255,.06);
+      border: 1.5px solid rgba(255,255,255,.12);
+      border-radius: 8px;
+      padding: 13px 16px;
+      font-size: 14px; color: #e2e8f0;
+      font-family: 'Sarabun', sans-serif;
+      outline: none;
+      transition: border-color .2s, background .2s;
+      appearance: none;
+    }
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: #475569; }
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--gold);
+      background: rgba(201,147,58,.05);
+    }
+    .form-textarea { resize: vertical; min-height: 110px; }
+    .select-wrap { position: relative; }
+    .select-wrap::after {
+      content: '▼';
+      position: absolute; right: 14px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 10px; color: var(--gray);
+      pointer-events: none;
+    }
+    .form-select option { background: #0c1f3f; color: #e2e8f0; }
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 50%, var(--gold3) 100%);
+      color: var(--navy);
+      border: none; border-radius: 8px;
+      padding: 16px 24px;
+      font-size: 16px; font-weight: 800;
+      font-family: 'Kanit', sans-serif;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin-top: 8px;
+      transition: opacity .2s, transform .15s;
+      letter-spacing: .5px;
+      box-shadow: 0 4px 20px rgba(201,147,58,.35);
+    }
+    .btn-submit:hover { opacity: .9; transform: translateY(-2px); }
+    .form-note {
+      text-align: center; font-size: 12px; color: #475569;
+      margin-top: 12px;
+      display: flex; align-items: center; justify-content: center; gap: 5px;
+    }
+
+    /* ===== SERVICES SECTION ===== */
+    .services-section {
+      padding: 0 40px 60px;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .services-title {
+      text-align: center;
+      font-family: 'Kanit', sans-serif;
+      font-size: 22px; font-weight: 800; color: #fff;
+      margin-bottom: 32px;
+    }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+    }
+    .service-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 12px;
+      padding: 24px 16px; text-align: center;
+      transition: transform .2s, border-color .2s, background .2s;
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(201,147,58,.4);
+      background: rgba(201,147,58,.06);
+    }
+    .service-icon {
+      width: 52px; height: 52px;
+      margin: 0 auto 14px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .service-icon img {
+      width: 100%; height: 100%; object-fit: contain;
+    }
+    .service-icon .svc-emoji { font-size: 34px; }
+    .service-card h3 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 13px; font-weight: 700;
+      color: var(--gold2); margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .service-card p {
+      font-size: 12px; color: #64748b;
+      line-height: 1.5;
+    }
+
+    /* ===== CTA STRIP ===== */
+    .cta-strip {
+      position: relative; overflow: hidden;
+      margin: 0 40px 60px;
+      border-radius: 14px;
+    }
+    .cta-strip-bg {
+      position: absolute; inset: 0;
+      background-image: url('assets/images/contact/02.png');
+      background-size: cover; background-position: center;
+    }
+    .cta-strip-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(7,20,40,.85) 0%, rgba(7,20,40,.70) 100%);
+    }
+    .cta-strip-inner {
+      position: relative; z-index: 2;
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 40px; align-items: center;
+      padding: 40px 52px;
+    }
+    .cta-text h2 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 26px; font-weight: 800; color: #fff;
+    }
+    .cta-text p { font-size: 14.5px; color: #94a3b8; margin-top: 6px; line-height: 1.6; }
+    .cta-btns { display: flex; flex-direction: column; gap: 12px; }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: var(--navy);
+      padding: 14px 32px; border-radius: 8px;
+      font-size: 15px; font-weight: 800;
+      font-family: 'Kanit', sans-serif;
+      border: none; cursor: pointer; white-space: nowrap;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 4px 16px rgba(201,147,58,.4);
+      transition: opacity .2s, transform .15s;
+    }
+    .btn-gold:hover { opacity: .88; transform: translateY(-2px); }
+    .btn-phone {
+      background: transparent; color: #fff;
+      padding: 13px 32px; border-radius: 8px;
+      font-size: 15px; font-weight: 700;
+      font-family: 'Kanit', sans-serif;
+      border: 2px solid rgba(255,255,255,.35); cursor: pointer; white-space: nowrap;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: border-color .2s;
+    }
+    .btn-phone:hover { border-color: #fff; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #040c1a;
+      padding: 52px 80px 28px;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1.5fr 1.5fr;
+      gap: 48px; margin-bottom: 40px;
+    }
+    .footer-brand .brand-wrap {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+    }
+    .footer-brand img { height: 40px; object-fit: contain; }
+    .footer-brand-name {
+      font-family: 'Kanit', sans-serif;
+      font-size: 13px; font-weight: 700; color: #fff; line-height: 1.3;
+    }
+    .footer-brand p {
+      font-size: 13px; color: #475569; line-height: 1.7; max-width: 260px;
+    }
+    .footer-col h4 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 14px; font-weight: 700; color: #fff;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul li a {
+      font-size: 13px; color: #475569; text-decoration: none;
+      transition: color .2s;
+    }
+    .footer-col ul li a:hover { color: var(--gold2); }
+    .footer-col ul li a.active-link { color: var(--gold2); }
+    .footer-contact-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      margin-bottom: 11px;
+    }
+    .fc-icon { font-size: 15px; color: var(--gold2); flex-shrink: 0; margin-top: 1px; }
+    .fc-text { font-size: 13px; color: #475569; line-height: 1.4; }
+    .footer-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 22px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-bottom p { font-size: 12.5px; color: #334155; }
+    .social-links { display: flex; gap: 10px; }
+    .social-btn {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; cursor: pointer;
+      transition: background .2s, border-color .2s;
+      text-decoration: none; color: #94a3b8;
+    }
+    .social-btn:hover { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+
+    /* ===== ANIMATIONS ===== */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .55s ease, transform .55s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .main-grid { grid-template-columns: 1fr; padding: 36px 24px; }
+      .services-grid { grid-template-columns: repeat(3,1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      
+      
+      .hero-content { padding: 48px 24px; }
+      .hero-content h1 { font-size: 38px; }
+      .cta-strip { margin: 0 24px 40px; }
+      .cta-strip-inner { grid-template-columns: 1fr; text-align: center; padding: 36px 28px; }
+      .cta-btns { flex-direction: row; justify-content: center; }
+      .services-section { padding: 0 24px 48px; }
+      footer { padding: 40px 28px 24px; }
+    }
+    @media (max-width: 640px) {
+      .services-grid { grid-template-columns: repeat(2,1fr); }
+      .hero-badges { gap: 16px; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .cta-btns { flex-direction: column; }
+    }
+  
+    /* ===== DROPDOWN NAVBAR ===== */
+    nav {
+      position:sticky; top:0; z-index:9999;
+      background:var(--navy2);
+      border-bottom:1px solid rgba(255,255,255,.1);
+      padding:0 48px;
+      display:flex; align-items:center; justify-content:space-between;
+      height:64px;
+      box-shadow:0 2px 16px rgba(0,0,0,.4);
+    }
+    .nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; cursor:pointer; }
+    .nav-logo img { height:42px; object-fit:contain; }
+    .nav-logo-text { font-family:'Kanit',sans-serif; font-weight:700; font-size:13px; color:#fff; line-height:1.3; }
+
+    .nav-links { display:flex; gap:2px; align-items:center; list-style:none; margin:0; padding:0; }
+    .nav-item { position:relative; }
+
+    .nav-item > a {
+      display:flex; align-items:center; gap:4px;
+      font-size:13.5px; font-weight:500; color:#cbd5e1;
+      text-decoration:none; white-space:nowrap;
+      padding:22px 12px;
+      border-radius:6px; cursor:pointer;
+      transition:color .18s;
+    }
+    .nav-item > a:hover,
+    .nav-item:hover > a { color:var(--gold2); }
+    .nav-item > a.active { color:var(--gold2); border-bottom:2px solid var(--gold2); }
+
+    .nav-caret { font-size:8px; opacity:.55; transition:transform .25s; line-height:1; display:inline-block; }
+    .nav-item:hover > a .nav-caret { transform:rotate(180deg); }
+
+    .dropdown {
+      visibility:hidden; opacity:0; pointer-events:none;
+      position:absolute;
+      top:100%; left:0;
+      min-width:268px;
+      background:#0c1f3f;
+      border-radius:0 0 10px 10px;
+      border:1px solid rgba(255,255,255,.1); border-top:none;
+      padding:6px 0 8px;
+      box-shadow:0 12px 40px rgba(0,0,0,.5);
+      transition:opacity .18s ease;
+      z-index:9999;
+    }
+    .dropdown::before {
+      content:'';
+      position:absolute;
+      top:-8px; left:0; right:0; height:8px;
+    }
+    .nav-item:hover > .dropdown {
+      visibility:visible; opacity:1; pointer-events:auto;
+    }
+
+    .dropdown li { list-style:none; }
+    .dropdown a {
+      display:block; padding:9px 20px;
+      font-size:13.5px; font-weight:500; color:#cbd5e1;
+      text-decoration:none; white-space:nowrap;
+      transition:background .13s, color .13s;
+    }
+    .dropdown a:hover { background:rgba(232,180,90,.1); color:var(--gold2); }
+
+    .dd-group-label {
+      padding:10px 20px 3px;
+      font-size:10.5px; font-weight:800;
+      letter-spacing:1.2px; text-transform:uppercase; color:rgba(148,163,184,.5);
+    }
+    .dd-divider { height:1px; margin:5px 12px; background:rgba(255,255,255,.08); }
+
+    .has-sub { position:relative; }
+    .has-sub > a { display:flex; justify-content:space-between; align-items:center; }
+    .has-sub > a::after { content:'›'; font-size:16px; opacity:.45; margin-left:8px; flex-shrink:0; }
+
+    .sub-dropdown {
+      visibility:hidden; opacity:0; pointer-events:none;
+      position:absolute;
+      top:0; left:100%;
+      min-width:230px;
+      background:#0c1f3f;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.1);
+      padding:6px 0 8px;
+      box-shadow:0 12px 40px rgba(0,0,0,.5);
+      transition:opacity .18s ease;
+      z-index:9999;
+    }
+    .sub-dropdown::before {
+      content:'';
+      position:absolute;
+      top:0; left:-10px; width:10px; height:100%;
+    }
+    .has-sub:hover > .sub-dropdown {
+      visibility:visible; opacity:1; pointer-events:auto;
+    }
+    .sub-dropdown li { list-style:none; }
+    .sub-dropdown a { padding:8px 18px; font-size:13px; color:#cbd5e1; display:block; text-decoration:none; white-space:nowrap; }
+    .sub-dropdown a:hover { background:rgba(232,180,90,.1); color:var(--gold2); }
+
+    .star-badge {
+      display:inline-block; background:#f59e0b; color:#fff;
+      font-size:10px; font-weight:700; padding:1px 5px;
+      border-radius:3px; margin-left:5px; vertical-align:middle;
+    }
+
+    .btn-consult-nav {
+      background:transparent; border:2px solid var(--gold); color:var(--gold2);
+      padding:9px 20px; border-radius:6px; font-size:14px; font-weight:700;
+      font-family:'Sarabun',sans-serif; cursor:pointer; white-space:nowrap;
+      display:flex; align-items:center; gap:6px;
+      transition:background .2s, color .2s; flex-shrink:0;
+    }
+    .btn-consult-nav:hover { background:var(--gold); color:var(--navy); }
+
+    @media (max-width:1100px) {
+      .nav-links { display:none; }
+      nav { padding:0 20px; }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- ====== NAVBAR ====== -->
+<nav>
+  <a class="nav-logo" href="index.html" title="กลับหน้าหลัก">
+    <img src="assets/images/hero/00.png" alt="TMIC Logo" onerror="this.style.display='none'" />
+    <div class="nav-logo-text">TRADE MASTER<br>INTERNATIONAL CO., LTD.</div>
+  </a>
+  <ul class="nav-links">
+
+    <!-- Solutions -->
+    <li class="nav-item">
+      <a href="#"><span>Solutions</span><span class="nav-caret">▼</span></a>
+      <ul class="dropdown">
+        <li><a href="#">ISO &amp; IATF Consulting</a></li>
+        <li><a href="#">AI Smart Factory Solutions</a></li>
+        <li><a href="#">Industrial IoT (IIoT)</a></li>
+        <li><a href="#">Machine Vision &amp; Automation</a></li>
+        <li><a href="#">Digital Transformation (ISO 9001:2026)</a></li>
+        <li><a href="#">Carbon Footprint &amp; ESG</a></li>
+        <li><a href="#">Energy Management (ISO 50001)</a></li>
+        <li><a href="#">Custom AI Solutions (Tailor-made)</a></li>
+      </ul>
+    </li>
+
+    <!-- AI Projects -->
+    <li class="nav-item">
+      <a href="#"><span>AI Projects</span><span class="nav-caret">▼</span></a>
+      <ul class="dropdown">
+        <li><a href="#">Carbon Footprint IoT Platform</a></li>
+        <li><a href="#">AI Vision QC (Inspection System)</a></li>
+        <li><a href="#">OEE Monitoring Dashboard</a></li>
+        <li><a href="#">Energy Monitoring System</a></li>
+        <li><a href="#">Predictive Maintenance (AI/ML)</a></li>
+        <li><a href="#">Smart Factory Dashboard (Real-time)</a></li>
+        <li><a href="#">AIoT Edge Applications</a></li>
+        <div class="dd-divider"></div>
+        <li><a href="#">Free Pilot Project Program <span class="star-badge">⭐</span></a></li>
+      </ul>
+    </li>
+
+    <!-- Training -->
+    <li class="nav-item">
+      <a href="#"><span>Training</span><span class="nav-caret">▼</span></a>
+      <ul class="dropdown" style="min-width:210px;">
+        <li class="has-sub">
+          <a href="#">Public Training</a>
+          <ul class="sub-dropdown">
+            <li><a href="#">AI + ISO Courses</a></li>
+            <li><a href="#">IATF 16949 Courses</a></li>
+            <li><a href="#">Lean Six Sigma</a></li>
+            <li><a href="#">Smart Factory / IoT</a></li>
+            <li><a href="#">Upcoming Schedule</a></li>
+          </ul>
+        </li>
+        <li class="has-sub">
+          <a href="#">In-house Training</a>
+          <ul class="sub-dropdown">
+            <li><a href="#">Customized Program</a></li>
+            <li><a href="#">Workshop &amp; Hands-on Lab</a></li>
+            <li><a href="#">Certification Program</a></li>
+          </ul>
+        </li>
+        <div class="dd-divider"></div>
+        <div class="dd-group-label">Promotion</div>
+        <li><a href="#">Special Package</a></li>
+        <li><a href="#">Corporate Deal</a></li>
+        <li><a href="#">Bundle Training + AI Project</a></li>
+      </ul>
+    </li>
+
+    <!-- ROI & Case Studies -->
+    <li class="nav-item">
+      <a href="#"><span>ROI &amp; Case Studies</span><span class="nav-caret">▼</span></a>
+      <ul class="dropdown">
+        <li><a href="#">AI Project ROI</a></li>
+        <li><a href="#">Cost Reduction Case</a></li>
+        <li><a href="#">Productivity Improvement (OEE)</a></li>
+        <li><a href="#">Quality Improvement (Defect Reduction)</a></li>
+        <li><a href="#">Energy Saving Case</a></li>
+        <li><a href="#">ESG / Carbon Case</a></li>
+        <li><a href="#">Before &amp; After Transformation</a></li>
+        <li><a href="#">Industry Showcase (Automotive / Electronics)</a></li>
+      </ul>
+    </li>
+
+    <!-- About Us -->
+    <li class="nav-item">
+      <a href="about.html">About Us</a>
+    </li>
+
+    <!-- Contact -->
+    <li class="nav-item">
+      <a href="contact.html" class="active">Contact</a>
+    </li>
+
+  </ul>
+  <button class="btn-consult-nav">💬 ปรึกษาฟรี</button>
+</nav>
+
+<!-- ====== HERO BANNER ====== -->
+<section class="contact-hero">
+  <div class="hero-bg-img"></div>
+  <div class="hero-bg-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">CONTACT US</div>
+    <h1>
+      Let's Build Your<br>
+      <span>Smart Factory</span><br>
+      Together
+    </h1>
+    <p>
+      พร้อมยกระดับองค์กรของคุณด้วย AI และมาตรฐานสากล<br>
+      ทีมผู้เชี่ยวชาญของ TMIC ยินดีให้คำปรึกษา<br>
+      เพื่อออกแบบโซลูชันที่เหมาะสมกับธุรกิจของคุณโดยเฉพาะ
+    </p>
+    <div class="hero-badges">
+      <div class="hero-badge">
+        <div class="badge-icon">
+          <img src="assets/images/contact/ico_01.png" alt=""
+               onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+          <span class="ico-emoji" style="display:none">🏆</span>
+        </div>
+        <div class="badge-text">
+          <strong>20+ ปี</strong>
+          <span>ประสบการณ์จริง</span>
+        </div>
+      </div>
+      <div class="hero-badge">
+        <div class="badge-icon">
+          <img src="assets/images/contact/ico_02.png" alt=""
+               onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+          <span class="ico-emoji" style="display:none">🛡️</span>
+        </div>
+        <div class="badge-text">
+          <strong>มาตรฐานสากล</strong>
+          <span>ISO, IATF, AI, IoT</span>
+        </div>
+      </div>
+      <div class="hero-badge">
+        <div class="badge-icon">
+          <img src="assets/images/contact/ico_03.png" alt=""
+               onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+          <span class="ico-emoji" style="display:none">📈</span>
+        </div>
+        <div class="badge-text">
+          <strong>ผลลัพธ์วัดได้</strong>
+          <span>เพิ่มประสิทธิภาพ ลดต้นทุน</span>
+        </div>
+      </div>
+      <div class="hero-badge">
+        <div class="badge-icon">
+          <img src="assets/images/contact/ico_04.png" alt=""
+               onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+          <span class="ico-emoji" style="display:none">🤝</span>
+        </div>
+        <div class="badge-text">
+          <strong>ดูแลต่อเนื่อง</strong>
+          <span>ตั้งแต่ต้นจนสำเร็จ</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== MAIN CONTENT GRID ====== -->
+<div class="main-grid">
+
+  <!-- Contact Info Card -->
+  <div class="contact-info-card reveal">
+    <h2>Contact Information</h2>
+    <div class="info-divider"></div>
+
+    <div class="info-item">
+      <div class="info-icon-wrap">
+        <img src="assets/images/contact/ico_10.png" alt="โทรศัพท์"
+             onerror="this.parentNode.innerHTML='📞'" />
+      </div>
+      <div class="info-body">
+        <div class="info-label">โทรศัพท์</div>
+        <div class="info-value">081-924-6556</div>
+        <div class="info-sub">จันทร์ – เสาร์ 08:30 – 17:30 น.</div>
+      </div>
+    </div>
+
+    <div class="info-item">
+      <div class="info-icon-wrap">
+        <img src="assets/images/contact/ico_11.png" alt="อีเมล"
+             onerror="this.parentNode.innerHTML='✉️'" />
+      </div>
+      <div class="info-body">
+        <div class="info-label">อีเมล</div>
+        <div class="info-value" style="font-size:14px;">trademasterinter@gmail.com</div>
+        <div class="info-sub">เราจะตอบกลับภายใน 24 ชั่วโมง</div>
+      </div>
+    </div>
+
+    <div class="info-item">
+      <div class="info-icon-wrap">
+        <img src="assets/images/contact/ico_12.png" alt="Line"
+             onerror="this.parentNode.innerHTML='💬'" />
+      </div>
+      <div class="info-body">
+        <div class="info-label">Line Official</div>
+        <div class="info-value">@430awvsz</div>
+        <div class="info-sub">แชตสอบถามได้ตลอดเวลา</div>
+      </div>
+    </div>
+
+    <div class="info-item">
+      <div class="info-icon-wrap">
+        <img src="assets/images/contact/ico_13.png" alt="ที่อยู่"
+             onerror="this.parentNode.innerHTML='🏢'" />
+      </div>
+      <div class="info-body">
+        <div class="info-label">บริษัท เทรดมาสเตอร์อินเตอร์เนชั่นแนล จำกัด</div>
+        <div class="info-value" style="font-size:14px;font-weight:500;">
+          56/12 หมู่ 5 ต.คลองสาม<br>
+          อ.คลองหลวง จ.ปทุมธานี 12120
+        </div>
+        <div class="info-sub">(สำนักงานใหญ่)</div>
+      </div>
+    </div>
+
+    <div class="info-item">
+      <div class="info-icon-wrap">
+        <img src="assets/images/contact/ico_14.png" alt="เวลาทำการ"
+             onerror="this.parentNode.innerHTML='🕐'" />
+      </div>
+      <div class="info-body">
+        <div class="info-label">เวลาทำการ</div>
+        <div class="info-value" style="font-size:14px;font-weight:500;">จันทร์ – เสาร์ 08:30 – 17:30 น.</div>
+        <div class="info-sub">หยุดวันอาทิตย์และวันหยุดนักขัตฤกษ์</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Card -->
+  <div class="form-card reveal">
+    <h2>ขอคำปรึกษาฟรี !</h2>
+    <p>กรอกข้อมูลสั้นๆ เพื่อให้เราติดต่อกลับและเสนอแนวทางที่เหมาะสมสำหรับคุณ</p>
+
+    <form onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label class="form-label">Company (ชื่อบริษัท) <span>*</span></label>
+        <input type="text" class="form-input" placeholder="ชื่อบริษัทของคุณ" required />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">ชื่อ – นามสกุล <span>*</span></label>
+        <input type="text" class="form-input" placeholder="ชื่อและนามสกุลของคุณ" required />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">เบอร์โทรศัพท์ <span>*</span></label>
+        <input type="tel" class="form-input" placeholder="เบอร์โทรที่ติดต่อได้" required />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Problem (ปัญหาหรือความต้องการหลัก) <span>*</span></label>
+        <textarea class="form-textarea" placeholder="อธิบายปัญหาหรือความต้องการของคุณโดยสรุป" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Budget Range (งบประมาณโดยประมาณ) <span>*</span></label>
+        <div class="select-wrap">
+          <select class="form-select" required>
+            <option value="" disabled selected>เลือกช่วงงบประมาณ</option>
+            <option>ต่ำกว่า 50,000 บาท</option>
+            <option>50,000 – 100,000 บาท</option>
+            <option>100,000 – 300,000 บาท</option>
+            <option>300,000 – 500,000 บาท</option>
+            <option>500,000 – 1,000,000 บาท</option>
+            <option>มากกว่า 1,000,000 บาท</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">
+        <span>✈</span> ส่งข้อมูลเพื่อรับคำปรึกษาฟรี
+      </button>
+      <p class="form-note">🔒 ข้อมูลของคุณจะถูกเก็บเป็นความลับ</p>
+    </form>
+  </div>
+
+</div><!-- end main-grid -->
+
+<!-- ====== SERVICES SECTION ====== -->
+<div class="services-section">
+  <h2 class="services-title">เราพร้อมช่วยคุณในทุกก้าวของการเปลี่ยนแปลง</h2>
+  <div class="services-grid">
+
+    <div class="service-card reveal">
+      <div class="service-icon">
+        <img src="assets/images/contact/ico_01.png" alt="ISO"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+        <span class="svc-emoji" style="display:none">📋</span>
+      </div>
+      <h3>ที่ปรึกษาระบบ<br>ISO / IATF</h3>
+      <p>วางระบบจัดทำเอกสาร และเตรียมรับการตรวจประเมิน</p>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">
+        <img src="assets/images/contact/ico_02.png" alt="AI"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+        <span class="svc-emoji" style="display:none">🤖</span>
+      </div>
+      <h3>AI Smart Factory<br>Solutions</h3>
+      <p>พัฒนาและติดตั้งระบบ AI, IoT และ Automation</p>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">
+        <img src="assets/images/contact/ico_03.png" alt="Training"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+        <span class="svc-emoji" style="display:none">🎓</span>
+      </div>
+      <h3>Training &amp;<br>In-house Program</h3>
+      <p>หลักสูตรอบรมที่ออกแบบมาเพื่อองค์กรและสถาบัน</p>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">
+        <img src="assets/images/contact/ico_04.png" alt="Digital"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+        <span class="svc-emoji" style="display:none">💡</span>
+      </div>
+      <h3>Digital<br>Transformation</h3>
+      <p>วิเคราะห์และวางแผนการเปลี่ยนผ่านสู่ดิจิทัล</p>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">
+        <img src="assets/images/contact/ico_05.png" alt="Carbon"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+        <span class="svc-emoji" style="display:none">🌿</span>
+      </div>
+      <h3>Carbon Footprint<br>&amp; ESG Solutions</h3>
+      <p>ระบบจัดการคาร์บอนและความยั่งยืน</p>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">
+        <img src="assets/images/contact/ico_06.png" alt="Support"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+        <span class="svc-emoji" style="display:none">🛠️</span>
+      </div>
+      <h3>After-Sales<br>Support</h3>
+      <p>ดูแลและสนับสนุนอย่างต่อเนื่อง</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ====== CTA STRIP ====== -->
+<div class="cta-strip">
+  <div class="cta-strip-bg"></div>
+  <div class="cta-strip-overlay"></div>
+  <div class="cta-strip-inner">
+    <div class="cta-text">
+      <h2>เริ่มต้นวันนี้ เพื่ออนาคตที่ดีกว่า</h2>
+      <p>
+        ให้ TMIC เป็นพันธมิตรในการพัฒนาองค์กรของคุณ<br>
+        สู่ AI-Powered Industry 4.0 อย่างยั่งยืน
+      </p>
+    </div>
+    <div class="cta-btns">
+      <button class="btn-gold">💬 ปรึกษาฟรี</button>
+      <button class="btn-phone">📞 081-924-6556</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== FOOTER ====== -->
+<footer>
+  <div class="footer-grid">
+
+    <!-- Brand -->
+    <div class="footer-brand">
+      <div class="brand-wrap">
+        <img src="assets/images/hero/00.png" alt="TMIC Logo"
+             onerror="this.style.display='none'" />
+        <div class="footer-brand-name">TRADE MASTER<br>INTERNATIONAL CO., LTD.</div>
+      </div>
+      <p>
+        ผู้นำด้านที่ปรึกษาและพัฒนาองค์กรอุตสาหกรรม
+        ด้วยมาตรฐานสากล ผสานเทคโนโลยี AI และ Smart Factory
+        เพื่อสร้างความได้เปรียบทางการแข่งขันอย่างยั่งยืน
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Solutions</a></li>
+        <li><a href="index.html">AI Projects</a></li>
+        <li><a href="index.html">Training</a></li>
+        <li><a href="index.html">ROI &amp; Case Studies</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html" class="active-link">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Our Services -->
+    <div class="footer-col">
+      <h4>Our Services</h4>
+      <ul>
+        <li><a href="#">ISO &amp; IATF Consulting</a></li>
+        <li><a href="#">AI Smart Factory</a></li>
+        <li><a href="#">Training &amp; Coaching</a></li>
+        <li><a href="#">Digital Transformation</a></li>
+        <li><a href="#">Carbon &amp; ESG Solutions</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact -->
+    <div class="footer-col">
+      <h4>Contact Us</h4>
+      <div class="footer-contact-item">
+        <span class="fc-icon">📞</span>
+        <span class="fc-text">081-924-6556</span>
+      </div>
+      <div class="footer-contact-item">
+        <span class="fc-icon">✉️</span>
+        <span class="fc-text">trademasterinter@gmail.com</span>
+      </div>
+      <div class="footer-contact-item">
+        <span class="fc-icon">💬</span>
+        <span class="fc-text">@430awvsz</span>
+      </div>
+      <div class="footer-contact-item">
+        <span class="fc-icon">🕐</span>
+        <span class="fc-text">จันทร์ – เสาร์ 08:30 – 17:30 น.</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2024 Trade Master International Co., Ltd. All Rights Reserved.</p>
+    <div class="social-links">
+      <a class="social-btn" href="#" title="LinkedIn">in</a>
+      <a class="social-btn" href="#" title="Facebook">f</a>
+      <a class="social-btn" href="#" title="YouTube">▶</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        entry.target.style.transitionDelay = `${(i % 6) * 0.07}s`;
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Stagger service cards
+  document.querySelectorAll('.service-card').forEach((el, i) => {
+    el.style.transitionDelay = `${i * 0.07}s`;
+  });
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-submit');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✅ ส่งข้อมูลเรียบร้อย! เราจะติดต่อกลับโดยเร็ว';
+    btn.style.background = 'linear-gradient(135deg,#22c55e,#16a34a)';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.innerHTML = orig;
+      btn.style.background = '';
+      btn.disabled = false;
+      e.target.reset();
+    }, 4000);
+  }
+</script>
+</body>
+</html>

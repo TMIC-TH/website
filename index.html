@@ -29,36 +29,16 @@
       overflow-x: hidden;
     }
 
-    /* ========== NAVBAR ========== */
-    nav {
-      position: sticky; top: 0; z-index: 999;
-      background: #fff;
-      border-bottom: 1px solid #e2e8f0;
-      padding: 0 40px;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 64px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.06);
-    }
-    .nav-logo { display: flex; align-items: center; gap: 10px; }
-    .nav-logo img { height: 42px; object-fit: contain; }
-    .nav-logo-text { font-family:'Kanit',sans-serif; font-weight:700; font-size:13px; color:var(--navy); line-height:1.3; }
-    .nav-links { display: flex; gap: 28px; }
-    .nav-links a {
-      font-size: 14px; font-weight: 500; color: #334155;
-      text-decoration: none; white-space: nowrap;
-      transition: color .2s;
-    }
-    .nav-links a:hover { color: var(--cyan); }
-    .btn-consult {
-      background: var(--green); color: #fff;
-      border: none; padding: 10px 20px;
-      border-radius: 6px; font-size: 14px; font-weight: 600;
-      font-family: 'Sarabun', sans-serif;
-      cursor: pointer; white-space: nowrap;
-      display: flex; align-items: center; gap: 6px;
-      transition: background .2s, transform .15s;
-    }
-    .btn-consult:hover { background: #16a34a; transform: translateY(-1px); }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     /* ========== HERO ========== */
     .hero {
@@ -393,7 +373,7 @@
     .cta-section::before {
       content: '';
       position: absolute; inset: 0;
-      background: url('01.png') center/cover no-repeat;
+      background: url('assets/images/hero/01.png') center/cover no-repeat;
       opacity: .12;
     }
     .cta-section h2 {
@@ -462,33 +442,243 @@
       .instructor-wrapper { grid-template-columns: 1fr; }
       .customers-grid { grid-template-columns: repeat(3,1fr); }
       .solution-banner { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
+      
     }
+  
+    /* ===== DROPDOWN NAVBAR ===== */
+    nav {
+      position: sticky; top: 0; z-index: 9999;
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 0 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+    .nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; cursor:pointer; }
+    .nav-logo img { height:42px; object-fit:contain; }
+    .nav-logo-text { font-family:'Kanit',sans-serif; font-weight:700; font-size:13px; color:var(--navy); line-height:1.3; }
+
+    .nav-links { display:flex; gap:2px; align-items:center; list-style:none; margin:0; padding:0; }
+    .nav-item { position:relative; }
+
+    /* top-level trigger */
+    .nav-item > a {
+      display:flex; align-items:center; gap:4px;
+      font-size:13.5px; font-weight:600; color:#334155;
+      text-decoration:none; white-space:nowrap;
+      padding:22px 12px; /* tall padding keeps hover zone continuous with dropdown */
+      border-radius:6px; cursor:pointer;
+      transition:color .18s;
+    }
+    .nav-item > a:hover,
+    .nav-item:hover > a { color:#0d9488; }
+    .nav-item > a.active { color:#0d9488; }
+
+    .nav-caret { font-size:8px; opacity:.55; transition:transform .25s; line-height:1; display:inline-block; }
+    .nav-item:hover > a .nav-caret { transform:rotate(180deg); }
+
+    /* ---- DROPDOWN ---- */
+    .dropdown {
+      visibility:hidden; opacity:0; pointer-events:none;
+      position:absolute;
+      top:100%;        /* flush — no gap */
+      left:0;
+      min-width:268px;
+      background:#fff;
+      border-radius:0 0 10px 10px;
+      border:1px solid #e2e8f0; border-top:none;
+      padding:6px 0 8px;
+      box-shadow:0 12px 36px rgba(0,0,0,.12);
+      /* NO transition delay on visibility so it stays open while mouse travels */
+      transition:opacity .18s ease, transform .18s ease;
+      transform:translateY(0);
+      z-index:9999;
+    }
+    /* invisible top bridge — fills any sub-pixel gap */
+    .dropdown::before {
+      content:'';
+      position:absolute;
+      top:-8px; left:0; right:0; height:8px;
+    }
+    .nav-item:hover > .dropdown {
+      visibility:visible; opacity:1; pointer-events:auto;
+    }
+
+    .dropdown li { list-style:none; }
+    .dropdown a {
+      display:block; padding:9px 20px;
+      font-size:13.5px; font-weight:500; color:#334155;
+      text-decoration:none; white-space:nowrap;
+      transition:background .13s, color .13s;
+    }
+    .dropdown a:hover { background:#f0fdf4; color:#0d9488; }
+
+    .dd-group-label {
+      padding:10px 20px 3px;
+      font-size:10.5px; font-weight:800;
+      letter-spacing:1.2px; text-transform:uppercase; color:#94a3b8;
+    }
+    .dd-divider { height:1px; margin:5px 12px; background:#e2e8f0; }
+
+    /* ---- NESTED SUB-DROPDOWN ---- */
+    .has-sub { position:relative; }
+    .has-sub > a { display:flex; justify-content:space-between; align-items:center; }
+    .has-sub > a::after { content:'›'; font-size:16px; opacity:.45; margin-left:8px; flex-shrink:0; }
+
+    .sub-dropdown {
+      visibility:hidden; opacity:0; pointer-events:none;
+      position:absolute;
+      top:0; left:100%;
+      min-width:230px;
+      background:#fff;
+      border-radius:10px;
+      border:1px solid #e2e8f0;
+      padding:6px 0 8px;
+      box-shadow:0 12px 36px rgba(0,0,0,.12);
+      transition:opacity .18s ease;
+      z-index:9999;
+    }
+    /* invisible left bridge */
+    .sub-dropdown::before {
+      content:'';
+      position:absolute;
+      top:0; left:-10px; width:10px; height:100%;
+    }
+    .has-sub:hover > .sub-dropdown {
+      visibility:visible; opacity:1; pointer-events:auto;
+    }
+    .sub-dropdown li { list-style:none; }
+    .sub-dropdown a { padding:8px 18px; font-size:13px; color:#334155; display:block; text-decoration:none; white-space:nowrap; }
+    .sub-dropdown a:hover { background:#f0fdf4; color:#0d9488; }
+
+    .star-badge {
+      display:inline-block; background:#f59e0b; color:#fff;
+      font-size:10px; font-weight:700; padding:1px 5px;
+      border-radius:3px; margin-left:5px; vertical-align:middle;
+    }
+
+    .btn-consult {
+      background:var(--green); color:#fff;
+      border:none; padding:10px 20px; border-radius:6px;
+      font-size:14px; font-weight:600; font-family:'Sarabun',sans-serif;
+      cursor:pointer; white-space:nowrap;
+      display:flex; align-items:center; gap:6px;
+      transition:background .2s, transform .15s; flex-shrink:0;
+    }
+    .btn-consult:hover { background:#16a34a; transform:translateY(-1px); }
+
+    @media (max-width:1100px) {
+      .nav-links { display:none; }
+      nav { padding:0 20px; }
+    }
+
   </style>
 </head>
 <body>
 
 <!-- ====== NAVBAR ====== -->
 <nav>
-  <div class="nav-logo">
-    <img src="00.png" alt="TMIC Logo" onerror="this.style.display='none'" />
+  <a class="nav-logo" href="index.html" title="กลับหน้าหลัก">
+    <img src="assets/images/hero/00.png" alt="TMIC Logo" onerror="this.style.display='none'" />
     <div class="nav-logo-text">TRADE MASTER<br>INTERNATIONAL CO., LTD.</div>
-  </div>
-  <div class="nav-links">
-    <a href="#">Solutions</a>
-    <a href="#">AI Projects</a>
-    <a href="#">Training</a>
-    <a href="#">ROI &amp; Case Studies</a>
-    <a href="about.html">About Us</a>
-    <a href="contact.html">Contact</a>
-  </div>
+  </a>
+  <ul class="nav-links">
+
+    <!-- Solutions -->
+    <li class="nav-item">
+      <a href="#"><span>Solutions</span><span class="nav-caret">▼</span></a>
+      <ul class="dropdown">
+        <li><a href="#">ISO &amp; IATF Consulting</a></li>
+        <li><a href="#">AI Smart Factory Solutions</a></li>
+        <li><a href="#">Industrial IoT (IIoT)</a></li>
+        <li><a href="#">Machine Vision &amp; Automation</a></li>
+        <li><a href="#">Digital Transformation (ISO 9001:2026)</a></li>
+        <li><a href="#">Carbon Footprint &amp; ESG</a></li>
+        <li><a href="#">Energy Management (ISO 50001)</a></li>
+        <li><a href="#">Custom AI Solutions (Tailor-made)</a></li>
+      </ul>
+    </li>
+
+    <!-- AI Projects -->
+    <li class="nav-item">
+      <a href="#"><span>AI Projects</span><span class="nav-caret">▼</span></a>
+      <ul class="dropdown">
+        <li><a href="#">Carbon Footprint IoT Platform</a></li>
+        <li><a href="#">AI Vision QC (Inspection System)</a></li>
+        <li><a href="#">OEE Monitoring Dashboard</a></li>
+        <li><a href="#">Energy Monitoring System</a></li>
+        <li><a href="#">Predictive Maintenance (AI/ML)</a></li>
+        <li><a href="#">Smart Factory Dashboard (Real-time)</a></li>
+        <li><a href="#">AIoT Edge Applications</a></li>
+        <div class="dd-divider"></div>
+        <li><a href="#">Free Pilot Project Program <span class="star-badge">⭐</span></a></li>
+      </ul>
+    </li>
+
+    <!-- Training -->
+    <li class="nav-item">
+      <a href="#"><span>Training</span><span class="nav-caret">▼</span></a>
+      <ul class="dropdown" style="min-width:210px;">
+        <li class="has-sub">
+          <a href="#">Public Training</a>
+          <ul class="sub-dropdown">
+            <li><a href="#">AI + ISO Courses</a></li>
+            <li><a href="#">IATF 16949 Courses</a></li>
+            <li><a href="#">Lean Six Sigma</a></li>
+            <li><a href="#">Smart Factory / IoT</a></li>
+            <li><a href="#">Upcoming Schedule</a></li>
+          </ul>
+        </li>
+        <li class="has-sub">
+          <a href="#">In-house Training</a>
+          <ul class="sub-dropdown">
+            <li><a href="#">Customized Program</a></li>
+            <li><a href="#">Workshop &amp; Hands-on Lab</a></li>
+            <li><a href="#">Certification Program</a></li>
+          </ul>
+        </li>
+        <div class="dd-divider"></div>
+        <div class="dd-group-label">Promotion</div>
+        <li><a href="#">Special Package</a></li>
+        <li><a href="#">Corporate Deal</a></li>
+        <li><a href="#">Bundle Training + AI Project</a></li>
+      </ul>
+    </li>
+
+    <!-- ROI & Case Studies -->
+    <li class="nav-item">
+      <a href="#"><span>ROI &amp; Case Studies</span><span class="nav-caret">▼</span></a>
+      <ul class="dropdown">
+        <li><a href="#">AI Project ROI</a></li>
+        <li><a href="#">Cost Reduction Case</a></li>
+        <li><a href="#">Productivity Improvement (OEE)</a></li>
+        <li><a href="#">Quality Improvement (Defect Reduction)</a></li>
+        <li><a href="#">Energy Saving Case</a></li>
+        <li><a href="#">ESG / Carbon Case</a></li>
+        <li><a href="#">Before &amp; After Transformation</a></li>
+        <li><a href="#">Industry Showcase (Automotive / Electronics)</a></li>
+      </ul>
+    </li>
+
+    <!-- About Us -->
+    <li class="nav-item">
+      <a href="about.html">About Us</a>
+    </li>
+
+    <!-- Contact -->
+    <li class="nav-item">
+      <a href="contact.html">Contact</a>
+    </li>
+
+  </ul>
   <button class="btn-consult">🟢 ปรึกษาฟรี</button>
 </nav>
 
 <!-- ====== HERO ====== -->
 <section class="hero">
   <div class="hero-bg"></div>
-  <img class="hero-img-bg" src="01.png" alt="Smart Factory" onerror="this.style.opacity='.1'" />
+  <img class="hero-img-bg" src="assets/images/hero/01.png" alt="Smart Factory" onerror="this.style.opacity='.1'" />
   <div class="hero-content fade-up">
     <h1>
       เปลี่ยนโรงงานคุณเป็น
@@ -544,7 +734,7 @@
 
 <!-- ====== SOLUTION BANNER ====== -->
 <div class="solution-banner">
-  <img src="06.png" alt="AI Vision QC" onerror="this.style.background='#1e3a5f'" />
+  <img src="assets/images/hero/06.png" alt="AI Vision QC" onerror="this.style.background='#1e3a5f'" />
   <div class="solution-text">
     <div class="solution-label">โซลูชันสำหรับคุณ</div>
     <h2>AI Vision ตรวจสอบคุณภาพอัตโนมัติ</h2>
@@ -566,7 +756,7 @@
   <div class="projects-grid">
     <!-- Card 1 -->
     <div class="project-card">
-      <img src="07.png" alt="Carbon Footprint AI" onerror="this.style.background='#e2e8f0'" />
+      <img src="assets/images/hero/07.png" alt="Carbon Footprint AI" onerror="this.style.background='#e2e8f0'" />
       <div class="project-body">
         <div class="project-tag">Carbon &amp; ESG</div>
         <h3>Carbon Footprint AI</h3>
@@ -586,7 +776,7 @@
     </div>
     <!-- Card 2 -->
     <div class="project-card">
-      <img src="08.png" alt="AI Vision QC" onerror="this.style.background='#e2e8f0'" />
+      <img src="assets/images/hero/08.png" alt="AI Vision QC" onerror="this.style.background='#e2e8f0'" />
       <div class="project-body">
         <div class="project-tag">Quality Control</div>
         <h3>AI Vision QC</h3>
@@ -606,7 +796,7 @@
     </div>
     <!-- Card 3 -->
     <div class="project-card">
-      <img src="09.png" alt="OEE Monitoring" onerror="this.style.background='#e2e8f0'" />
+      <img src="assets/images/hero/09.png" alt="OEE Monitoring" onerror="this.style.background='#e2e8f0'" />
       <div class="project-body">
         <div class="project-tag">OEE &amp; Downtime</div>
         <h3>OEE Monitoring System</h3>
@@ -635,7 +825,7 @@
     <div class="roi-card">
       <div class="roi-card-tag">CASE STUDY</div>
       <h3>IoT Energy Monitoring</h3>
-      <img src="21.png" alt="IoT Energy" onerror="this.style.background='#e2e8f0'" />
+      <img src="assets/images/hero/21.png" alt="IoT Energy" onerror="this.style.background='#e2e8f0'" />
       <p class="roi-invest">ลงทุนเพียง <strong>2,000 บาท</strong></p>
       <div class="roi-number">ประหยัด 4.4 ล้านบาท/ปี</div>
       <div style="font-family:'Kanit',sans-serif;font-size:22px;font-weight:800;color:#f97316;margin-top:4px;">ROI 2,000%</div>
@@ -644,7 +834,7 @@
     <div class="roi-card">
       <div class="roi-card-tag">CASE STUDY</div>
       <h3>AI Vision QC</h3>
-      <img src="22.png" alt="AI Vision" onerror="this.style.background='#e2e8f0'" />
+      <img src="assets/images/hero/22.png" alt="AI Vision" onerror="this.style.background='#e2e8f0'" />
       <p class="roi-invest">ลงทุนเพียง <strong>5,000 บาท</strong></p>
       <div class="roi-number">ประหยัด 1.3 ล้านบาท/ปี</div>
       <div style="font-family:'Kanit',sans-serif;font-size:22px;font-weight:800;color:#f97316;margin-top:4px;">ROI 866%</div>
@@ -744,7 +934,7 @@
 <section class="section instructor-section">
   <div class="instructor-wrapper">
     <div class="instructor-photo-card">
-      <img src="Ryan.png" alt="อ.ไรจิน" onerror="this.style.minHeight='280px';this.style.background='#e2e8f0'" />
+      <img src="assets/images/hero/Ryan.png" alt="อ.ไรจิน" onerror="this.style.minHeight='280px';this.style.background='#e2e8f0'" />
       <div class="instructor-info">
         <h3>อ.ไรจิน</h3>
         <p>ที่ปรึกษาและวิทยากรหลัก</p>
@@ -761,16 +951,16 @@
       </div>
       <div class="customers-title">ลูกค้าของเรา</div>
       <div class="customers-grid">
-        <div class="customer-logo"><img src="cus_a.png" alt="Toyota" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>TOYOTA</span>'" /></div>
-        <div class="customer-logo"><img src="cus_b.png" alt="Honda" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>HONDA</span>'" /></div>
-        <div class="customer-logo"><img src="cus_c.png" alt="PTT" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>PTT</span>'" /></div>
-        <div class="customer-logo"><img src="cus_d.png" alt="SCG" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>SCG</span>'" /></div>
-        <div class="customer-logo"><img src="cus_e.png" alt="AIS" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>AIS</span>'" /></div>
-        <div class="customer-logo"><img src="cus_f.png" alt="CPALL" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>CPALL</span>'" /></div>
-        <div class="customer-logo"><img src="cus_g.png" alt="ThaiBev" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>ThaiBev</span>'" /></div>
-        <div class="customer-logo"><img src="cus_h.png" alt="Minebea" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>Minebea</span>'" /></div>
-        <div class="customer-logo"><img src="cus_i.png" alt="Daikin" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>DAIKIN</span>'" /></div>
-        <div class="customer-logo"><img src="cus_j.png" alt="Panasonic" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>Panasonic</span>'" /></div>
+        <div class="customer-logo"><img src="assets/images/hero/cus_a.png" alt="Toyota" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>TOYOTA</span>'" /></div>
+        <div class="customer-logo"><img src="assets/images/hero/cus_b.png" alt="Honda" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>HONDA</span>'" /></div>
+        <div class="customer-logo"><img src="assets/images/hero/cus_c.png" alt="PTT" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>PTT</span>'" /></div>
+        <div class="customer-logo"><img src="assets/images/hero/cus_d.png" alt="SCG" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>SCG</span>'" /></div>
+        <div class="customer-logo"><img src="assets/images/hero/cus_e.png" alt="AIS" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>AIS</span>'" /></div>
+        <div class="customer-logo"><img src="assets/images/hero/cus_f.png" alt="CPALL" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>CPALL</span>'" /></div>
+        <div class="customer-logo"><img src="assets/images/hero/cus_g.png" alt="ThaiBev" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>ThaiBev</span>'" /></div>
+        <div class="customer-logo"><img src="assets/images/hero/cus_h.png" alt="Minebea" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>Minebea</span>'" /></div>
+        <div class="customer-logo"><img src="assets/images/hero/cus_i.png" alt="Daikin" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>DAIKIN</span>'" /></div>
+        <div class="customer-logo"><img src="assets/images/hero/cus_j.png" alt="Panasonic" onerror="this.parentNode.innerHTML='<span style=font-weight:700;color:#0a1628>Panasonic</span>'" /></div>
       </div>
     </div>
   </div>
