@@ -638,9 +638,89 @@
     }
     .btn-consult:hover { background:#16a34a; transform:translateY(-1px); }
 
+    /* mobile nav handled by hamburger CSS above */
+
+
+    /* ===== MOBILE HAMBURGER NAV ===== */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 40px; height: 40px;
+      background: none; border: none;
+      cursor: pointer; padding: 6px;
+      border-radius: 6px;
+      transition: background .2s;
+      flex-shrink: 0;
+    }
+    .nav-hamburger:hover { background: #f0f4f8; }
+    .nav-hamburger span {
+      display: block; height: 2px; width: 100%;
+      background: #0a1628; border-radius: 2px;
+      transition: transform .3s, opacity .3s, width .3s;
+      transform-origin: center;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 64px; left: 0; right: 0;
+      background: #fff;
+      border-top: 2px solid #e2e8f0;
+      box-shadow: 0 8px 32px rgba(0,0,0,.12);
+      z-index: 9998;
+      max-height: calc(100vh - 64px);
+      overflow-y: auto;
+      padding: 8px 0 24px;
+    }
+    .mobile-nav.open { display: block; }
+    .mobile-nav-item { border-bottom: 1px solid #f1f5f9; }
+    .mobile-nav-item > a {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 24px;
+      font-size: 15px; font-weight: 600; color: #1e293b;
+      text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+    .mobile-nav-item > a:hover { background: #f8fafc; color: #0d9488; }
+    .mobile-nav-item > a.active { color: #0d9488; }
+    .mob-caret {
+      font-size: 10px; color: #94a3b8;
+      transition: transform .25s; flex-shrink: 0;
+    }
+    .mobile-nav-item.open > a .mob-caret { transform: rotate(180deg); }
+    .mobile-sub {
+      display: none;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+    }
+    .mobile-nav-item.open > .mobile-sub { display: block; }
+    .mobile-sub a {
+      display: block; padding: 11px 36px;
+      font-size: 14px; color: #475569; text-decoration: none;
+      transition: background .15s, color .15s;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .mobile-sub a:last-child { border-bottom: none; }
+    .mobile-sub a:hover { background: #e8f5f4; color: #0d9488; }
+    .mobile-nav-consult { margin: 16px 24px 0; }
+    .mobile-nav-consult button {
+      width: 100%; background: #1db954; color: #fff;
+      border: none; padding: 13px; border-radius: 8px;
+      font-size: 15px; font-weight: 700;
+      font-family: 'Sarabun', sans-serif; cursor: pointer;
+    }
+    .mobile-nav-consult button:hover { background: #16a34a; }
+
     @media (max-width:1100px) {
-      .nav-links { display:none; }
-      nav { padding:0 20px; }
+      .nav-links { display: none !important; }
+      .btn-consult { display: none !important; }
+      .nav-hamburger { display: flex !important; }
+      nav { padding: 0 16px; }
     }
 
   </style>
@@ -743,7 +823,79 @@
 
   </ul>
   <button class="btn-consult">🟢 ปรึกษาฟรี</button>
+  <button class="nav-hamburger" id="navHamburger" aria-label="เปิดเมนู"><span></span><span></span><span></span></button>
 </nav>
+
+<!-- ====== MOBILE NAV DRAWER ====== -->
+<div class="mobile-nav" id="mobileNav">
+  <div class="mobile-nav-item">
+    <a href="#" onclick="toggleMobSub(this)">
+      Solutions <span class="mob-caret">▼</span>
+    </a>
+    <div class="mobile-sub">
+      <a href="#">ISO &amp; IATF Consulting</a>
+      <a href="#">AI Smart Factory Solutions</a>
+      <a href="#">Industrial IoT (IIoT)</a>
+      <a href="#">Machine Vision &amp; Automation</a>
+      <a href="#">Digital Transformation (ISO 9001:2026)</a>
+      <a href="#">Carbon Footprint &amp; ESG</a>
+      <a href="#">Energy Management (ISO 50001)</a>
+      <a href="#">Custom AI Solutions (Tailor-made)</a>
+    </div>
+  </div>
+  <div class="mobile-nav-item">
+    <a href="#" onclick="toggleMobSub(this)">
+      AI Projects <span class="mob-caret">▼</span>
+    </a>
+    <div class="mobile-sub">
+      <a href="#">Carbon Footprint IoT Platform</a>
+      <a href="#">AI Vision QC (Inspection System)</a>
+      <a href="#">OEE Monitoring Dashboard</a>
+      <a href="#">Energy Monitoring System</a>
+      <a href="#">Predictive Maintenance (AI/ML)</a>
+      <a href="#">Smart Factory Dashboard (Real-time)</a>
+      <a href="#">AIoT Edge Applications</a>
+      <a href="#">Free Pilot Project Program ⭐</a>
+    </div>
+  </div>
+  <div class="mobile-nav-item">
+    <a href="#" onclick="toggleMobSub(this)">
+      Training <span class="mob-caret">▼</span>
+    </a>
+    <div class="mobile-sub">
+      <a href="#">Public Training — AI + ISO Courses</a>
+      <a href="#">Public Training — IATF 16949 Courses</a>
+      <a href="#">Public Training — Lean Six Sigma</a>
+      <a href="#">Public Training — Smart Factory / IoT</a>
+      <a href="#">In-house Training — Customized Program</a>
+      <a href="#">In-house Training — Workshop &amp; Hands-on Lab</a>
+      <a href="#">Bundle Training + AI Project</a>
+    </div>
+  </div>
+  <div class="mobile-nav-item">
+    <a href="#" onclick="toggleMobSub(this)">
+      ROI &amp; Case Studies <span class="mob-caret">▼</span>
+    </a>
+    <div class="mobile-sub">
+      <a href="#">AI Project ROI</a>
+      <a href="#">Cost Reduction Case</a>
+      <a href="#">Productivity Improvement (OEE)</a>
+      <a href="#">Quality Improvement (Defect Reduction)</a>
+      <a href="#">Energy Saving Case</a>
+      <a href="#">ESG / Carbon Case</a>
+      <a href="#">Before &amp; After Transformation</a>
+    </div>
+  </div>
+  <div class="mobile-nav-item">
+    <a href="about.html">About Us</a>
+  </div>
+  <div class="mobile-nav-item">
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="mobile-nav-consult">
+    <button>🟢 ปรึกษาฟรี</button>
+  </div>
+</div>
 
 <!-- ====== HERO BANNER ====== -->
 <section class="about-hero">
@@ -1085,6 +1237,35 @@
   document.querySelectorAll('button').forEach(btn => {
     btn.addEventListener('click', () => {});
   });
+
+  // ===== MOBILE NAV LOGIC =====
+  const hamburger = document.getElementById('navHamburger');
+  const mobileNav = document.getElementById('mobileNav');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileNav.classList.toggle('open');
+    document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+  });
+
+  // ปิด drawer ตอนคลิกนอก
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('nav') && !e.target.closest('.mobile-nav')) {
+      hamburger.classList.remove('open');
+      mobileNav.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  });
+
+  function toggleMobSub(el) {
+    const item = el.parentElement;
+    const wasOpen = item.classList.contains('open');
+    // ปิดทุกอัน แล้วเปิดอันที่กด (toggle)
+    document.querySelectorAll('.mobile-nav-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+    return false;
+  }
+
 </script>
 </body>
 </html>
