@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Carbon Footprint IoT Platform | Trade Master International Co., Ltd.</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&family=Kanit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:    #0a1628;
+    --navy-2:  #0d1f3a;
+    --blue:    #0d3b6e;
+    --cyan:    #00b4d8;
+    --green:   #1db954;
+    --green2:  #22c55e;
+    --green-soft:#dcfce7;
+    --orange:  #f97316;
+    --yellow:  #facc15;
+    --gold:    #d4a017;
+    --white:   #ffffff;
+    --light:   #f0f4f8;
+    --gray:    #64748b;
+    --gray-2:  #94a3b8;
+    --ink:     #1e293b;
+    --line:    #e2e8f0;
+    --card-bg: #f8fafc;
+  }
+
+  body {
+    font-family: 'Sarabun', sans-serif;
+    color: #1e293b;
+    background: #fff;
+    overflow-x: hidden;
+  }
+
+  img { display:block; max-width:100%; height:auto; }
+  a   { color:inherit; text-decoration:none; }
+  button { font-family: inherit; cursor: pointer; }
+
+  /* ========================================================================
+     NAVBAR (mirrors index.html)
+     ======================================================================== */
+  nav {
+    position: sticky; top: 0; z-index: 9999;
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+    padding: 0 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  }
+  .nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; cursor:pointer; }
+  .nav-logo img { height:42px; object-fit:contain; }
+  .nav-logo-text {
+    font-family:'Kanit',sans-serif; font-weight:700; font-size:13px;
+    color:var(--navy); line-height:1.3;
+  }
+  .nav-links { display:flex; gap:2px; align-items:center; list-style:none; }
+  .nav-item { position:relative; }
+  .nav-item > a {
+    display:flex; align-items:center; gap:4px;
+    font-size:13.5px; font-weight:600; color:#334155;
+    padding:22px 12px; border-radius:6px; cursor:pointer;
+    transition:color .18s; white-space:nowrap;
+  }
+  .nav-item > a:hover, .nav-item:hover > a { color:#0d9488; }
+  .nav-item > a.active { color:#0d9488; }
+  .nav-caret { font-size:8px; opacity:.55; transition:transform .25s; line-height:1; }
+  .nav-item:hover > a .nav-caret { transform:rotate(180deg); }
+  .dropdown {
+    visibility:hidden; opacity:0; pointer-events:none;
+    position:absolute; top:100%; left:0;
+    min-width:268px; background:#fff;
+    border-radius:0 0 10px 10px;
+    border:1px solid var(--line); border-top:none;
+    padding:6px 0 8px;
+    box-shadow:0 12px 36px rgba(0,0,0,.12);
+    transition:opacity .18s ease, transform .18s ease;
+    z-index:9999;
+  }
+  .dropdown::before { content:''; position:absolute; top:-8px; left:0; right:0; height:8px; }
+  .nav-item:hover > .dropdown { visibility:visible; opacity:1; pointer-events:auto; }
+  .dropdown li { list-style:none; }
+  .dropdown a {
+    display:block; padding:9px 20px;
+    font-size:13.5px; font-weight:500; color:#334155;
+    transition:background .13s, color .13s; white-space:nowrap;
+  }
+  .dropdown a:hover { background:#f0fdf4; color:#0d9488; }
+  .dropdown a.current { background:#f0fdf9; color:#0d9488; font-weight:700; }
+  .btn-consult {
+    background:var(--green); color:#fff;
+    border:none; padding:10px 20px; border-radius:6px;
+    font-size:14px; font-weight:600; font-family:'Sarabun',sans-serif;
+    white-space:nowrap; display:flex; align-items:center; gap:6px;
+    transition:background .2s, transform .15s; flex-shrink:0;
+  }
+  .btn-consult:hover { background:#16a34a; transform:translateY(-1px); }
+
+  /* hamburger */
+  .nav-hamburger {
+    display:none; flex-direction:column; justify-content:center; gap:5px;
+    width:40px; height:40px; background:none; border:none;
+    padding:6px; border-radius:6px; transition:background .2s;
+  }
+  .nav-hamburger:hover { background:#f0f4f8; }
+  .nav-hamburger span {
+    display:block; height:2px; width:100%;
+    background:#0a1628; border-radius:2px;
+    transition:transform .3s, opacity .3s, width .3s;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity:0; width:0; }
+  .nav-hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+  .mobile-nav {
+    display:none; position:fixed; top:64px; left:0; right:0;
+    background:#fff; border-top:2px solid var(--line);
+    box-shadow:0 8px 32px rgba(0,0,0,.12);
+    z-index:9998; max-height:calc(100vh - 64px);
+    overflow-y:auto; padding:8px 0 24px;
+  }
+  .mobile-nav.open { display:block; }
+  .mobile-nav-item { border-bottom:1px solid #f1f5f9; }
+  .mobile-nav-item > a {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:14px 24px; font-size:15px; font-weight:600; color:#1e293b;
+  }
+  .mobile-nav-item > a:hover { background:#f8fafc; color:#0d9488; }
+  .mobile-nav-item > a.active, .mobile-nav-item > a.current { color:#0d9488; }
+  .mob-caret { font-size:10px; color:#94a3b8; transition:transform .25s; }
+  .mobile-nav-item.open > a .mob-caret { transform:rotate(180deg); }
+  .mobile-sub { display:none; background:#f8fafc; border-top:1px solid var(--line); }
+  .mobile-nav-item.open > .mobile-sub { display:block; }
+  .mobile-sub a {
+    display:block; padding:11px 36px; font-size:14px; color:#475569;
+    border-bottom:1px solid #f1f5f9;
+  }
+  .mobile-sub a.current { color:#0d9488; font-weight:700; background:#f0fdf9; }
+  .mobile-sub a:hover { background:#e8f5f4; color:#0d9488; }
+  .mobile-nav-consult { margin:16px 24px 0; }
+  .mobile-nav-consult button {
+    width:100%; background:var(--green); color:#fff; border:none;
+    padding:13px; border-radius:8px; font-size:15px; font-weight:700;
+    font-family:'Sarabun',sans-serif;
+  }
+  .mobile-nav-consult button:hover { background:#16a34a; }
+
+  @media (max-width:1100px) {
+    .nav-links { display:none !important; }
+    nav > .btn-consult { display:none !important; }
+    .nav-hamburger { display:flex !important; }
+    nav { padding:0 16px; }
+  }
+
+  /* ========================================================================
+     PAGE HEADER (breadcrumb + page intro)
+     ======================================================================== */
+  .breadcrumb-bar {
+    background: #f8fafc;
+    border-bottom: 1px solid var(--line);
+    padding: 14px 40px;
+    font-size: 13px; color: var(--gray);
+  }
+  .breadcrumb-bar a { color: var(--cyan); font-weight:500; }
+  .breadcrumb-bar a:hover { text-decoration: underline; }
+  .breadcrumb-bar .sep { margin: 0 8px; color: #cbd5e1; }
+  .breadcrumb-bar .current { color: var(--navy); font-weight: 600; }
+
+  /* ========================================================================
+     HERO — left text / right composite image
+     ======================================================================== */
+  .page-hero {
+    position: relative;
+    background: #06121f;
+    color: #fff;
+    overflow: hidden;
+    padding: 60px 40px 80px;
+    min-height: 520px;
+  }
+  /* full-bleed dashboard image stretched across the entire hero */
+  .page-hero .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    z-index: 0;
+  }
+  /* dark left-to-right gradient so text stays legible on top */
+  .page-hero::after {
+    content:''; position:absolute; inset:0;
+    background:
+      linear-gradient(90deg,
+        rgba(6,18,31,0.95) 0%,
+        rgba(6,18,31,0.85) 35%,
+        rgba(6,18,31,0.55) 60%,
+        rgba(6,18,31,0.20) 85%,
+        rgba(6,18,31,0.05) 100%
+      );
+    z-index: 1;
+    pointer-events: none;
+  }
+  .page-hero::before {
+    content:''; position:absolute; inset:0;
+    background:
+      radial-gradient(60% 50% at 80% 30%, rgba(0,180,216,.12), transparent 60%),
+      radial-gradient(50% 40% at 20% 80%, rgba(29,185,84,.10), transparent 60%);
+    pointer-events:none;
+    z-index: 2;
+  }
+  .hero-wrap {
+    max-width: 1280px; margin: 0 auto;
+    position: relative; z-index: 3;
+    min-height: 460px;
+    display: flex; align-items: center;
+  }
+  .hero-left { max-width: 560px; }
+  .hero-pill {
+    display:inline-block;
+    background: rgba(29,185,84,.15);
+    color: #5be58b;
+    border: 1px solid rgba(29,185,84,.4);
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .12em;
+    margin-bottom: 16px;
+  }
+  .hero-left h1 {
+    font-family:'Kanit',sans-serif;
+    font-size: 48px; font-weight: 700; line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .hero-left h1 .grad {
+    background: linear-gradient(90deg, #5be58b, #00b4d8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+  }
+  .hero-lead {
+    color: #cbd5e1; font-size: 17px; line-height: 1.65;
+    margin-bottom: 20px;
+  }
+  .hero-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .hero-list li {
+    display:flex; align-items:flex-start; gap:10px;
+    font-size: 15px; color: #e2e8f0; line-height:1.5;
+  }
+  .hero-list svg { flex:0 0 auto; margin-top:3px; color: #22c55e; }
+  .hero-actions { display:flex; gap:14px; flex-wrap:wrap; }
+  .btn-primary {
+    background: var(--green); color:#fff; border:none;
+    padding: 14px 26px; border-radius: 6px;
+    font-size: 15px; font-weight: 700;
+    font-family:'Sarabun',sans-serif;
+    display:inline-flex; align-items:center; gap:8px;
+    transition: background .2s, transform .15s;
+  }
+  .btn-primary:hover { background: #16a34a; transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: #fff;
+    padding: 14px 26px; border-radius: 6px;
+    font-size: 15px; font-weight: 600;
+    font-family:'Sarabun',sans-serif;
+    border: 2px solid rgba(255,255,255,.4);
+    display:inline-flex; align-items:center; gap:8px;
+    transition: border-color .2s, background .2s;
+  }
+  .btn-outline:hover { border-color:#fff; background: rgba(255,255,255,.08); }
+
+  .hero-right { display: none; }
+  .hero-right img { width: 100%; height: auto; display: block; }
+
+  /* ========================================================================
+     FEATURE STRIP — 6 icons under hero
+     ======================================================================== */
+  .feature-strip-wrap {
+    max-width: 1280px;
+    margin: -40px auto 0;
+    padding: 0 40px;
+    position: relative; z-index: 5;
+  }
+  .feature-strip {
+    background:#fff;
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(10,22,40,.10);
+    padding: 24px 16px;
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+    gap: 8px;
+  }
+  .feature {
+    text-align:center; padding: 0 8px;
+    transition: transform .2s;
+  }
+  .feature:hover { transform: translateY(-3px); }
+  .feature .ic {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--green-soft);
+    color: var(--green2);
+    display:flex; align-items:center; justify-content:center;
+    margin: 0 auto 12px;
+  }
+  .feature .ic svg { width: 26px; height: 26px; }
+  .feature h4 {
+    font-family:'Kanit',sans-serif;
+    font-size: 14px; font-weight: 600;
+    color: var(--navy);
+    line-height: 1.35;
+  }
+
+  /* ========================================================================
+     SECTION FRAME
+     ======================================================================== */
+  .section { padding: 70px 40px; }
+  .section-light { background: var(--light); }
+  .section-title {
+    text-align: center;
+    font-family:'Kanit',sans-serif;
+    font-size: 30px; font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 40px;
+  }
+  .container { max-width: 1180px; margin: 0 auto; }
+
+  /* ========================================================================
+     HOW IT WORKS
+     ======================================================================== */
+  .steps {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+  }
+  .step { text-align:center; transition: transform .2s; }
+  .step:hover { transform: translateY(-4px); }
+  .step-img {
+    height: 130px;
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom: 14px;
+  }
+  .step-img img { max-height: 100%; width: auto; object-fit: contain; }
+  .step-name {
+    font-family:'Kanit',sans-serif;
+    font-size: 18px; font-weight: 700;
+    color: var(--navy); margin-bottom: 4px;
+  }
+  .step p { font-size: 13.5px; color: var(--gray); line-height:1.5; }
+  .arrow {
+    color: var(--green2); display:flex; align-items:center; justify-content:center;
+  }
+  .arrow svg { width: 26px; height: 26px; }
+
+  /* ========================================================================
+     DASHBOARD PREVIEW BLOCK
+     ======================================================================== */
+  .dash-block {
+    background: linear-gradient(135deg, var(--navy) 0%, #0d2545 100%);
+    color: #fff;
+    border-radius: 18px;
+    padding: 36px;
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 36px;
+    align-items: center;
+    box-shadow: 0 10px 40px rgba(10,22,40,.15);
+  }
+  .dash-block h3 {
+    font-family:'Kanit',sans-serif;
+    font-size: 28px; font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .dash-block .sub { color: var(--gray-2); font-size: 16px; margin-bottom: 20px; }
+  .dash-list { list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom: 24px; }
+  .dash-list li {
+    font-size: 14.5px; color:#e2e8f0;
+    display:flex; align-items:flex-start; gap:8px;
+  }
+  .dash-list svg { flex:0 0 auto; margin-top:3px; color: var(--green2); width: 18px; height: 18px; }
+  .dash-shot {
+    border-radius: 12px; overflow:hidden;
+    background:#0a1726; border:1px solid #1a2e44;
+    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  }
+  .dash-shot img { width:100%; display:block; }
+
+  /* ========================================================================
+     BENEFITS BLOCK
+     ======================================================================== */
+  .benefits {
+    background: #0c1d2e url('assets/images/ai_1_cfo/04.png') no-repeat right center;
+    background-size: auto 100%;
+    color:#fff;
+    border-radius: 18px;
+    padding: 40px 40px;
+    margin-top: 30px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(10,22,40,.12);
+  }
+  .benefits::before {
+    content:''; position:absolute; inset:0;
+    background: linear-gradient(90deg, rgba(12,29,46,1) 0%, rgba(12,29,46,.96) 45%, rgba(12,29,46,.55) 70%, rgba(12,29,46,0) 100%);
+    z-index: 1;
+  }
+  .benefits > * { position: relative; z-index: 2; }
+  .benefits h3 {
+    font-family:'Kanit',sans-serif;
+    font-size: 26px; font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .benefits .sub { color: var(--gray-2); font-size: 15px; margin-bottom: 24px; }
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    width: 70%;
+  }
+  .stat {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 10px;
+    padding: 16px;
+    transition: transform .2s, background .2s;
+  }
+  .stat:hover { transform: translateY(-3px); background: rgba(255,255,255,.07); }
+  .stat .ic { color: #5be58b; margin-bottom: 8px; }
+  .stat .ic svg { width: 22px; height: 22px; }
+  .stat .num {
+    font-family:'Kanit',sans-serif;
+    font-size: 26px; font-weight: 800;
+    color: #5be58b; line-height: 1;
+  }
+  .stat .lbl { font-size: 12px; color: #cbd5e1; margin-top: 8px; line-height: 1.4; }
+
+  /* ========================================================================
+     INDUSTRIES
+     ======================================================================== */
+  .industries {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+  }
+  .ind {
+    background:#fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    border: 1px solid var(--line);
+    text-align: center;
+    padding-bottom: 14px;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .ind:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(10,22,40,.12); }
+  .ind-img {
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    background: #dde6ee;
+  }
+  .ind-img img {
+    width:100%; height:100%; object-fit: cover;
+    transition: transform .35s ease;
+  }
+  .ind:hover .ind-img img { transform: scale(1.06); }
+  .ind h4 {
+    font-family:'Kanit',sans-serif;
+    font-size: 15px; font-weight: 600;
+    color: var(--navy);
+    margin-top: 12px;
+  }
+  .ind p { font-size: 12.5px; color: var(--gray); margin-top: 2px; }
+
+  /* ========================================================================
+     TRUST + CUSTOMERS
+     ======================================================================== */
+  .trust-section { padding: 70px 40px; background:#fff; }
+  .trust-grid {
+    max-width: 1180px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 50px;
+    align-items: center;
+  }
+  .trust-section h2 {
+    font-family:'Kanit',sans-serif;
+    font-size: 26px; font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 20px;
+  }
+  .stars { color: #facc15; font-size: 20px; letter-spacing: 3px; margin-bottom: 14px; }
+  .quote {
+    background: var(--card-bg);
+    border-left: 4px solid var(--green2);
+    padding: 22px 24px;
+    border-radius: 10px;
+    font-size: 15px; color: #334155; line-height: 1.7;
+  }
+  .quote-mark {
+    font-family: Georgia, serif;
+    font-size: 50px; color: #cbd5e1;
+    line-height: .6; vertical-align: -16px;
+    margin-right: 4px;
+  }
+  .quote .who {
+    margin-top: 14px;
+    font-family:'Kanit',sans-serif;
+    font-weight: 700; font-size: 15px;
+    color: var(--navy);
+  }
+  .quote .role { font-size: 13px; color: var(--gray); font-weight: 400; font-family:'Sarabun',sans-serif; }
+
+  .cust-grid {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.05);
+  }
+  .cust {
+    height: 76px;
+    display:flex; align-items:center; justify-content:center;
+    background: #fafbfc;
+    border-radius: 8px;
+    padding: 12px;
+    transition: background .2s, transform .2s;
+  }
+  .cust:hover { background: #fff; transform: scale(1.04); }
+  .cust img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+  /* ========================================================================
+     CTA / FORM
+     ======================================================================== */
+  .cta-section {
+    background: var(--navy) url('assets/images/ai_1_cfo/03.png') no-repeat left center;
+    background-size: auto 100%;
+    color:#fff;
+    padding: 70px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content:''; position:absolute; inset:0;
+    background: linear-gradient(90deg, rgba(10,22,40,.4) 0%, rgba(10,22,40,.85) 35%, rgba(10,22,40,.95) 100%);
+    z-index: 1;
+  }
+  .cta-wrap {
+    max-width: 1180px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 50px;
+    align-items: center;
+    position: relative; z-index: 2;
+  }
+  .cta-wrap h2 {
+    font-family:'Kanit',sans-serif;
+    font-size: 32px; font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 12px;
+  }
+  .cta-wrap .lead { font-size: 16px; color: #cbd5e1; margin-bottom: 18px; }
+  .cta-list { list-style:none; display:flex; flex-direction:column; gap:8px; margin-bottom: 0; }
+  .cta-list li {
+    font-size: 14.5px; color: #e2e8f0;
+    display:flex; align-items:flex-start; gap:8px;
+  }
+  .cta-list svg { flex:0 0 auto; margin-top:3px; color:#5be58b; width: 16px; height: 16px; }
+
+  .form {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    backdrop-filter: blur(4px);
+  }
+  .field { display:flex; flex-direction:column; gap: 5px; }
+  .field.full { grid-column: 1 / -1; }
+  .field label { font-size: 13px; color: #cbd5e1; font-weight: 500; }
+  .field input, .field select, .field textarea {
+    background: #fff;
+    border: 1px solid #d8dfe6;
+    border-radius: 6px;
+    padding: 11px 14px;
+    font-size: 14px; color: #1e293b;
+    font-family: inherit;
+    outline: none;
+    transition: border .15s, box-shadow .15s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--green2);
+    box-shadow: 0 0 0 3px rgba(34,197,94,.18);
+  }
+  .field.error input, .field.error select { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,.15); }
+  .field .err { color:#fecaca; font-size: 12px; display:none; }
+  .field.error .err { display:block; }
+  .form .submit-row {
+    grid-column: 1 / -1;
+    display:flex; align-items:center; gap: 14px; flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  .form .submit-row .note { font-size: 12px; color: #94a3b8; }
+
+  /* ========================================================================
+     FOOTER
+     ======================================================================== */
+  footer {
+    background: #0a0f1a;
+    color: var(--gray); font-size: 13px;
+    padding: 24px 40px;
+    text-align: center;
+  }
+  footer a { color: var(--cyan); }
+
+  /* ========================================================================
+     TOAST
+     ======================================================================== */
+  .toast {
+    position: fixed;
+    left: 50%; bottom: 30px;
+    transform: translateX(-50%) translateY(40px);
+    background: var(--navy);
+    color: #fff;
+    padding: 14px 22px;
+    border-radius: 10px;
+    font-size: 14px; font-weight: 500;
+    box-shadow: 0 16px 40px rgba(0,0,0,.25);
+    opacity: 0; pointer-events: none;
+    transition: transform .25s ease, opacity .25s ease;
+    z-index: 10000;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast svg { color: #5be58b; }
+
+  /* ========================================================================
+     RESPONSIVE
+     ======================================================================== */
+  @media (max-width: 1100px) {
+    .page-hero { min-height: auto; padding: 40px 24px 60px; }
+    .page-hero::after {
+      background: linear-gradient(180deg,
+        rgba(6,18,31,0.92) 0%,
+        rgba(6,18,31,0.80) 50%,
+        rgba(6,18,31,0.55) 100%);
+    }
+    .hero-wrap { min-height: auto; }
+    .hero-left h1 { font-size: 40px; }
+    .feature-strip { grid-template-columns: repeat(3,1fr); }
+    .industries { grid-template-columns: repeat(3,1fr); }
+    .dash-block { grid-template-columns: 1fr; }
+    .benefits-grid { width: 100%; grid-template-columns: repeat(2,1fr); }
+    .benefits { background-position: right -40px center; }
+    .trust-grid { grid-template-columns: 1fr; }
+    .cta-wrap { grid-template-columns: 1fr; }
+    .cust-grid { grid-template-columns: repeat(4,1fr); }
+  }
+  @media (max-width: 720px) {
+    .page-hero { padding: 40px 20px 60px; }
+    .hero-left h1 { font-size: 32px; }
+    .section { padding: 50px 20px; }
+    .feature-strip-wrap { padding: 0 20px; }
+    .breadcrumb-bar { padding: 12px 20px; font-size: 12px; }
+    .steps {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .arrow { transform: rotate(90deg); }
+    .industries { grid-template-columns: repeat(2,1fr); }
+    .form { grid-template-columns: 1fr; }
+    .cust-grid { grid-template-columns: repeat(2,1fr); }
+    .dash-block { padding: 24px; }
+    .benefits { padding: 28px 20px; }
+    .cta-section { padding: 50px 20px; }
+    .trust-section { padding: 50px 20px; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ====== NAVBAR (matches index.html) ====== -->
+<nav>
+  <a class="nav-logo" href="index.html" title="กลับหน้าหลัก">
+    <img src="assets/images/about/00.png" alt="TMIC Logo" />
+    <div class="nav-logo-text">TRADE MASTER<br/>INTERNATIONAL CO., LTD.</div>
+  </a>
+  <ul class="nav-links">
+    <li class="nav-item">
+      <a href="#"><span>Solutions</span><span class="nav-caret">▼</span></a>
+      <ul class="dropdown">
+        <li><a href="#">ISO &amp; IATF Consulting</a></li>
+        <li><a href="#">AI Smart Factory Solutions</a></li>
+        <li><a href="#">Industrial IoT (IIoT)</a></li>
+        <li><a href="#">Machine Vision &amp; Automation</a></li>
+        <li><a href="#">Digital Transformation (ISO 9001:2026)</a></li>
+        <li><a href="#">Carbon Footprint &amp; ESG</a></li>
+        <li><a href="#">Energy Management (ISO 50001)</a></li>
+        <li><a href="#">Custom AI Solutions (Tailor-made)</a></li>
+      </ul>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="active"><span>AI Projects</span><span class="nav-caret">▼</span></a>
+      <ul class="dropdown">
+        <li><a href="ai_a_cfo.html" class="current">Carbon Footprint IoT Platform</a></li>
+        <li><a href="#">AI Vision QC (Inspection System)</a></li>
+        <li><a href="#">OEE Monitoring Dashboard</a></li>
+        <li><a href="#">Energy Monitoring System</a></li>
+        <li><a href="#">Predictive Maintenance (AI/ML)</a></li>
+        <li><a href="#">Smart Factory Dashboard (Real-time)</a></li>
+        <li><a href="#">AIoT Edge Applications</a></li>
+      </ul>
+    </li>
+    <li class="nav-item">
+      <a href="#"><span>Training</span><span class="nav-caret">▼</span></a>
+      <ul class="dropdown">
+        <li><a href="#">⭐ Start Here (แนะนำ)</a></li>
+        <li><a href="#">🎁 Free &amp; Funded Programs</a></li>
+        <li><a href="#">📅 Public Training</a></li>
+        <li><a href="#">🤝 Partner Programs</a></li>
+        <li><a href="#">🏭 In-house Training</a></li>
+      </ul>
+    </li>
+    <li class="nav-item">
+      <a href="#"><span>ROI &amp; Case Studies</span><span class="nav-caret">▼</span></a>
+      <ul class="dropdown">
+        <li><a href="#">AI Project ROI</a></li>
+        <li><a href="#">Cost Reduction Case</a></li>
+        <li><a href="#">Energy Saving Case</a></li>
+        <li><a href="#">ESG / Carbon Case</a></li>
+      </ul>
+    </li>
+    <li class="nav-item"><a href="about.html">About Us</a></li>
+    <li class="nav-item"><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="btn-consult" onclick="scrollToForm()">🟢 ปรึกษาฟรี</button>
+  <button class="nav-hamburger" id="navHamburger" aria-label="เปิดเมนู">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- mobile drawer -->
+<div class="mobile-nav" id="mobileNav">
+  <div class="mobile-nav-item">
+    <a href="#" onclick="toggleMobSub(this);return false;">Solutions <span class="mob-caret">▼</span></a>
+    <div class="mobile-sub">
+      <a href="#">ISO &amp; IATF Consulting</a>
+      <a href="#">AI Smart Factory Solutions</a>
+      <a href="#">Industrial IoT (IIoT)</a>
+      <a href="#">Carbon Footprint &amp; ESG</a>
+      <a href="#">Energy Management (ISO 50001)</a>
+    </div>
+  </div>
+  <div class="mobile-nav-item open">
+    <a href="#" onclick="toggleMobSub(this);return false;" class="active">AI Projects <span class="mob-caret">▼</span></a>
+    <div class="mobile-sub">
+      <a href="ai_a_cfo.html" class="current">Carbon Footprint IoT Platform</a>
+      <a href="#">AI Vision QC (Inspection System)</a>
+      <a href="#">OEE Monitoring Dashboard</a>
+      <a href="#">Energy Monitoring System</a>
+      <a href="#">Predictive Maintenance (AI/ML)</a>
+    </div>
+  </div>
+  <div class="mobile-nav-item">
+    <a href="#" onclick="toggleMobSub(this);return false;">Training <span class="mob-caret">▼</span></a>
+    <div class="mobile-sub">
+      <a href="#">Start Here</a>
+      <a href="#">Public Training</a>
+      <a href="#">In-house Training</a>
+    </div>
+  </div>
+  <div class="mobile-nav-item"><a href="about.html">About Us</a></div>
+  <div class="mobile-nav-item"><a href="contact.html">Contact</a></div>
+  <div class="mobile-nav-consult">
+    <button onclick="scrollToForm()">🟢 ปรึกษาฟรี</button>
+  </div>
+</div>
+
+<!-- ====== BREADCRUMB ====== -->
+<div class="breadcrumb-bar">
+  <a href="index.html">Home</a>
+  <span class="sep">›</span>
+  <a href="#">AI Projects</a>
+  <span class="sep">›</span>
+  <span class="current">Carbon Footprint IoT Platform</span>
+</div>
+
+<!-- ====== HERO ====== -->
+<section class="page-hero">
+  <img class="hero-bg" src="assets/images/ai_1_cfo/01.png" alt="" aria-hidden="true" />
+  <div class="hero-wrap">
+    <div class="hero-left">
+      <span class="hero-pill">AI PROJECTS</span>
+      <h1>Carbon Footprint<br/><span class="grad">IoT Platform</span></h1>
+      <p class="hero-lead">ระบบติดตามพลังงานและคาร์บอนฟุตพริ้นท์แบบเรียลไทม์ เพื่อการจัดการพลังงานและ ESG อย่างยั่งยืน</p>
+      <ul class="hero-list">
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>ติดตามการใช้พลังงานแบบ Real-time</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>คำนวณ Carbon Footprint อัตโนมัติ (Scope 1, 2, 3)</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>รองรับมาตรฐาน ISO 14064, ISO 50001, TGO</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Dashboard สวยงาม เข้าใจง่าย ใช้งานได้ทันที</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>ลดต้นทุนพลังงาน และมุ่งเป้าหมาย Net Zero</li>
+      </ul>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="scrollToForm()">
+          ขอปรึกษาฟรี
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button class="btn-outline" onclick="goDemo()">
+          ดูตัวอย่างระบบ
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FEATURE STRIP ====== -->
+<div class="feature-strip-wrap">
+  <div class="feature-strip">
+    <div class="feature">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+      <h4>ติดตามพลังงาน<br/>แบบเรียลไทม์</h4>
+    </div>
+    <div class="feature">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>
+      <h4>คำนวณคาร์บอน<br/>อัตโนมัติ</h4>
+    </div>
+    <div class="feature">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></div>
+      <h4>รายงาน ESG<br/>อัตโนมัติ</h4>
+    </div>
+    <div class="feature">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+      <h4>แจ้งเตือน<br/>การใช้พลังงาน</h4>
+    </div>
+    <div class="feature">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <h4>ปลอดภัย<br/>และเชื่อถือได้</h4>
+    </div>
+    <div class="feature">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg></div>
+      <h4>ลดต้นทุน<br/>เพิ่มประสิทธิภาพ</h4>
+    </div>
+  </div>
+</div>
+
+<!-- ====== HOW IT WORKS ====== -->
+<section class="section section-light">
+  <div class="container">
+    <h2 class="section-title">ระบบทำงานอย่างไร</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-img"><img src="assets/images/ai_1_cfo/step_1.png" alt="Power Meter"/></div>
+        <div class="step-name">1. Power Meter</div>
+        <p>วัดค่าการใช้พลังงาน</p>
+      </div>
+      <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      <div class="step">
+        <div class="step-img"><img src="assets/images/ai_1_cfo/step_2.png" alt="IoT Gateway"/></div>
+        <div class="step-name">2. IoT Gateway</div>
+        <p>เก็บและส่งข้อมูล</p>
+      </div>
+      <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      <div class="step">
+        <div class="step-img"><img src="assets/images/ai_1_cfo/step_3.png" alt="Cloud Server"/></div>
+        <div class="step-name">3. Cloud Server</div>
+        <p>จัดเก็บและประมวลผล</p>
+      </div>
+      <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      <div class="step">
+        <div class="step-img"><img src="assets/images/ai_1_cfo/step_4.png" alt="Dashboard"/></div>
+        <div class="step-name">4. Dashboard</div>
+        <p>แสดงผลแบบ Real-time</p>
+      </div>
+    </div>
+
+    <!-- Dashboard preview block -->
+    <div class="dash-block">
+      <div>
+        <h3>หน้าจอ Dashboard</h3>
+        <div class="sub">ข้อมูลครบ จบ ในที่เดียว</div>
+        <ul class="dash-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>ดูข้อมูลพลังงานและคาร์บอนแบบ Real-time</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>กราฟสวยงาม เข้าใจง่าย</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>เจาะลึกได้ทุกแผนก ทุกเครื่องจักร</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>ดาวน์โหลดรายงานได้ทันที</li>
+        </ul>
+        <button class="btn-primary" onclick="window.open('ai_a_AI_EnergyMonitoring.html','_blank')">
+          ดูตัวอย่าง Dashboard
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+      <div class="dash-shot">
+        <div style="position:relative;width:100%;padding-bottom:60%;overflow:hidden;border-radius:8px;">
+          <img src="assets/images/ai_1_cfo/02.png" style="position:absolute;top:-58%;left:0;width:100%;height:auto" alt="Dashboard preview"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Benefits block -->
+    <div class="benefits">
+      <h3>คุณจะได้รับอะไร?</h3>
+      <div class="sub">ใน 6 เดือนแรก</div>
+      <div class="benefits-grid">
+        <div class="stat">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div class="num">10-30%</div>
+          <div class="lbl">ลดต้นทุนพลังงาน<br/>เฉลี่ยต่อปี</div>
+        </div>
+        <div class="stat">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>
+          <div class="num">20-40%</div>
+          <div class="lbl">ลดการปล่อยคาร์บอน<br/>ต่อปี</div>
+        </div>
+        <div class="stat">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v4H3zM3 10h18v11H3z"/><path d="M8 14h8M8 18h5"/></svg></div>
+          <div class="num">6-12 เดือน</div>
+          <div class="lbl">คืนทุนภายใน<br/>ขึ้นอยู่กับขนาดองค์กร</div>
+        </div>
+        <div class="stat">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg></div>
+          <div class="num">90%+</div>
+          <div class="lbl">เพิ่มประสิทธิภาพ<br/>ในการจัดการพลังงาน</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== INDUSTRIES ====== -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">เหมาะสำหรับทุกอุตสาหกรรม</h2>
+    <div class="industries">
+      <div class="ind">
+        <div class="ind-img"><img src="assets/images/ai_1_cfo/ind_1.png" alt="โรงงานอุตสาหกรรม"/></div>
+        <h4>โรงงานอุตสาหกรรม</h4>
+        <p>ทุกประเภท</p>
+      </div>
+      <div class="ind">
+        <div class="ind-img"><img src="assets/images/ai_1_cfo/ind_2.png" alt="Food &amp; Beverage"/></div>
+        <h4>อาหารและเครื่องดื่ม</h4>
+        <p>Food &amp; Beverage</p>
+      </div>
+      <div class="ind">
+        <div class="ind-img"><img src="assets/images/ai_1_cfo/ind_3.png" alt="Automotive"/></div>
+        <h4>ยานยนต์</h4>
+        <p>Automotive</p>
+      </div>
+      <div class="ind">
+        <div class="ind-img"><img src="assets/images/ai_1_cfo/ind_4.png" alt="Electronics"/></div>
+        <h4>อิเล็กทรอนิกส์</h4>
+        <p>Electronics</p>
+      </div>
+      <div class="ind">
+        <div class="ind-img"><img src="assets/images/ai_1_cfo/ind_5.png" alt="Commercial Building"/></div>
+        <h4>โรงแรมและอาคาร</h4>
+        <p>Commercial Building</p>
+      </div>
+      <div class="ind">
+        <div class="ind-img"><img src="assets/images/ai_1_cfo/ind_6.png" alt="Energy &amp; Utilities"/></div>
+        <h4>พลังงานและสาธารณูปโภค</h4>
+        <p>Energy &amp; Utilities</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== TRUST + CUSTOMERS ====== -->
+<section class="trust-section section-light" style="background:var(--light)">
+  <div class="trust-grid">
+    <div>
+      <h2>ความไว้วางใจจากองค์กรชั้นนำ</h2>
+      <div class="stars">★★★★★</div>
+      <div class="quote">
+        <span class="quote-mark">“</span>ระบบช่วยให้เราเข้าใจการใช้พลังงานในเชิงลึกอย่างที่ไม่เคยเป็นมาก่อน ทำให้ลดต้นทุนและเตรียมรายงาน ESG ได้อย่างมั่นใจ
+        <div class="who">ผู้บริหารโรงงาน <span class="role">บริษัทผลิตชิ้นส่วนยานยนต์</span></div>
+      </div>
+    </div>
+    <div class="cust-grid">
+      <div class="cust"><img src="assets/images/ai_1_cfo/cus_a.png" alt="customer A"/></div>
+      <div class="cust"><img src="assets/images/ai_1_cfo/cus_b.png" alt="customer B"/></div>
+      <div class="cust"><img src="assets/images/ai_1_cfo/cus_c.png" alt="customer C"/></div>
+      <div class="cust"><img src="assets/images/ai_1_cfo/cus_d.png" alt="customer D"/></div>
+      <div class="cust"><img src="assets/images/ai_1_cfo/cus_e.png" alt="customer E"/></div>
+      <div class="cust"><img src="assets/images/ai_1_cfo/cus_f.png" alt="customer F"/></div>
+      <div class="cust"><img src="assets/images/ai_1_cfo/cus_g.png" alt="customer G"/></div>
+      <div class="cust"><img src="assets/images/ai_1_cfo/cus_h.png" alt="customer H"/></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CTA / FORM ====== -->
+<section class="cta-section" id="cta">
+  <div class="cta-wrap">
+    <div>
+      <h2>เริ่มต้นการจัดการพลังงานและคาร์บอน อย่างมีประสิทธิภาพวันนี้</h2>
+      <p class="lead">ปรึกษาผู้เชี่ยวชาญของเราฟรี!</p>
+      <ul class="cta-list">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>วิเคราะห์ความต้องการเบื้องต้น</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>เสนอแนวทางที่เหมาะสม</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>คำนวณ ROI ก่อนตัดสินใจ</li>
+      </ul>
+    </div>
+    <form class="form" id="cfoForm" novalidate>
+      <div class="field">
+        <label for="fname">ชื่อบริษัท *</label>
+        <input id="fname" name="company" type="text" placeholder="ชื่อบริษัท" required />
+        <div class="err">กรุณากรอกชื่อบริษัท</div>
+      </div>
+      <div class="field">
+        <label for="fperson">ชื่อ-นามสกุล *</label>
+        <input id="fperson" name="person" type="text" placeholder="ชื่อ-นามสกุล" required />
+        <div class="err">กรุณากรอกชื่อ-นามสกุล</div>
+      </div>
+      <div class="field">
+        <label for="ftel">เบอร์ติดต่อ *</label>
+        <input id="ftel" name="tel" type="tel" placeholder="08x-xxx-xxxx" required />
+        <div class="err">กรุณากรอกเบอร์โทรที่ถูกต้อง</div>
+      </div>
+      <div class="field">
+        <label for="femail">อีเมล *</label>
+        <input id="femail" name="email" type="email" placeholder="name@company.com" required />
+        <div class="err">กรุณากรอกอีเมลที่ถูกต้อง</div>
+      </div>
+      <div class="field">
+        <label for="findustry">ประเภทธุรกิจ</label>
+        <select id="findustry" name="industry">
+          <option value="">เลือกประเภทธุรกิจ</option>
+          <option>โรงงานอุตสาหกรรม</option>
+          <option>อาหารและเครื่องดื่ม</option>
+          <option>ยานยนต์</option>
+          <option>อิเล็กทรอนิกส์</option>
+          <option>โรงแรมและอาคาร</option>
+          <option>พลังงานและสาธารณูปโภค</option>
+          <option>อื่น ๆ</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="fmsg">ความสนใจเพิ่มเติม</label>
+        <input id="fmsg" name="msg" type="text" placeholder="ความสนใจเพิ่มเติม" />
+      </div>
+      <div class="submit-row">
+        <button class="btn-primary" type="submit">
+          ขอรับคำปรึกษาฟรี
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <span class="note">* ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมง</span>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer>
+  © 2026 Trade Master International Co., Ltd. — All rights reserved.
+</footer>
+
+<!-- toast -->
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toastMsg">บันทึกข้อมูลเรียบร้อย ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมง</span>
+</div>
+
+<script>
+  // hamburger
+  const hamb = document.getElementById('navHamburger');
+  const mobNav = document.getElementById('mobileNav');
+  hamb?.addEventListener('click', ()=>{
+    hamb.classList.toggle('open');
+    mobNav.classList.toggle('open');
+  });
+  function toggleMobSub(el){
+    const item = el.parentElement;
+    item.classList.toggle('open');
+  }
+  window.toggleMobSub = toggleMobSub;
+
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    if(msg) document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(window.__toastT);
+    window.__toastT = setTimeout(()=>t.classList.remove('show'), 3200);
+  }
+  function scrollToForm(){
+    const el = document.getElementById('cta');
+    if(!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - 80;
+    window.scrollTo({top, behavior:'smooth'});
+    setTimeout(()=>{ document.getElementById('fname')?.focus({preventScroll:true}); }, 700);
+    if(mobNav.classList.contains('open')){
+      mobNav.classList.remove('open');
+      hamb.classList.remove('open');
+    }
+  }
+  function goDemo(){ showToast('กำลังเปิดตัวอย่าง Dashboard…'); }
+  window.scrollToForm = scrollToForm;
+  window.goDemo = goDemo;
+
+  // form validation
+  const form = document.getElementById('cfoForm');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    let ok = true;
+    const fields = [
+      {id:'fname',   test:v=>v.trim().length>0},
+      {id:'fperson', test:v=>v.trim().length>0},
+      {id:'ftel',    test:v=>/^[0-9+\-\s()]{8,}$/.test(v.trim())},
+      {id:'femail',  test:v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())},
+    ];
+    fields.forEach(f=>{
+      const el = document.getElementById(f.id);
+      const wrap = el.closest('.field');
+      if(!f.test(el.value)){ wrap.classList.add('error'); ok=false; }
+      else wrap.classList.remove('error');
+    });
+    if(!ok){ showToast('กรุณากรอกข้อมูลให้ครบถ้วน'); return; }
+    showToast('ขอบคุณ! ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมง');
+    form.reset();
+  });
+  ['fname','fperson','ftel','femail'].forEach(id=>{
+    const el = document.getElementById(id);
+    el?.addEventListener('input', ()=> el.closest('.field').classList.remove('error'));
+  });
+</script>
+
+</body>
+</html>
