@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Digital Quality Management | TMIC × มหาวิทยาลัยหอการค้าไทย</title>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700;800&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --navy:#0a1628; --navy2:#0d1f3a;
+  --cyan:#00b4d8; --green:#1db954; --green2:#22c55e;
+  --gold:#d4a017; --gold2:#f0c040;
+  --line:#e2e8f0;
+}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Sarabun',sans-serif;
+  background:var(--navy);
+  color:#fff;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* ── PAGE BG ── */
+.page-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(13,59,110,.35) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 90% 80%, rgba(212,160,23,.07) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 30% at 10% 60%, rgba(0,180,216,.06) 0%, transparent 50%),
+    linear-gradient(160deg,#060e1c 0%,#0a1628 50%,#07111f 100%);
+}
+
+/* ── TOP BAR ── */
+.top-bar{
+  position:sticky;top:0;z-index:9999;
+  background:rgba(10,22,40,0.97);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(212,160,23,0.3);
+  padding:0 40px;height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.logo-link{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo-link img{height:40px;object-fit:contain;}
+.logo-text{
+  font-family:'Kanit',sans-serif;
+  font-size:12px;font-weight:700;
+  color:#fff;line-height:1.35;letter-spacing:.04em;
+}
+.logo-text em{color:var(--gold2);font-style:normal;}
+.top-back{
+  display:flex;align-items:center;gap:6px;
+  font-size:13px;font-weight:600;color:#94a3b8;
+  text-decoration:none;
+  padding:7px 14px;border-radius:6px;
+  border:1px solid rgba(255,255,255,.1);
+  transition:color .2s,border-color .2s,background .2s;
+}
+.top-back:hover{color:#fff;border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.05);}
+
+/* ── MAIN ── */
+main{position:relative;z-index:1;}
+
+/* ── INTRO HEADER ── */
+.intro{
+  max-width:820px;margin:0 auto;
+  padding:52px 40px 28px;
+  text-align:center;
+}
+.intro-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(212,160,23,.1);
+  border:1px solid rgba(212,160,23,.4);
+  color:var(--gold2);
+  padding:6px 18px;border-radius:999px;
+  font-size:11.5px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;margin-bottom:20px;
+}
+.intro-pill .dot{
+  width:7px;height:7px;border-radius:50%;background:var(--gold2);
+  animation:blink 1.8s ease-in-out infinite;
+}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.65);}}
+.intro h1{
+  font-family:'Kanit',sans-serif;
+  font-size:36px;font-weight:800;line-height:1.25;
+  color:#fff;margin-bottom:10px;
+}
+.intro h1 .gold{
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.intro p{font-size:15.5px;color:#94a3b8;line-height:1.7;}
+
+/* ── POSTER STAGE ── */
+.poster-stage{
+  max-width:700px;margin:0 auto;
+  padding:8px 40px 0;
+  position:relative;
+}
+/* outer glow ring */
+.glow-ring{
+  position:absolute;inset:0;
+  border-radius:28px;
+  background:linear-gradient(135deg,
+    rgba(212,160,23,.55) 0%,
+    rgba(0,180,216,.2) 50%,
+    rgba(212,160,23,.45) 100%);
+  filter:blur(2px);
+  z-index:0;
+  margin:8px 40px;
+}
+.poster-frame{
+  position:relative;z-index:1;
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:
+    0 0 0 1px rgba(212,160,23,.4),
+    0 32px 90px rgba(0,0,0,.6),
+    0 0 70px rgba(212,160,23,.13);
+  cursor:zoom-in;
+  transition:transform .35s ease,box-shadow .35s ease;
+}
+.poster-frame:hover{
+  transform:translateY(-7px) scale(1.008);
+  box-shadow:
+    0 0 0 1.5px rgba(212,160,23,.6),
+    0 44px 110px rgba(0,0,0,.65),
+    0 0 90px rgba(212,160,23,.2);
+}
+.poster-frame img{
+  width:100%;
+  display:block;
+  border-radius:22px;
+}
+/* corner accent marks */
+.poster-frame::before,
+.poster-frame::after{
+  content:'';
+  position:absolute;
+  width:44px;height:44px;
+  border-color:rgba(212,160,23,.7);border-style:solid;
+  pointer-events:none;z-index:2;
+  transition:opacity .3s;
+}
+.poster-frame::before{top:14px;left:14px;border-width:2px 0 0 2px;}
+.poster-frame::after{bottom:14px;right:14px;border-width:0 2px 2px 0;}
+
+.zoom-hint{
+  text-align:center;padding:12px 40px 0;
+  font-size:12.5px;color:#475569;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  position:relative;z-index:2;
+}
+
+/* ── ACTIONS ── */
+.action-strip{
+  max-width:700px;margin:28px auto 0;
+  padding:0 40px;
+  display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+}
+.btn-register{
+  background:var(--green);color:#fff;
+  padding:14px 34px;border-radius:8px;
+  font-family:'Kanit',sans-serif;font-size:15px;font-weight:700;
+  border:none;cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:background .2s,transform .15s;
+  box-shadow:0 4px 24px rgba(29,185,84,.35);
+  text-decoration:none;
+}
+.btn-register:hover{background:#16a34a;transform:translateY(-2px);}
+.btn-download{
+  background:transparent;color:#fff;
+  padding:14px 34px;border-radius:8px;
+  font-family:'Kanit',sans-serif;font-size:15px;font-weight:600;
+  border:2px solid rgba(255,255,255,.25);cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:border-color .2s,background .2s;
+  text-decoration:none;
+}
+.btn-download:hover{border-color:#fff;background:rgba(255,255,255,.06);}
+
+/* ── INFO CARDS ── */
+.info-row{
+  max-width:700px;margin:44px auto 0;
+  padding:0 40px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+}
+.info-card{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+  padding:20px 16px;text-align:center;
+  transition:background .2s,border-color .2s,transform .2s;
+}
+.info-card:hover{
+  background:rgba(212,160,23,.06);
+  border-color:rgba(212,160,23,.28);
+  transform:translateY(-3px);
+}
+.info-card .ic{font-size:26px;margin-bottom:10px;}
+.info-card .val{
+  font-family:'Kanit',sans-serif;
+  font-size:15px;font-weight:700;color:#fff;
+  margin-bottom:3px;line-height:1.4;
+}
+.info-card .lbl{font-size:12px;color:#64748b;}
+
+/* ── CONTACT BAR ── */
+.contact-bar{
+  max-width:700px;margin:40px auto 0;
+  padding:0 40px 64px;
+}
+.contact-inner{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(212,160,23,.22);
+  border-radius:16px;
+  padding:24px 28px;
+  display:flex;align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;gap:20px;
+}
+.contact-label{
+  font-family:'Kanit',sans-serif;
+  font-size:13px;font-weight:700;
+  color:var(--gold2);margin-bottom:12px;
+}
+.contact-items{display:flex;flex-direction:column;gap:8px;}
+.ci{display:flex;align-items:center;gap:8px;font-size:14px;color:#cbd5e1;}
+.ci a{color:var(--cyan);font-weight:600;text-decoration:none;}
+.ci a:hover{text-decoration:underline;}
+.qr-box{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.qr-placeholder{
+  width:88px;height:88px;border-radius:10px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:38px;
+}
+.qr-label{font-size:11px;color:#64748b;text-align:center;line-height:1.5;}
+
+/* ── FOOTER ── */
+footer{
+  background:#0a0f1a;
+  border-top:1px solid rgba(255,255,255,.06);
+  color:#64748b;font-size:13px;
+  padding:20px 40px;text-align:center;
+}
+footer a{color:var(--cyan);}
+
+/* ── LIGHTBOX ── */
+.lightbox{
+  position:fixed;inset:0;z-index:99999;
+  background:rgba(4,10,20,.94);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  display:none;align-items:center;justify-content:center;
+  padding:20px;cursor:zoom-out;
+}
+.lightbox.open{display:flex;}
+.lightbox img{
+  max-width:min(100%, 600px);
+  max-height:92vh;
+  border-radius:18px;
+  box-shadow:0 40px 120px rgba(0,0,0,.7),0 0 0 1px rgba(212,160,23,.35);
+  cursor:default;
+}
+.lb-close{
+  position:absolute;top:18px;right:22px;
+  width:42px;height:42px;border-radius:50%;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.2);
+  color:#fff;font-size:18px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .2s;
+  font-family:sans-serif;
+}
+.lb-close:hover{background:rgba(255,255,255,.22);}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:none;}}
+.fade-in{opacity:0;animation:fadeUp .7s ease forwards;}
+.d1{animation-delay:.08s;}
+.d2{animation-delay:.22s;}
+.d3{animation-delay:.38s;}
+.d4{animation-delay:.52s;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:720px){
+  .top-bar{padding:0 16px;}
+  .intro{padding:36px 20px 20px;}
+  .intro h1{font-size:26px;}
+  .poster-stage,.action-strip,.info-row,.contact-bar{padding-left:16px;padding-right:16px;}
+  .glow-ring{margin:8px 16px;}
+  .info-row{grid-template-columns:1fr 1fr;}
+  .contact-items{gap:10px;}
+}
+</style>
+</head>
+<body>
+
+<div class="page-bg"></div>
+
+<!-- TOP BAR -->
+<header class="top-bar">
+  <a class="logo-link" href="index.html" title="กลับหน้าหลัก">
+    <img src="assets/images/hero/00.png" alt="TMIC Logo"
+         onerror="this.style.display='none'"/>
+    <div class="logo-text">TRADE MASTER<br/><em>INTERNATIONAL CO., LTD.</em></div>
+  </a>
+  <a class="top-back" href="index.html">
+    ← กลับหน้าหลัก
+  </a>
+</header>
+
+<main>
+
+  <!-- INTRO -->
+  <div class="intro fade-in d1">
+    <div class="intro-pill"><span class="dot"></span>Partner Program · มหาวิทยาลัยหอการค้าไทย</div>
+    <h1>
+      <span class="gold">Digital Quality Management</span><br/>
+      หลักสูตรอบรม 4 วัน สำหรับองค์กรอุตสาหกรรม
+    </h1>
+    <p>เตรียมองค์กรสู่ ISO 9001:2026 + Digital Technology<br/>จัดโดย TMIC ร่วมกับ มหาวิทยาลัยหอการค้าไทย</p>
+  </div>
+
+  <!-- POSTER -->
+  <div class="poster-stage fade-in d2">
+    <div class="glow-ring"></div>
+    <div class="poster-frame" onclick="openLightbox()" title="คลิกเพื่อขยาย">
+      <img
+        src="assets/images/training/partner/UTCC/UTCC_draft.png"
+        alt="Digital Quality Management — หลักสูตรอบรม 4 วัน TMIC × มหาวิทยาลัยหอการค้าไทย"
+      />
+    </div>
+  </div>
+
+  <div class="zoom-hint fade-in d2">
+    🔍 คลิกที่รูปเพื่อขยายดูรายละเอียดแบบ Full Size
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="action-strip fade-in d3">
+    <a class="btn-register"
+       href="#contact-section"
+       onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">
+      📋 ลงทะเบียน / สอบถาม
+    </a>
+    <a class="btn-download"
+       href="assets/images/training/partner/UTCC/UTCC_draft.png"
+       download="TMIC_UTCC_DQM_Program.png">
+      ⬇️ ดาวน์โหลด Brochure
+    </a>
+  </div>
+
+  <!-- INFO CARDS -->
+  <div class="info-row fade-in d3">
+    <div class="info-card">
+      <div class="ic">⏱️</div>
+      <div class="val">4 วัน</div>
+      <div class="lbl">ระยะเวลาอบรม (เต็มวัน)</div>
+    </div>
+    <div class="info-card">
+      <div class="ic">📍</div>
+      <div class="val">มหาวิทยาลัยหอการค้าไทย</div>
+      <div class="lbl">สถานที่ · กรุงเทพฯ</div>
+    </div>
+    <div class="info-card">
+      <div class="ic">🎁</div>
+      <div class="val" style="color:var(--green2);">ฟรี สูงสุด 200,000 บาท*</div>
+      <div class="lbl">สิทธิ์ติดตั้งระบบ Digital Technology</div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-bar fade-in d4" id="contact-section">
+    <div class="contact-inner">
+      <div>
+        <div class="contact-label">📬 ติดต่อสมัครและสอบถามข้อมูล</div>
+        <div class="contact-items">
+          <div class="ci">📞 <a href="tel:0819246556">081 924 6556</a></div>
+          <div class="ci">✉️ <a href="mailto:trademasterinter@gmail.com">trademasterinter@gmail.com</a></div>
+          <div class="ci">💬 Line: <strong style="color:#fff;">@430awvsz</strong></div>
+          <div class="ci">🌐 <a href="https://github.com/TMIC-TH/website" target="_blank" rel="noopener">github.com/TMIC-TH/website</a></div>
+        </div>
+      </div>
+      <div class="qr-box">
+        <div class="qr-placeholder">📱</div>
+        <div class="qr-label">SCAN ลงทะเบียน<br/>หรือสอบถามเพิ่มเติม</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 Trade Master International Co., Ltd. |
+  Tel: <a href="tel:0819246556">081-924-6556</a> |
+  Email: <a href="mailto:trademasterinter@gmail.com">trademasterinter@gmail.com</a> |
+  Line: @430awvsz
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <img
+    src="assets/images/training/partner/UTCC/UTCC_draft.png"
+    alt="Digital Quality Management Program — ขยาย"
+    onclick="event.stopPropagation()"
+  />
+</div>
+
+<script>
+function openLightbox(){
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
+</script>
+
+</body>
+</html>

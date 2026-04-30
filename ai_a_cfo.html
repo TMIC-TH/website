@@ -90,6 +90,43 @@
   }
   .dropdown a:hover { background:#f0fdf4; color:#0d9488; }
   .dropdown a.current { background:#f0fdf9; color:#0d9488; font-weight:700; }
+  .dd-group-label {
+    padding:10px 20px 3px;
+    font-size:10.5px; font-weight:800;
+    letter-spacing:1.2px; text-transform:uppercase; color:#94a3b8;
+  }
+  .dd-divider { height:1px; margin:5px 12px; background:#e2e8f0; }
+
+  /* ---- NESTED SUB-DROPDOWN ---- */
+  .has-sub { position:relative; }
+  .has-sub > a { display:flex; justify-content:space-between; align-items:center; }
+  .has-sub > a::after { content:'›'; font-size:16px; opacity:.45; margin-left:8px; flex-shrink:0; }
+  .sub-dropdown {
+    visibility:hidden; opacity:0; pointer-events:none;
+    position:absolute; top:0; left:100%;
+    min-width:230px; background:#fff;
+    border-radius:10px;
+    border:1px solid #e2e8f0;
+    padding:6px 0 8px;
+    box-shadow:0 12px 36px rgba(0,0,0,.12);
+    transition:opacity .18s ease;
+    z-index:9999;
+  }
+  .sub-dropdown::before {
+    content:''; position:absolute;
+    top:0; left:-10px; width:10px; height:100%;
+  }
+  .has-sub:hover > .sub-dropdown { visibility:visible; opacity:1; pointer-events:auto; }
+  .sub-dropdown li { list-style:none; }
+  .sub-dropdown a { padding:8px 18px; font-size:13px; color:#334155; display:block; white-space:nowrap; }
+  .sub-dropdown a:hover { background:#f0fdf4; color:#0d9488; }
+
+  .star-badge {
+    display:inline-block; background:#f59e0b; color:#fff;
+    font-size:10px; font-weight:700; padding:1px 5px;
+    border-radius:3px; margin-left:5px; vertical-align:middle;
+  }
+
   .btn-consult {
     background:var(--green); color:#fff;
     border:none; padding:10px 20px; border-radius:6px;
@@ -697,6 +734,8 @@
     <div class="nav-logo-text">TRADE MASTER<br/>INTERNATIONAL CO., LTD.</div>
   </a>
   <ul class="nav-links">
+
+    <!-- Solutions -->
     <li class="nav-item">
       <a href="#"><span>Solutions</span><span class="nav-caret">▼</span></a>
       <ul class="dropdown">
@@ -710,6 +749,8 @@
         <li><a href="#">Custom AI Solutions (Tailor-made)</a></li>
       </ul>
     </li>
+
+    <!-- AI Projects -->
     <li class="nav-item">
       <a href="#" class="active"><span>AI Projects</span><span class="nav-caret">▼</span></a>
       <ul class="dropdown">
@@ -720,29 +761,95 @@
         <li><a href="#">Predictive Maintenance (AI/ML)</a></li>
         <li><a href="#">Smart Factory Dashboard (Real-time)</a></li>
         <li><a href="#">AIoT Edge Applications</a></li>
+        <div class="dd-divider"></div>
+        <li><a href="#">Free Pilot Project Program <span class="star-badge">⭐</span></a></li>
       </ul>
     </li>
+
+    <!-- Training -->
     <li class="nav-item">
       <a href="#"><span>Training</span><span class="nav-caret">▼</span></a>
-      <ul class="dropdown">
-        <li><a href="#">⭐ Start Here (แนะนำ)</a></li>
-        <li><a href="#">🎁 Free &amp; Funded Programs</a></li>
-        <li><a href="#">📅 Public Training</a></li>
-        <li><a href="#">🤝 Partner Programs</a></li>
-        <li><a href="#">🏭 In-house Training</a></li>
+      <ul class="dropdown" style="min-width:230px;">
+
+        <li class="has-sub">
+          <a href="#">⭐ Start Here <small style="color:#0d9488;font-size:10px;margin-left:4px;">(แนะนำ)</small></a>
+          <ul class="sub-dropdown">
+            <li><a href="#">เลือกหลักสูตรที่เหมาะกับคุณ</a></li>
+            <li><a href="#">เรียนอะไรดี (AI / ISO / IATF)</a></li>
+            <li><a href="#">เปรียบเทียบหลักสูตร</a></li>
+          </ul>
+        </li>
+
+        <li class="has-sub">
+          <a href="#">🎁 Free &amp; Funded Programs</a>
+          <ul class="sub-dropdown">
+            <li><a href="#">อบรมฟรี (TMIC ร่วมกับ สถาบันยานยนต์ / กระทรวงแรงงาน)</a></li>
+            <li><a href="#">โครงการสนับสนุนงบประมาณ (Co-funding / Subsidy)</a></li>
+            <li><a href="#">รอบที่เปิดรับสมัคร</a></li>
+          </ul>
+        </li>
+
+        <li class="has-sub">
+          <a href="#">📅 Public Training</a>
+          <ul class="sub-dropdown">
+            <li><a href="#">Public Training 2026</a></li>
+            <li><a href="#">Upcoming Schedule 2027</a></li>
+          </ul>
+        </li>
+
+        <li class="has-sub">
+          <a href="#">🤝 Partner Programs</a>
+          <ul class="sub-dropdown">
+            <li><a href="#">มหาวิทยาลัยศรีปทุม</a></li>
+            <li><a href="training_partner_utcc.html" target="_blank" rel="noopener">มหาวิทยาลัยหอการค้าไทย</a></li>
+            <li><a href="#">วิศวกรรมสถานแห่งประเทศไทย</a></li>
+            <li><a href="#">โครงการร่วมสัมมนาอื่นๆ</a></li>
+          </ul>
+        </li>
+
+        <li class="has-sub">
+          <a href="#">🏭 In-house Training</a>
+          <ul class="sub-dropdown">
+            <li><a href="https://tmic-th.github.io/courses/" target="_blank" rel="noopener">Training Modules ↗</a></li>
+            <li><a href="#">Customized Program</a></li>
+            <li><a href="#">Workshop &amp; Hands-on Lab</a></li>
+            <li><a href="#">Certification Program</a></li>
+          </ul>
+        </li>
+
+        <div class="dd-divider"></div>
+        <div class="dd-group-label">🎯 Promotion</div>
+        <li><a href="#">Special Package</a></li>
+        <li><a href="#">Corporate Deal</a></li>
+        <li><a href="#">Bundle Training + AI Project</a></li>
       </ul>
     </li>
+
+    <!-- ROI & Case Studies -->
     <li class="nav-item">
       <a href="#"><span>ROI &amp; Case Studies</span><span class="nav-caret">▼</span></a>
       <ul class="dropdown">
         <li><a href="#">AI Project ROI</a></li>
         <li><a href="#">Cost Reduction Case</a></li>
+        <li><a href="#">Productivity Improvement (OEE)</a></li>
+        <li><a href="#">Quality Improvement (Defect Reduction)</a></li>
         <li><a href="#">Energy Saving Case</a></li>
         <li><a href="#">ESG / Carbon Case</a></li>
+        <li><a href="#">Before &amp; After Transformation</a></li>
+        <li><a href="#">Industry Showcase (Automotive / Electronics)</a></li>
       </ul>
     </li>
-    <li class="nav-item"><a href="about.html">About Us</a></li>
-    <li class="nav-item"><a href="contact.html">Contact</a></li>
+
+    <!-- About Us -->
+    <li class="nav-item">
+      <a href="about.html">About Us</a>
+    </li>
+
+    <!-- Contact -->
+    <li class="nav-item">
+      <a href="contact.html">Contact</a>
+    </li>
+
   </ul>
   <button class="btn-consult" onclick="scrollToForm()">🟢 ปรึกษาฟรี</button>
   <button class="nav-hamburger" id="navHamburger" aria-label="เปิดเมนู">
@@ -750,38 +857,90 @@
   </button>
 </nav>
 
-<!-- mobile drawer -->
+<!-- ====== MOBILE NAV DRAWER ====== -->
 <div class="mobile-nav" id="mobileNav">
   <div class="mobile-nav-item">
-    <a href="#" onclick="toggleMobSub(this);return false;">Solutions <span class="mob-caret">▼</span></a>
+    <a href="#" onclick="toggleMobSub(this);return false;">
+      Solutions <span class="mob-caret">▼</span>
+    </a>
     <div class="mobile-sub">
       <a href="#">ISO &amp; IATF Consulting</a>
       <a href="#">AI Smart Factory Solutions</a>
       <a href="#">Industrial IoT (IIoT)</a>
+      <a href="#">Machine Vision &amp; Automation</a>
+      <a href="#">Digital Transformation (ISO 9001:2026)</a>
       <a href="#">Carbon Footprint &amp; ESG</a>
       <a href="#">Energy Management (ISO 50001)</a>
+      <a href="#">Custom AI Solutions (Tailor-made)</a>
     </div>
   </div>
   <div class="mobile-nav-item open">
-    <a href="#" onclick="toggleMobSub(this);return false;" class="active">AI Projects <span class="mob-caret">▼</span></a>
+    <a href="#" onclick="toggleMobSub(this);return false;" class="active">
+      AI Projects <span class="mob-caret">▼</span>
+    </a>
     <div class="mobile-sub">
       <a href="ai_a_cfo.html" class="current">Carbon Footprint IoT Platform</a>
       <a href="#">AI Vision QC (Inspection System)</a>
       <a href="#">OEE Monitoring Dashboard</a>
       <a href="#">Energy Monitoring System</a>
       <a href="#">Predictive Maintenance (AI/ML)</a>
+      <a href="#">Smart Factory Dashboard (Real-time)</a>
+      <a href="#">AIoT Edge Applications</a>
+      <a href="#">Free Pilot Project Program ⭐</a>
     </div>
   </div>
   <div class="mobile-nav-item">
-    <a href="#" onclick="toggleMobSub(this);return false;">Training <span class="mob-caret">▼</span></a>
+    <a href="#" onclick="toggleMobSub(this);return false;">
+      Training <span class="mob-caret">▼</span>
+    </a>
     <div class="mobile-sub">
-      <a href="#">Start Here</a>
-      <a href="#">Public Training</a>
-      <a href="#">In-house Training</a>
+      <a href="#" style="font-weight:700;color:#0d9488;background:#f0fdf9;">⭐ Start Here (แนะนำ)</a>
+      <a href="#" style="padding-left:48px;">เลือกหลักสูตรที่เหมาะกับคุณ</a>
+      <a href="#" style="padding-left:48px;">เรียนอะไรดี (AI / ISO / IATF)</a>
+      <a href="#" style="padding-left:48px;">เปรียบเทียบหลักสูตร</a>
+      <a href="#" style="font-weight:700;color:#1e293b;background:#f8fafc;">🎁 Free &amp; Funded Programs</a>
+      <a href="#" style="padding-left:48px;">อบรมฟรี (TMIC ร่วมกับ สถาบันยานยนต์ / กระทรวงแรงงาน)</a>
+      <a href="#" style="padding-left:48px;">โครงการสนับสนุนงบประมาณ (Co-funding / Subsidy)</a>
+      <a href="#" style="padding-left:48px;">รอบที่เปิดรับสมัคร</a>
+      <a href="#" style="font-weight:700;color:#1e293b;background:#f8fafc;">📅 Public Training</a>
+      <a href="#" style="padding-left:48px;">Public Training 2026</a>
+      <a href="#" style="padding-left:48px;">Upcoming Schedule 2027</a>
+      <a href="#" style="font-weight:700;color:#1e293b;background:#f8fafc;">🤝 Partner Programs</a>
+      <a href="#" style="padding-left:48px;">มหาวิทยาลัยศรีปทุม</a>
+      <a href="training_partner_utcc.html" target="_blank" rel="noopener" style="padding-left:48px;">มหาวิทยาลัยหอการค้าไทย</a>
+      <a href="#" style="padding-left:48px;">วิศวกรรมสถานแห่งประเทศไทย</a>
+      <a href="#" style="padding-left:48px;">โครงการร่วมสัมมนาอื่นๆ</a>
+      <a href="#" style="font-weight:700;color:#1e293b;background:#f8fafc;">🏭 In-house Training</a>
+      <a href="https://tmic-th.github.io/courses/" target="_blank" rel="noopener" style="padding-left:48px;color:#0d9488;font-weight:600;">Training Modules ↗</a>
+      <a href="#" style="padding-left:48px;">Customized Program</a>
+      <a href="#" style="padding-left:48px;">Workshop &amp; Hands-on Lab</a>
+      <a href="#" style="padding-left:48px;">Certification Program</a>
+      <a href="#" style="font-weight:700;color:#c0392b;background:#fff5f5;">🎯 Promotion</a>
+      <a href="#" style="padding-left:48px;">Special Package</a>
+      <a href="#" style="padding-left:48px;">Corporate Deal</a>
+      <a href="#" style="padding-left:48px;">Bundle Training + AI Project</a>
     </div>
   </div>
-  <div class="mobile-nav-item"><a href="about.html">About Us</a></div>
-  <div class="mobile-nav-item"><a href="contact.html">Contact</a></div>
+  <div class="mobile-nav-item">
+    <a href="#" onclick="toggleMobSub(this);return false;">
+      ROI &amp; Case Studies <span class="mob-caret">▼</span>
+    </a>
+    <div class="mobile-sub">
+      <a href="#">AI Project ROI</a>
+      <a href="#">Cost Reduction Case</a>
+      <a href="#">Productivity Improvement (OEE)</a>
+      <a href="#">Quality Improvement (Defect Reduction)</a>
+      <a href="#">Energy Saving Case</a>
+      <a href="#">ESG / Carbon Case</a>
+      <a href="#">Before &amp; After Transformation</a>
+    </div>
+  </div>
+  <div class="mobile-nav-item">
+    <a href="about.html">About Us</a>
+  </div>
+  <div class="mobile-nav-item">
+    <a href="contact.html">Contact</a>
+  </div>
   <div class="mobile-nav-consult">
     <button onclick="scrollToForm()">🟢 ปรึกษาฟรี</button>
   </div>
