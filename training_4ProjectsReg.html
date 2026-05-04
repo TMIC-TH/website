@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ใบสมัครโครงการ Digital Technology for ISO 9001:2026 | Trade Master International</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700;800;900&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #060d18;
+      --deep:     #081020;
+      --panel:    rgba(255,255,255,0.055);
+      --panel2:   rgba(255,255,255,0.09);
+      --line:     rgba(255,255,255,0.10);
+      --text:     #eef2ff;
+      --muted:    #94a3b8;
+      --gold:     #d4a843;
+      --gold2:    #f0cc6e;
+      --gold3:    #fde9a8;
+      --green:    #4ade80;
+      --green2:   #86efac;
+      --teal:     #2dd4bf;
+      --blue:     #60a5fa;
+      --purple:   #a78bfa;
+      --danger:   #f87171;
+      --radius:   20px;
+      --shadow:   0 24px 64px rgba(0,0,0,0.55);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Sarabun', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 15% 0%, rgba(45,212,191,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 85% 5%, rgba(212,168,67,0.10) 0%, transparent 50%),
+        radial-gradient(ellipse 100% 80% at 50% 100%, rgba(74,222,128,0.05) 0%, transparent 55%),
+        linear-gradient(180deg, #060d18 0%, #08111e 40%, #060d18 100%);
+      pointer-events: none; z-index: 0;
+    }
+    .wrap {
+      position: relative; z-index: 1;
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto; padding: 0 0 80px;
+    }
+
+    /* TOP BAR */
+    .top-bar {
+      background: linear-gradient(90deg, var(--deep), rgba(45,212,191,0.08), var(--deep));
+      border-bottom: 1px solid rgba(45,212,191,0.14);
+      padding: 10px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.80rem; color: var(--teal);
+      font-family: 'Prompt', sans-serif; font-weight: 600;
+      letter-spacing: 1.2px; text-transform: uppercase;
+    }
+    .top-bar a { color: var(--gold2); text-decoration: none; margin-left: 18px; }
+
+    /* HERO */
+    .hero {
+      position: relative; margin: 28px 0 0;
+      padding: 44px 44px 40px;
+      border: 1px solid rgba(45,212,191,0.16); border-radius: 28px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%);
+      backdrop-filter: blur(18px); overflow: hidden;
+    }
+    .hero::before {
+      content: ""; position: absolute; left: -100px; top: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(45,212,191,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: ""; position: absolute; right: -80px; top: -80px;
+      width: 380px; height: 380px;
+      background: radial-gradient(circle, rgba(212,168,67,0.15) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 5px 14px; border-radius: 999px;
+      background: rgba(45,212,191,0.10); border: 1px solid rgba(45,212,191,0.30);
+      color: var(--teal); font-size: 0.78rem;
+      font-family: 'Prompt', sans-serif; font-weight: 700;
+      letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 16px;
+    }
+    .hero-badge::before { content: "●"; font-size: 0.55rem; animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+    .hero h1 {
+      font-family: 'Prompt', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      font-weight: 900; line-height: 1.1; margin-bottom: 10px;
+    }
+    .hero h1 .hl {
+      background: linear-gradient(135deg, var(--gold2), var(--gold3));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      color: var(--muted); font-size: 1rem; line-height: 1.8;
+      max-width: 820px; margin-bottom: 28px;
+    }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip {
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 16px; border-radius: 12px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.11);
+      font-size: 0.87rem;
+    }
+    .chip strong { color: var(--gold2); font-family: 'Prompt', sans-serif; font-weight: 700; }
+
+    /* GRANT BANNER */
+    .grant-banner {
+      margin-top: 24px;
+      padding: 20px 28px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(74,222,128,0.10) 0%, rgba(45,212,191,0.06) 100%);
+      border: 1px solid rgba(74,222,128,0.25);
+      display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    }
+    .grant-amount {
+      font-family: 'Prompt', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900;
+      background: linear-gradient(135deg, #4ade80, #86efac);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; line-height: 1;
+    }
+    .grant-label { font-size: 0.95rem; color: #dcfce7; line-height: 1.7; }
+    .grant-label strong { color: var(--green); font-family: 'Prompt', sans-serif; }
+
+    /* PROJECT CARDS */
+    .section-label {
+      display: flex; align-items: center; gap: 12px;
+      margin: 36px 0 20px; color: var(--muted);
+      font-size: 0.8rem; letter-spacing: 1.5px; text-transform: uppercase;
+      font-family: 'Prompt', sans-serif; font-weight: 700;
+    }
+    .section-label::before, .section-label::after {
+      content: ""; flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(45,212,191,0.25), transparent);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px; margin-bottom: 8px;
+    }
+
+    .proj-card {
+      position: relative;
+      border: 2px solid rgba(255,255,255,0.09);
+      border-radius: 18px; padding: 22px;
+      background: var(--panel); backdrop-filter: blur(12px);
+      cursor: pointer; transition: all 0.25s;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .proj-card:hover { border-color: rgba(45,212,191,0.35); transform: translateY(-2px); }
+    .proj-card.selected {
+      border-color: var(--teal) !important;
+      background: rgba(45,212,191,0.07);
+      box-shadow: 0 0 0 3px rgba(45,212,191,0.15), inset 0 0 40px rgba(45,212,191,0.04);
+    }
+    .proj-card input[type="checkbox"] { display: none; }
+    .proj-header { display: flex; align-items: flex-start; gap: 14px; }
+    .proj-num {
+      flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Prompt', sans-serif; font-weight: 900; font-size: 1.1rem;
+    }
+    .p1 .proj-num { background: rgba(96,165,250,0.18); color: #93c5fd; }
+    .p2 .proj-num { background: rgba(74,222,128,0.18); color: #86efac; }
+    .p3 .proj-num { background: rgba(212,168,67,0.18); color: var(--gold2); }
+    .p4 .proj-num { background: rgba(167,139,250,0.18); color: #c4b5fd; }
+    .proj-title {
+      font-family: 'Prompt', sans-serif; font-weight: 800; font-size: 1.05rem;
+      line-height: 1.3; flex: 1;
+    }
+    .p1 .proj-title { color: #93c5fd; }
+    .p2 .proj-title { color: #86efac; }
+    .p3 .proj-title { color: var(--gold2); }
+    .p4 .proj-title { color: #c4b5fd; }
+    .proj-subtitle {
+      font-size: 0.82rem; color: var(--muted); margin-top: 2px;
+    }
+    .proj-desc {
+      font-size: 0.87rem; color: #cbd5e1; line-height: 1.65;
+    }
+    .proj-features {
+      list-style: none; display: grid; gap: 5px;
+    }
+    .proj-features li {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 0.83rem; color: #94a3b8; line-height: 1.5;
+    }
+    .proj-features li::before {
+      content: "▸"; flex-shrink: 0; margin-top: 1px;
+    }
+    .p1 .proj-features li::before { color: #60a5fa; }
+    .p2 .proj-features li::before { color: #4ade80; }
+    .p3 .proj-features li::before { color: var(--gold); }
+    .p4 .proj-features li::before { color: #a78bfa; }
+    .proj-grant {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 10px;
+      font-family: 'Prompt', sans-serif; font-weight: 800; font-size: 0.95rem;
+    }
+    .p1 .proj-grant { background: rgba(96,165,250,0.12); color: #93c5fd; border: 1px solid rgba(96,165,250,0.22); }
+    .p2 .proj-grant { background: rgba(74,222,128,0.12); color: #86efac; border: 1px solid rgba(74,222,128,0.22); }
+    .p3 .proj-grant { background: rgba(212,168,67,0.12); color: var(--gold2); border: 1px solid rgba(212,168,67,0.22); }
+    .p4 .proj-grant { background: rgba(167,139,250,0.12); color: #c4b5fd; border: 1px solid rgba(167,139,250,0.22); }
+    .proj-check {
+      position: absolute; top: 14px; right: 14px;
+      width: 22px; height: 22px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.20);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .proj-card.selected .proj-check {
+      background: var(--teal); border-color: var(--teal);
+    }
+    .proj-check::after { content: "✓"; font-size: 0.75rem; color: #fff; display: none; }
+    .proj-card.selected .proj-check::after { display: block; }
+    .proj-error {
+      font-size: 0.82rem; color: var(--danger); margin-top: -8px;
+      display: none; padding: 6px 12px; border-radius: 8px;
+      background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.20);
+    }
+
+    /* FORM CARD */
+    .form-card {
+      background: var(--panel);
+      border: 1px solid rgba(45,212,191,0.14);
+      border-radius: 28px; padding: 40px 40px 44px;
+      backdrop-filter: blur(14px);
+    }
+    .form-card h2 {
+      font-family: 'Prompt', sans-serif; font-size: 1.5rem; font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .form-desc { color: var(--muted); font-size: 0.95rem; line-height: 1.75; margin-bottom: 28px; }
+    .form-body { display: grid; gap: 22px; }
+
+    .block-hd {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 0 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-family: 'Prompt', sans-serif; font-size: 0.95rem; font-weight: 700;
+      color: var(--gold2); letter-spacing: 0.5px; margin-bottom: 4px;
+    }
+    .block-hd .bicon {
+      width: 26px; height: 26px; border-radius: 8px;
+      background: rgba(212,168,67,0.18);
+      display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
+    }
+
+    .grid  { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+    .grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .grid4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+    .full  { grid-column: 1/-1; }
+
+    .field { display: flex; flex-direction: column; gap: 7px; }
+    .field label { font-size: 0.88rem; font-weight: 600; color: #cbd5e1; }
+    .req { color: var(--gold); margin-left: 2px; }
+
+    input[type="text"], input[type="email"], input[type="tel"],
+    textarea, select {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.13);
+      background: rgba(255,255,255,0.055);
+      color: var(--text); border-radius: 12px; padding: 12px 14px;
+      font-size: 0.93rem; font-family: 'Sarabun', sans-serif;
+      outline: none; transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    }
+    input::placeholder, textarea::placeholder { color: #64748b; }
+    input:focus, textarea:focus, select:focus {
+      border-color: rgba(45,212,191,0.55);
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 0 0 3px rgba(45,212,191,0.10);
+    }
+    select option { background: #0f1e30; color: var(--text); }
+    textarea { min-height: 88px; resize: vertical; }
+
+    /* APPLICANT BLOCKS */
+    .applicant-block {
+      border: 1px solid rgba(255,255,255,0.10); border-radius: 16px;
+      padding: 20px; background: rgba(255,255,255,0.03); display: grid; gap: 14px;
+    }
+    .applicant-block.opt { border-color: rgba(255,255,255,0.06); background: rgba(255,255,255,0.015); }
+    .applicant-num {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Prompt', sans-serif; font-size: 0.92rem; font-weight: 700;
+      color: var(--gold2);
+    }
+    .applicant-num .num {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: rgba(212,168,67,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; color: var(--gold2);
+    }
+    .opt-badge {
+      font-size: 0.73rem; padding: 2px 8px; border-radius: 999px;
+      background: rgba(255,255,255,0.08); color: var(--muted);
+      font-weight: 600; font-family: 'Sarabun', sans-serif;
+    }
+
+    /* PAYMENT */
+    .payment-box {
+      padding: 20px 24px; border-radius: 16px;
+      background: linear-gradient(135deg, rgba(212,168,67,0.08), rgba(45,212,191,0.05));
+      border: 1px solid rgba(212,168,67,0.20);
+    }
+    .payment-box p { color: #e2e8f0; font-size: 0.93rem; line-height: 1.8; margin-bottom: 8px; }
+    .payment-box p:last-child { margin-bottom: 0; }
+    .payment-box strong { color: var(--gold2); }
+    .price-tag {
+      display: inline-block; margin-bottom: 12px;
+      font-family: 'Prompt', sans-serif; font-size: 1.6rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--gold2), var(--gold3));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* RADIO */
+    .radio-group { display: grid; gap: 10px; }
+    .radio-lbl { font-size: 0.88rem; font-weight: 700; color: #cbd5e1; margin-bottom: 2px; }
+    .radio-option {
+      display: flex; align-items: center; gap: 12px;
+      padding: 13px 16px; border-radius: 13px;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10);
+      cursor: pointer; transition: all 0.2s; font-size: 0.92rem;
+    }
+    .radio-option:hover { border-color: rgba(45,212,191,0.30); }
+    .radio-option input { accent-color: var(--teal); width: 16px; height: 16px; flex-shrink: 0; }
+
+    /* CANCEL POLICY */
+    .policy-box {
+      border-radius: 16px; border: 1px solid rgba(212,168,67,0.22);
+      background: linear-gradient(135deg, rgba(212,168,67,0.07) 0%, rgba(255,255,255,0.03) 100%);
+      overflow: hidden;
+    }
+    .policy-hd {
+      display: flex; align-items: center; gap: 10px;
+      padding: 13px 20px; background: rgba(212,168,67,0.12);
+      border-bottom: 1px solid rgba(212,168,67,0.18);
+      font-family: 'Prompt', sans-serif; font-size: 0.92rem; font-weight: 700;
+      color: var(--gold2); letter-spacing: 0.3px;
+    }
+    .policy-body { padding: 18px 20px; display: grid; gap: 10px; }
+    .policy-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 11px 14px; border-radius: 12px;
+    }
+    .policy-item .pnum {
+      flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Prompt', sans-serif; font-weight: 800; font-size: 0.78rem;
+    }
+    .policy-item .ptxt { font-size: 0.88rem; color: #e2e8f0; line-height: 1.7; }
+
+    /* PDPA */
+    .pdpa-box {
+      border-radius: 16px; border: 1px solid rgba(99,102,241,0.25);
+      background: linear-gradient(135deg, rgba(99,102,241,0.07) 0%, rgba(139,92,246,0.04) 100%);
+      padding: 18px 20px;
+    }
+    .pdpa-hd {
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Prompt', sans-serif; font-size: 0.88rem; font-weight: 700;
+      color: #a5b4fc; margin-bottom: 12px; letter-spacing: 0.3px;
+    }
+    .pdpa-label {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 16px; border-radius: 12px;
+      background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.20);
+      cursor: pointer; transition: all 0.2s;
+    }
+
+    /* ACTIONS */
+    .actions {
+      display: flex; flex-direction: column; gap: 12px;
+      padding-top: 8px;
+    }
+    .actions small { color: #475569; font-size: 0.80rem; line-height: 1.7; }
+    .btn-row { display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap; }
+    .btn {
+      padding: 14px 32px; border-radius: 14px; font-family: 'Prompt', sans-serif;
+      font-weight: 700; font-size: 0.97rem; border: none; cursor: pointer;
+      transition: all 0.2s; letter-spacing: 0.3px;
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.07); color: var(--muted);
+      border: 1px solid rgba(255,255,255,0.13);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.11); color: var(--text); }
+    .btn-primary {
+      background: linear-gradient(135deg, #2dd4bf, #0f9982);
+      color: #fff; box-shadow: 0 6px 24px rgba(45,212,191,0.30);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(45,212,191,0.40); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* STATUS */
+    .status-box {
+      display: none; border-radius: 14px; padding: 18px 20px;
+      font-size: 0.95rem; line-height: 1.7; margin-top: 8px;
+    }
+    .status-box.loading { background: rgba(45,212,191,0.08); border: 1px solid rgba(45,212,191,0.25); color: var(--teal); }
+    .status-box.success { background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.25); color: #86efac; }
+    .status-box.error   { background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.25); color: #fca5a5; }
+
+    /* CONTACT CARD */
+    .contact-card {
+      margin-top: 24px; padding: 20px 24px; border-radius: 16px;
+      background: rgba(45,212,191,0.05); border: 1px solid rgba(45,212,191,0.15);
+      display: flex; align-items: flex-start; gap: 16px; flex-wrap: wrap;
+    }
+    .contact-card .cc-title {
+      font-family: 'Prompt', sans-serif; font-size: 0.85rem;
+      font-weight: 700; color: var(--teal); letter-spacing: 0.5px;
+      margin-bottom: 8px; text-transform: uppercase;
+    }
+    .contact-card .cc-info { font-size: 0.88rem; color: #e2e8f0; line-height: 1.9; }
+    .contact-card .cc-info a { color: var(--gold2); text-decoration: none; font-weight: 700; }
+
+    /* FOOTER */
+    .footer-bar {
+      margin-top: 32px; padding: 16px 24px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-brand { font-family: 'Prompt', sans-serif; font-weight: 800; font-size: 0.95rem; color: var(--gold2); }
+    .footer-contacts { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-contacts a {
+      font-size: 0.85rem; color: var(--muted); text-decoration: none; transition: color 0.2s;
+    }
+    .footer-contacts a:hover { color: var(--teal); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      .grid, .grid3, .grid4 { grid-template-columns: 1fr; }
+      .hero { padding: 28px 20px; }
+      .form-card { padding: 24px 20px; }
+      .btn-row { flex-direction: column; }
+      .btn { width: 100%; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .top-bar { flex-direction: column; gap: 4px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <span style="display:flex; align-items:center; gap:10px;">
+      <img src="assets/images/hero/00.png" alt="TMIC Logo"
+           style="height:32px; width:auto; object-fit:contain; vertical-align:middle; border-radius:4px;">
+      TRADE MASTER INTERNATIONAL CO., LTD. · ISO &amp; AI Transformation
+    </span>
+    <span>
+      <a href="tel:0819246556">📞 081 924 6556</a>
+      <a href="https://line.me/R/ti/p/@430awvsz" target="_blank">LINE: @430awvsz</a>
+    </span>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">🚀 Corporate Registration · ใบสมัครองค์กร</div>
+    <h1>
+      <span class="hl">Digital Technology</span><br>
+      for ISO 9001:<span class="hl">2026</span>
+    </h1>
+    <p class="hero-sub">
+      อบรม + ให้คำปรึกษา + ติดตั้งระบบจริงในโรงงาน <strong style="color:var(--text)">3–4 วัน</strong> ·
+      เพื่อเตรียมความพร้อมสู่มาตรฐานใหม่ ISO 9001:2026 ·
+      ดำเนินโครงการโดย <strong style="color:var(--gold2)">บริษัท เทรดมาสเตอร์ อินเตอร์เนชั่นแนล จำกัด</strong>
+    </p>
+    <div class="chips">
+      <div class="chip">📅 <span><strong>3–4 วัน</strong> / โครงการ</span></div>
+      <div class="chip">🏭 <span>ติดตั้งจริงในโรงงาน</span></div>
+      <div class="chip">🎓 <span>Workshop + Consulting</span></div>
+      <div class="chip">📜 <span>รองรับ ISO 9001:2026</span></div>
+    </div>
+
+    <div class="grant-banner">
+      <div>
+        <div class="grant-amount">120,000 บาท</div>
+      </div>
+      <div class="grant-label">
+        รับสิทธิ์สนับสนุน <strong>ฟรี</strong> พร้อมติดตั้งระบบ <strong>Digital Technology</strong><br>
+        สำหรับแต่ละโครงการที่ท่านเลือก · *เงื่อนไขเป็นไปตามหลักเกณฑ์ที่กำหนด
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECT SELECTION -->
+  <div class="section-label">เลือกโครงการที่ต้องการสมัคร (เลือกได้มากกว่า 1 โครงการ)</div>
+
+  <div class="projects-grid" id="projectsGrid">
+
+    <!-- Project 1 -->
+    <label class="proj-card p1" id="card1">
+      <input type="checkbox" name="project" value="1" onchange="toggleCard(this)">
+      <div class="proj-check" id="chk1"></div>
+      <div class="proj-header">
+        <div class="proj-num">1</div>
+        <div>
+          <div class="proj-title">Visual Inspection</div>
+          <div class="proj-subtitle">ตรวจสอบคุณภาพชิ้นงานด้วยกล้องและ AI</div>
+        </div>
+      </div>
+      <p class="proj-desc">ระบบตรวจสอบภาพชิ้นงานอัตโนมัติด้วย Machine Learning แยก Good/NG พร้อมส่งข้อมูลขึ้น Dashboard</p>
+      <ul class="proj-features">
+        <li>เทรนโมเดลด้วย ML สำหรับชิ้นงานจริง</li>
+        <li>แยก G / NG อัตโนมัติพร้อมแจ้งเตือน</li>
+        <li>ส่งข้อมูลขึ้น Dashboard แบบ Real-time</li>
+      </ul>
+      <div class="proj-grant">🎁 รับเงินสนับสนุน 120,000 บาท</div>
+    </label>
+
+    <!-- Project 2 -->
+    <label class="proj-card p2" id="card2">
+      <input type="checkbox" name="project" value="2" onchange="toggleCard(this)">
+      <div class="proj-check" id="chk2"></div>
+      <div class="proj-header">
+        <div class="proj-num">2</div>
+        <div>
+          <div class="proj-title">AI Edge OEE</div>
+          <div class="proj-subtitle">วัดประสิทธิผลเครื่องจักรแบบ Real-time</div>
+        </div>
+      </div>
+      <p class="proj-desc">ดึงสัญญาณจากเครื่องจักรผ่าน Edge AI แสดงผล Dashboard OEE พร้อมแจ้งเตือนเมื่อเครื่องหยุด</p>
+      <ul class="proj-features">
+        <li>AI OEE Box 2 ชุด / โรงงาน</li>
+        <li>แสดงผล Availability, Performance, Quality</li>
+        <li>แจ้งเตือนเมื่อเครื่องหยุดอัตโนมัติ</li>
+      </ul>
+      <div class="proj-grant">🎁 AI OEE Box 2 ชุด + รับเงินสนับสนุน 120,000 บาท</div>
+    </label>
+
+    <!-- Project 3 -->
+    <label class="proj-card p3" id="card3">
+      <input type="checkbox" name="project" value="3" onchange="toggleCard(this)">
+      <div class="proj-check" id="chk3"></div>
+      <div class="proj-header">
+        <div class="proj-num">3</div>
+        <div>
+          <div class="proj-title">CFO Automation Platform</div>
+          <div class="proj-subtitle">บริหารจัดการคาร์บอนฟุตพริ้นท์อัตโนมัติ</div>
+        </div>
+      </div>
+      <p class="proj-desc">Edge AI อ่านค่าจาก Power Meter ส่งขึ้น Cloud คำนวณ CO₂e ด้วย Emission Factor ของ อบก.</p>
+      <ul class="proj-features">
+        <li>อ่านค่าพลังงานอัตโนมัติจาก Power Meter</li>
+        <li>คำนวณ Carbon Footprint ตามมาตรฐาน อบก.</li>
+        <li>รายงาน GHG Scope 1/2/3 อัตโนมัติ</li>
+      </ul>
+      <div class="proj-grant">🎁 รับเงินสนับสนุน 120,000 บาท</div>
+    </label>
+
+    <!-- Project 4 -->
+    <label class="proj-card p4" id="card4">
+      <input type="checkbox" name="project" value="4" onchange="toggleCard(this)">
+      <div class="proj-check" id="chk4"></div>
+      <div class="proj-header">
+        <div class="proj-num">4</div>
+        <div>
+          <div class="proj-title">AI + IoT Platform</div>
+          <div class="proj-subtitle">แพลตฟอร์มสร้างแอป AI-IoT บน Edge Device</div>
+        </div>
+      </div>
+      <p class="proj-desc">สร้างแอป AI-IoT บน Edge Device แบบ No-Code: เลือก Function → Upload Data → Train → Deploy</p>
+      <ul class="proj-features">
+        <li>ใช้ได้กับ Defect Detection, Predictive Maintenance</li>
+        <li>Visual Inspection ไม่ต้องเขียนโค้ด</li>
+        <li>Deploy บน Edge Device ทันที</li>
+      </ul>
+      <div class="proj-grant">🎁 รับเงินสนับสนุน 120,000 บาท</div>
+    </label>
+
+  </div>
+
+  <div class="proj-error" id="projError">⚠️ กรุณาเลือกอย่างน้อย 1 โครงการก่อนส่งใบสมัคร</div>
+
+  <!-- FORM -->
+  <div class="section-label">กรอกข้อมูลใบสมัครองค์กร</div>
+
+  <div class="form-card">
+    <h2>📋 ใบสมัครโครงการ Digital Technology for ISO 9001:2026</h2>
+    <p class="form-desc">
+      กรุณากรอกข้อมูลในนามองค์กร เพื่อใช้ออก Invoice และยืนยันการเข้าร่วมโครงการ ·
+      ช่อง <span style="color:var(--gold)">*</span> จำเป็นต้องกรอก
+    </p>
+
+    <div class="form-body" id="regForm">
+
+      <!-- SECTION A: COMPANY -->
+      <div>
+        <div class="block-hd"><div class="bicon">🏢</div>ส่วนที่ 1 — ข้อมูลบริษัท / องค์กร</div>
+        <div style="display:grid; gap:14px; margin-top:14px;">
+          <div class="grid">
+            <div class="field">
+              <label for="companyName">ชื่อบริษัท / ชื่อองค์กร <span class="req">*</span></label>
+              <input type="text" id="companyName" name="companyName" required placeholder="บริษัท ... จำกัด" />
+            </div>
+            <div class="field">
+              <label for="mainEmail">อีเมลหลักขององค์กร <span class="req">*</span></label>
+              <input type="email" id="mainEmail" name="mainEmail" required placeholder="company@example.com" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="companyAddress">ที่อยู่บริษัท (สำหรับออกใบกำกับภาษี) <span class="req">*</span></label>
+            <textarea id="companyAddress" name="companyAddress" required placeholder="เลขที่ ถนน แขวง/ตำบล เขต/อำเภอ จังหวัด รหัสไปรษณีย์"></textarea>
+          </div>
+          <div class="grid3">
+            <div class="field">
+              <label for="branch">สาขา <span class="req">*</span></label>
+              <input type="text" id="branch" name="branch" required placeholder="สำนักงานใหญ่ / สาขาที่..." />
+            </div>
+            <div class="field">
+              <label for="taxId">เลขประจำตัวผู้เสียภาษี (13 หลัก) <span class="req">*</span></label>
+              <input type="text" id="taxId" name="taxId" required placeholder="0000000000000" maxlength="13" pattern="[0-9]{13}" />
+            </div>
+            <div class="field">
+              <label for="industry">ประเภทอุตสาหกรรม <span class="req">*</span></label>
+              <select id="industry" name="industry" required>
+                <option value="" disabled selected>-- เลือกประเภท --</option>
+                <option>ยานยนต์ / Automotive</option>
+                <option>อิเล็กทรอนิกส์ / Electronics</option>
+                <option>อาหาร / Food & Beverage</option>
+                <option>พลาสติก / ยาง</option>
+                <option>โลหะ / Metal Fabrication</option>
+                <option>บรรจุภัณฑ์ / Packaging</option>
+                <option>เคมีภัณฑ์ / Chemicals</option>
+                <option>เครื่องจักร / Machinery</option>
+                <option>อื่นๆ / Others</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="field">
+              <label for="employeeCount">จำนวนพนักงาน <span class="req">*</span></label>
+              <select id="employeeCount" name="employeeCount" required>
+                <option value="" disabled selected>-- เลือก --</option>
+                <option>1–50 คน</option>
+                <option>51–200 คน</option>
+                <option>201–500 คน</option>
+                <option>501–1,000 คน</option>
+                <option>มากกว่า 1,000 คน</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="currentCert">มาตรฐานที่ได้รับการรับรองปัจจุบัน</label>
+              <input type="text" id="currentCert" name="currentCert" placeholder="เช่น ISO 9001:2015, IATF 16949 ฯลฯ" />
+            </div>
+          </div>
+          <div class="field" style="background:rgba(45,212,191,0.04);border:1px solid rgba(45,212,191,0.16);border-radius:14px;padding:18px 20px;">
+            <label for="orgProblem" style="display:flex;align-items:center;gap:8px;font-family:'Prompt',sans-serif;font-size:0.93rem;font-weight:700;color:var(--teal);">
+              <span style="width:24px;height:24px;border-radius:8px;background:rgba(45,212,191,0.18);display:flex;align-items:center;justify-content:center;font-size:0.85rem;flex-shrink:0;">🔍</span>
+              ลักษณะปัญหาที่องค์กรต้องการแก้ไขปรับปรุง
+              <span class="req">*</span>
+            </label>
+            <p style="font-size:0.82rem;color:var(--muted);margin:4px 0 10px;line-height:1.6;">
+              อธิบายปัญหาหรือความต้องการของโรงงาน เช่น ปัญหาคุณภาพ, ของเสีย, ประสิทธิภาพเครื่องจักร, การใช้พลังงาน, หรือระบบที่ต้องการพัฒนา
+            </p>
+            <textarea id="orgProblem" name="orgProblem" required style="min-height:120px;" placeholder="ตัวอย่าง: โรงงานมีปัญหาของเสียจากการผลิตสูง ตรวจสอบด้วยสายตาไม่แม่นยำ / เครื่องจักรหยุดบ่อยแต่ไม่ทราบสาเหตุ / ต้องการติดตามค่าพลังงานและคาร์บอนฟุตพริ้นท์อัตโนมัติ ฯลฯ"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION B: COORDINATOR -->
+      <div>
+        <div class="block-hd"><div class="bicon">👤</div>ส่วนที่ 2 — ข้อมูลผู้ประสานงานโครงการ</div>
+        <div style="display:grid; gap:14px; margin-top:14px;">
+          <div class="grid3">
+            <div class="field">
+              <label for="coordinatorName">ชื่อ-นามสกุล <span class="req">*</span></label>
+              <input type="text" id="coordinatorName" name="coordinatorName" required placeholder="ผู้ประสานงานโครงการ" />
+            </div>
+            <div class="field">
+              <label for="coordinatorPosition">ตำแหน่ง <span class="req">*</span></label>
+              <input type="text" id="coordinatorPosition" name="coordinatorPosition" required placeholder="ตำแหน่งงาน" />
+            </div>
+            <div class="field">
+              <label for="coordinatorPhone">เบอร์ติดต่อ <span class="req">*</span></label>
+              <input type="tel" id="coordinatorPhone" name="coordinatorPhone" required placeholder="08x-xxx-xxxx" />
+            </div>
+          </div>
+          <div class="grid">
+            <div class="field">
+              <label for="coordinatorEmail">อีเมลผู้ประสานงาน <span class="req">*</span></label>
+              <input type="email" id="coordinatorEmail" name="coordinatorEmail" required placeholder="coord@company.com" />
+            </div>
+            <div class="field">
+              <label for="lineId">LINE ID ผู้ประสานงาน <span class="req">*</span></label>
+              <input type="text" id="lineId" name="lineId" required placeholder="Line ID" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION C: APPLICANTS -->
+      <div>
+        <div class="block-hd"><div class="bicon">🎓</div>ส่วนที่ 3 — รายชื่อผู้เข้าร่วมโครงการ (สูงสุด 3 ท่าน)</div>
+        <div style="display:grid; gap:14px; margin-top:14px;">
+
+          <!-- Applicant 1 -->
+          <div class="applicant-block">
+            <div class="applicant-num">
+              <div class="num">1</div>ผู้เข้าร่วมคนที่ 1
+              <span style="color:var(--gold);font-size:0.8rem">(จำเป็น)</span>
+            </div>
+            <div class="grid4">
+              <div class="field">
+                <label for="a1Name">ชื่อ-นามสกุล <span class="req">*</span></label>
+                <input type="text" id="a1Name" name="applicant1Name" required placeholder="ชื่อ นามสกุล" />
+              </div>
+              <div class="field">
+                <label for="a1Position">ตำแหน่ง <span class="req">*</span></label>
+                <input type="text" id="a1Position" name="applicant1Position" required placeholder="ตำแหน่งงาน" />
+              </div>
+              <div class="field">
+                <label for="a1Phone">เบอร์ติดต่อ <span class="req">*</span></label>
+                <input type="tel" id="a1Phone" name="applicant1Phone" required placeholder="08x-xxx-xxxx" />
+              </div>
+              <div class="field">
+                <label for="a1Email">อีเมล <span class="req">*</span></label>
+                <input type="email" id="a1Email" name="applicant1Email" required placeholder="email@company.com" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Applicant 2 -->
+          <div class="applicant-block opt">
+            <div class="applicant-num">
+              <div class="num">2</div>ผู้เข้าร่วมคนที่ 2
+              <span class="opt-badge">ไม่บังคับ</span>
+            </div>
+            <div class="grid4">
+              <div class="field">
+                <label for="a2Name">ชื่อ-นามสกุล</label>
+                <input type="text" id="a2Name" name="applicant2Name" placeholder="ชื่อ นามสกุล" />
+              </div>
+              <div class="field">
+                <label for="a2Position">ตำแหน่ง</label>
+                <input type="text" id="a2Position" name="applicant2Position" placeholder="ตำแหน่งงาน" />
+              </div>
+              <div class="field">
+                <label for="a2Phone">เบอร์ติดต่อ</label>
+                <input type="tel" id="a2Phone" name="applicant2Phone" placeholder="08x-xxx-xxxx" />
+              </div>
+              <div class="field">
+                <label for="a2Email">อีเมล</label>
+                <input type="email" id="a2Email" name="applicant2Email" placeholder="email@company.com" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Applicant 3 -->
+          <div class="applicant-block opt">
+            <div class="applicant-num">
+              <div class="num">3</div>ผู้เข้าร่วมคนที่ 3
+              <span class="opt-badge">ไม่บังคับ</span>
+            </div>
+            <div class="grid4">
+              <div class="field">
+                <label for="a3Name">ชื่อ-นามสกุล</label>
+                <input type="text" id="a3Name" name="applicant3Name" placeholder="ชื่อ นามสกุล" />
+              </div>
+              <div class="field">
+                <label for="a3Position">ตำแหน่ง</label>
+                <input type="text" id="a3Position" name="applicant3Position" placeholder="ตำแหน่งงาน" />
+              </div>
+              <div class="field">
+                <label for="a3Phone">เบอร์ติดต่อ</label>
+                <input type="tel" id="a3Phone" name="applicant3Phone" placeholder="08x-xxx-xxxx" />
+              </div>
+              <div class="field">
+                <label for="a3Email">อีเมล</label>
+                <input type="email" id="a3Email" name="applicant3Email" placeholder="email@company.com" />
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CANCEL POLICY -->
+      <div class="policy-box">
+        <div class="policy-hd"><span style="font-size:1.1rem">📢</span> นโยบายการเข้าร่วมโครงการและเงื่อนไขการรับทุนสนับสนุน</div>
+        <div class="policy-body">
+          <div class="policy-item" style="background:rgba(45,212,191,0.06); border:1px solid rgba(45,212,191,0.14)">
+            <div class="pnum" style="background:rgba(45,212,191,0.18); color:#2dd4bf">1</div>
+            <div class="ptxt"><strong style="color:#2dd4bf">เปลี่ยนตัวผู้เข้าร่วมโครงการ</strong> — สามารถเปลี่ยนตัวแทนองค์กรได้จากบริษัทเดียวกัน โดยแจ้งล่วงหน้าทางอีเมล trademasterinter@gmail.com ก่อนวันเริ่มโครงการ</div>
+          </div>
+          <div class="policy-item" style="background:rgba(74,222,128,0.05); border:1px solid rgba(74,222,128,0.13)">
+            <div class="pnum" style="background:rgba(74,222,128,0.16); color:#4ade80">2</div>
+            <div class="ptxt"><strong style="color:#4ade80">เงื่อนไขการรับเงินสนับสนุน 120,000 บาท</strong> — ผู้เข้าร่วมโครงการจะต้องติดตั้งระบบจริงเพื่อใช้งานให้แล้วเสร็จภายใน <strong style="color:#86efac">4 เดือน</strong> นับจากวันเริ่มโครงการ จึงจะได้รับเงินทุนสนับสนุนครบถ้วน</div>
+          </div>
+          <div class="policy-item" style="background:rgba(251,191,36,0.05); border:1px solid rgba(251,191,36,0.14)">
+            <div class="pnum" style="background:rgba(251,191,36,0.16); color:#fbbf24">3</div>
+            <div class="ptxt"><strong style="color:#fbbf24">ยกเลิกก่อนวันเริ่มโครงการ 7–14 วัน</strong> — บริษัทขอสงวนสิทธิ์ระงับการสมัครรอบถัดไปเป็นเวลา <strong style="color:#fde68a">6 เดือน</strong></div>
+          </div>
+          <div class="policy-item" style="background:rgba(248,113,113,0.06); border:1px solid rgba(248,113,113,0.16)">
+            <div class="pnum" style="background:rgba(248,113,113,0.18); color:#f87171">4</div>
+            <div class="ptxt"><strong style="color:#f87171">ยกเลิกน้อยกว่า 7 วัน หรือไม่เข้าร่วมโดยไม่แจ้ง</strong> — ถือว่าสละสิทธิ์ และบริษัทขอสงวนสิทธิ์ <strong style="color:#fca5a5">ระงับการสมัครถาวร</strong> สำหรับโครงการที่ได้รับการสนับสนุนในอนาคต</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PDPA -->
+      <div class="pdpa-box">
+        <div class="pdpa-hd">🔒 นโยบายความเป็นส่วนตัว (PDPA)</div>
+        <p style="font-size:0.9rem; color:#cbd5e1; line-height:1.85; margin-bottom:16px;">
+          บริษัทขออนุญาตเก็บข้อมูลส่วนบุคคลของผู้เข้าร่วมโครงการ เพื่อประโยชน์ในการแจ้งประชาสัมพันธ์
+          โครงการที่ปรึกษาและฝึกอบรม รวมถึงข่าวสารด้าน ISO, AI, Digital Technology จากภาครัฐและภาคเอกชน
+        </p>
+        <label class="pdpa-label" id="pdpaLabel">
+          <input type="checkbox" id="pdpaConsent" name="pdpaConsent" required
+            style="width:20px; height:20px; flex-shrink:0; margin-top:1px; accent-color:#818cf8; cursor:pointer;"
+            onchange="togglePdpa(this)">
+          <span style="font-size:0.92rem; color:#e2e8f0; line-height:1.7; font-weight:600;">
+            ✅ <strong style="color:#a5b4fc">รับทราบและยินยอม</strong> —
+            ข้าพเจ้าในนามองค์กร ยินยอมให้บริษัท Trade Master International เก็บและใช้ข้อมูลส่วนบุคคล
+            เพื่อวัตถุประสงค์ที่ระบุข้างต้น
+          </span>
+        </label>
+        <p style="font-size:0.78rem; color:#64748b; margin-top:10px; line-height:1.6;">
+          * กรุณาติ๊กเพื่อยืนยันก่อนส่งใบสมัคร · สามารถขอถอนความยินยอมได้ทุกเมื่อโดยติดต่อ trademasterinter@gmail.com
+        </p>
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="actions">
+        <small>
+          * ข้อมูลที่กรอกจะถูกส่งไปยัง Google Sheets ของ Trade Master International เพื่อดำเนินการลงทะเบียน<br>
+          ท่านจะได้รับการติดต่อกลับภายใน 1–2 วันทำการ
+        </small>
+        <div class="btn-row">
+          <button class="btn btn-secondary" type="button" onclick="resetForm()">🗑️ ล้างข้อมูล</button>
+          <button class="btn btn-primary" type="button" id="submitBtn" onclick="submitForm()">📨 ส่งใบสมัคร</button>
+        </div>
+      </div>
+
+      <div class="status-box" id="statusBox"></div>
+
+    </div><!-- /form-body -->
+  </div><!-- /form-card -->
+
+  <!-- CONTACT -->
+  <div class="contact-card">
+    <div>
+      <div class="cc-title">📞 ติดต่อสอบถาม</div>
+      <div class="cc-info">
+        โทร <a href="tel:0819246556">081 924 6556</a> &nbsp;·&nbsp;
+        LINE Official: <a href="https://line.me/R/ti/p/@430awvsz" target="_blank">@430awvsz</a> &nbsp;·&nbsp;
+        อีเมล <a href="mailto:trademasterinter@gmail.com">trademasterinter@gmail.com</a>
+      </div>
+    </div>
+    <div>
+      <div class="cc-title">🌐 Website</div>
+      <div class="cc-info">
+        <a href="https://tmic-th.github.io/website/" target="_blank">https://tmic-th.github.io/website/</a>
+      </div>
+    </div>
+    <div>
+      <div class="cc-title">🏢 ดำเนินโครงการโดย</div>
+      <div class="cc-info">
+        อาจารย์ไรอัน ธาตุสุวรรณ · QMS &amp; AI Digital Architect<br>
+        <strong style="color:var(--gold2)">บริษัท เทรดมาสเตอร์ อินเตอร์เนชั่นแนล จำกัด</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-bar">
+    <div class="footer-brand">TRADE MASTER INTERNATIONAL CO., LTD.</div>
+    <div class="footer-contacts">
+      <a href="tel:0819246556">📞 081 924 6556</a>
+      <a href="https://line.me/R/ti/p/@430awvsz" target="_blank">💬 LINE: @430awvsz</a>
+      <a href="mailto:trademasterinter@gmail.com">📧 trademasterinter@gmail.com</a>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+  // ─── CONFIG ───────────────────────────────────────────────────
+  // ใส่ URL ของ Google Apps Script Deployment ที่นี่
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxJfTmkGSmw0WAP9tUUusBkYUdzV5PSyIuijdi2wCwZovoY0jAg6OVx_n6y1XoNn3_J/exec";
+  // ─────────────────────────────────────────────────────────────
+
+  const PROJECT_NAMES = {
+    "1": "โครงการ 1: Visual Inspection",
+    "2": "โครงการ 2: AI Edge OEE",
+    "3": "โครงการ 3: CFO Automation Platform",
+    "4": "โครงการ 4: AI + IoT Platform"
+  };
+
+  function toggleCard(cb) {
+    const card = cb.closest('.proj-card');
+    if (cb.checked) {
+      card.classList.add('selected');
+    } else {
+      card.classList.remove('selected');
+    }
+  }
+
+  function getSelectedProjects() {
+    const checks = document.querySelectorAll('input[name="project"]:checked');
+    return Array.from(checks).map(c => PROJECT_NAMES[c.value]);
+  }
+
+  function togglePdpa(cb) {
+    const lbl = document.getElementById('pdpaLabel');
+    if (cb.checked) {
+      lbl.style.background = 'rgba(99,102,241,0.14)';
+      lbl.style.borderColor = 'rgba(129,140,248,0.45)';
+    } else {
+      lbl.style.background = 'rgba(99,102,241,0.08)';
+      lbl.style.borderColor = 'rgba(99,102,241,0.20)';
+    }
+  }
+
+  function showStatus(type, msg) {
+    const sb = document.getElementById('statusBox');
+    sb.className = 'status-box ' + type;
+    sb.style.display = 'block';
+    sb.innerHTML = msg;
+    sb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function resetForm() {
+    // Clear all inputs
+    document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea').forEach(el => el.value = '');
+    document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+    document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
+    document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+    document.querySelectorAll('.proj-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('pdpaLabel').style.background = 'rgba(99,102,241,0.08)';
+    document.getElementById('pdpaLabel').style.borderColor = 'rgba(99,102,241,0.20)';
+    document.getElementById('statusBox').style.display = 'none';
+    document.getElementById('projError').style.display = 'none';
+  }
+
+  function getVal(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  function submitForm() {
+    const errEl = document.getElementById('projError');
+    const selected = getSelectedProjects();
+    if (selected.length === 0) {
+      errEl.style.display = 'block';
+      document.getElementById('projectsGrid').scrollIntoView({ behavior:'smooth', block:'center' });
+      return;
+    }
+    errEl.style.display = 'none';
+
+    // Validate required fields
+    const required = [
+      ['mainEmail','อีเมลหลักองค์กร'],
+      ['companyName','ชื่อบริษัท'],
+      ['companyAddress','ที่อยู่บริษัท'],
+      ['branch','สาขา'],
+      ['taxId','เลขประจำตัวผู้เสียภาษี'],
+      ['industry','ประเภทอุตสาหกรรม'],
+      ['coordinatorName','ชื่อผู้ประสานงาน'],
+      ['coordinatorPosition','ตำแหน่งผู้ประสานงาน'],
+      ['coordinatorPhone','เบอร์ผู้ประสานงาน'],
+      ['coordinatorEmail','อีเมลผู้ประสานงาน'],
+      ['lineId','LINE ID'],
+      ['a1Name','ชื่อผู้เข้าร่วมคนที่ 1'],
+      ['a1Position','ตำแหน่งผู้เข้าร่วมคนที่ 1'],
+      ['a1Phone','เบอร์ผู้เข้าร่วมคนที่ 1'],
+      ['orgProblem','ลักษณะปัญหาที่องค์กรต้องการแก้ไขปรับปรุง'],
+      ['a1Email','อีเมลผู้เข้าร่วมคนที่ 1'],
+    ];
+    for (const [id, label] of required) {
+      if (!getVal(id)) {
+        showStatus('error', `⚠️ กรุณากรอก <strong>${label}</strong> ให้ครบถ้วน`);
+        document.getElementById(id).focus();
+        return;
+      }
+    }
+
+    if (!document.getElementById('pdpaConsent').checked) {
+      showStatus('error', '⚠️ กรุณายืนยัน <strong>การยินยอม PDPA</strong> ก่อนส่งใบสมัคร');
+      return;
+    }
+
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+    showStatus('loading', '⏳ กำลังส่งข้อมูล กรุณารอสักครู่...');
+
+    const data = {
+      timestamp:           new Date().toLocaleString('th-TH'),
+      mainEmail:           getVal('mainEmail'),
+      companyName:         getVal('companyName'),
+      companyAddress:      getVal('companyAddress'),
+      branch:              getVal('branch'),
+      taxId:               getVal('taxId'),
+      industry:            getVal('industry'),
+      employeeCount:       getVal('employeeCount'),
+      currentCert:         getVal('currentCert'),
+      orgProblem:          getVal('orgProblem'),
+      selectedProject:     selected.join(', '),
+      projectDetails:      selected.map((p,i) => `${i+1}. ${p}`).join('\n'),
+      coordinatorName:     getVal('coordinatorName'),
+      coordinatorPosition: getVal('coordinatorPosition'),
+      coordinatorPhone:    getVal('coordinatorPhone'),
+      coordinatorEmail:    getVal('coordinatorEmail'),
+      lineId:              getVal('lineId'),
+      applicant1Name:      getVal('a1Name'),
+      applicant1Position:  getVal('a1Position'),
+      applicant1Phone:     getVal('a1Phone'),
+      applicant1Email:     getVal('a1Email'),
+      applicant2Name:      getVal('a2Name'),
+      applicant2Position:  getVal('a2Position'),
+      applicant2Phone:     getVal('a2Phone'),
+      applicant2Email:     getVal('a2Email'),
+      applicant3Name:      getVal('a3Name'),
+      applicant3Position:  getVal('a3Position'),
+      applicant3Phone:     getVal('a3Phone'),
+      applicant3Email:     getVal('a3Email'),
+      paymentMethod:       "",
+      pdpaConsent:         'ยินยอม',
+      remarks:             getVal('remarks'),
+    };
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(data),
+      mode: 'no-cors'
+    })
+    .then(() => {
+      showStatus('success',
+        '✅ <strong>ส่งใบสมัครเรียบร้อยแล้ว!</strong><br>' +
+        'ขอบคุณที่สนใจเข้าร่วมโครงการ <strong>Digital Technology for ISO 9001:2026</strong><br>' +
+        'ทีมงาน Trade Master International จะติดต่อกลับภายใน 1–2 วันทำการ<br>' +
+        '<small style="color:var(--muted)">โครงการที่สมัคร: ' + selected.join(', ') + '</small>'
+      );
+      resetForm();
+    })
+    .catch(err => {
+      console.error(err);
+      showStatus('error',
+        '❌ <strong>ไม่สามารถส่งข้อมูลได้</strong><br>' +
+        'กรุณาลองใหม่อีกครั้ง หรือติดต่อ <strong>081 924 6556</strong> โดยตรง'
+      );
+    })
+    .finally(() => {
+      submitBtn.disabled = false;
+    });
+  }
+</script>
+
+</body>
+</html>
