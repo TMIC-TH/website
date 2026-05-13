@@ -1,0 +1,2031 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>X̄-R Control Chart | Trade Master International</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* ── TMIC Brand Palette ── */
+  --navy:    #0a1628;
+  --blue:    #0d3b6e;
+  --cyan:    #00b4d8;
+  --cyan2:   #0099bb;
+  --green:   #1db954;
+  --green2:  #22c55e;
+  --orange:  #f97316;
+  --yellow:  #facc15;
+  --gold:    #d4a017;
+  --gold2:   #f0c040;
+
+  /* ── Dark surface tones (navy-based) ── */
+  --bg:       #060e1c;
+  --surface:  #0a1628;
+  --surface2: #0d1f3a;
+  --surface3: #122448;
+  --border:   #1a3358;
+  --border2:  #254878;
+
+  /* ── Chart line colors ── */
+  --accent:      #00b4d8;
+  --accent2:     #38d4f5;
+  --red:         #ef4444;
+  --purple:      #a78bfa;
+  --text:        #e8f0f8;
+  --text2:       #8faabf;
+  --text3:       #4a6480;
+  --ucl:         #ef4444;
+  --lcl:         #ef4444;
+  --cl:          #d4a017;
+  --xbar-line:   #00b4d8;
+  --range-line:  #1db954;
+  --sigma1: rgba(0,180,216,0.15);
+  --sigma2: rgba(0,180,216,0.25);
+  --sigma3: rgba(239,68,68,0.1);
+  --font-display: 'Kanit', sans-serif;
+  --font-body:    'Sarabun', sans-serif;
+  --font-mono:    'DM Mono', monospace;
+}
+
+/* ── Light Mode overrides ── */
+body.light-mode {
+  --bg:       #f0f4f8;
+  --surface:  #ffffff;
+  --surface2: #f8fafc;
+  --surface3: #e8f0f8;
+  --border:   #c8d8e8;
+  --border2:  #a8c0d8;
+  --text:     #0a1628;
+  --text2:    #2d5070;
+  --text3:    #5a7890;
+  --navy:     #0a1628;
+  --blue:     #0d3b6e;
+}
+body.light-mode body::before {
+  background-image:
+    linear-gradient(rgba(0,100,160,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,100,160,0.05) 1px, transparent 1px);
+}
+body.light-mode .sidebar {
+  background: var(--surface);
+  border-right-color: var(--border);
+}
+body.light-mode .section-label { color: var(--blue); opacity: 1; }
+body.light-mode .form-group label { color: var(--text2); }
+body.light-mode .form-group input,
+body.light-mode .form-group select {
+  background: #fff;
+  border-color: var(--border);
+  color: var(--text);
+}
+body.light-mode .form-group input::placeholder { color: #a0b0c0; }
+body.light-mode .sep { background: var(--border); }
+body.light-mode .rule-item:hover { background: var(--surface3); }
+body.light-mode .rule-letter { background: var(--surface3); color: var(--text2); }
+body.light-mode .rule-item.active .rule-letter { background: rgba(0,100,160,0.12); color: var(--blue); }
+body.light-mode .rule-text { color: var(--text2); }
+body.light-mode .rule-toggle { background: var(--surface3); }
+body.light-mode .rule-toggle.on { background: rgba(0,180,216,0.25); }
+body.light-mode .btn-secondary { background: var(--surface3); color: var(--text2); border-color: var(--border); }
+body.light-mode .btn-secondary:hover { border-color: var(--border2); color: var(--text); }
+body.light-mode .input-panel,
+body.light-mode .chart-panel,
+body.light-mode .violations-panel,
+body.light-mode .stat-card {
+  background: var(--surface);
+  border-color: var(--border);
+}
+body.light-mode .panel-header { border-bottom-color: var(--border); }
+body.light-mode .panel-title { color: var(--text); }
+body.light-mode .panel-hint { color: var(--text3); }
+body.light-mode textarea.data-input {
+  background: #f5f9fc;
+  border-color: var(--border2);
+  color: var(--text);
+}
+body.light-mode textarea.data-input::placeholder { color: #9aafbf; }
+body.light-mode .data-table th { background: var(--surface3); color: var(--text2); border-bottom-color: var(--border); }
+body.light-mode .data-table td { color: var(--text2); border-bottom-color: rgba(180,200,220,0.3); }
+body.light-mode .data-table tr:hover td { background: var(--surface3); color: var(--text); }
+body.light-mode .stat-label { color: var(--text3); }
+body.light-mode .stat-value { color: var(--text); }
+body.light-mode .stat-sub { color: var(--text3); }
+body.light-mode .chart-panel-title { color: var(--text); }
+body.light-mode .chart-legend { color: var(--text3); }
+body.light-mode .cap-group { background: var(--surface); }
+body.light-mode .cap-title { color: var(--text3); }
+body.light-mode .cap-name { color: var(--text2); }
+body.light-mode .violation-item { border-bottom-color: rgba(180,200,220,0.3); }
+body.light-mode .v-chart { color: var(--text3); }
+body.light-mode .v-desc { color: var(--text2); }
+body.light-mode .v-sub { color: var(--text3); }
+body.light-mode .v-points { background: var(--surface3); color: #c05a00; }
+body.light-mode .empty-state { color: var(--text3); }
+body.light-mode .empty-title { color: var(--text2); }
+body.light-mode .spec-visual { background: var(--surface3); border-color: var(--border); }
+body.light-mode .spec-bar-track { background: var(--border); }
+body.light-mode .toast { background: #fff; border-color: var(--border2); color: var(--text); }
+body.light-mode footer { background: #e0eaf4; border-top-color: var(--border); color: var(--text3); }
+/* Light mode top-bar keep navy gradient always */
+body.light-mode .top-bar {
+  background: linear-gradient(90deg, #0a1628 0%, #0d3b6e 60%, #0f4c81 100%);
+}
+/* Scrollbar light */
+body.light-mode .sidebar::-webkit-scrollbar-thumb { background: var(--border2); }
+body.light-mode .main-content::-webkit-scrollbar-thumb { background: var(--border2); }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Background grid ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,180,216,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,180,216,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none; z-index: 0;
+}
+
+/* ── Top bar (TMIC brand strip) ── */
+.top-bar {
+  position: relative; z-index: 10;
+  background: linear-gradient(90deg, var(--navy) 0%, var(--blue) 60%, #0f4c81 100%);
+  border-bottom: 2px solid var(--cyan);
+  padding: 0 32px;
+  height: 86px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+
+/* TMIC logo + company name */
+.brand-left {
+  display: flex; align-items: center; gap: 14px;
+  text-decoration: none;
+}
+.brand-logo {
+  height: 69px; width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(0,180,216,0.4));
+  transition: filter 0.2s;
+}
+.brand-left:hover .brand-logo { filter: drop-shadow(0 0 14px rgba(0,180,216,0.7)); }
+.brand-text-group { display: flex; flex-direction: column; }
+.brand-name {
+  font-family: 'Kanit', sans-serif;
+  font-size: 15px; font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.brand-name:hover { color: var(--cyan); }
+.brand-slogan {
+  font-size: 10px; font-family: var(--font-mono);
+  color: var(--cyan);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-top: 1px;
+}
+.brand-contact {
+  font-size: 10px; font-family: var(--font-mono);
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+/* Home button — same pill style as .badge */
+.home-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px; font-family: var(--font-mono);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.06);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+.home-btn:hover {
+  background: rgba(255,255,255,0.16);
+  border-color: rgba(255,255,255,0.45);
+  color: #fff;
+}
+body.light-mode .home-btn {
+  border-color: rgba(0,0,0,0.18);
+  color: rgba(255,255,255,0.75);
+  background: rgba(255,255,255,0.1);
+}
+body.light-mode .home-btn:hover {
+  background: rgba(255,255,255,0.22);
+  color: #fff;
+}
+
+/* Center title */
+.header-center {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center;
+}
+.header-center h1 {
+  font-family: 'Kanit', sans-serif;
+  font-size: 20px; font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+.header-center h1 span { color: var(--cyan); }
+.header-center p {
+  font-size: 10px; font-family: var(--font-mono);
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* Right badges */
+.header-badge {
+  display: flex; flex-direction: column; gap: 6px; align-items: flex-end;
+}
+.badge-row { display: flex; gap: 8px; align-items: center; }
+.badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px; font-family: var(--font-mono);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.06);
+}
+.badge.active {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: rgba(0,180,216,0.1);
+}
+
+/* ── Theme toggle button ── */
+.theme-toggle-btn {
+  display: flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 20px;
+  padding: 4px 12px 4px 8px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+  user-select: none;
+}
+.theme-toggle-btn:hover {
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.35);
+  color: #fff;
+}
+/* The small sun/moon icon pill */
+.theme-icon-pill {
+  width: 32px; height: 18px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 9px;
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.15);
+  flex-shrink: 0;
+}
+.theme-icon-pill::after {
+  content: '';
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: #a8c4e0;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), background 0.3s;
+}
+/* Light mode: pill moves right, turns yellow */
+body.light-mode .theme-icon-pill::after {
+  transform: translateX(14px);
+  background: #facc15;
+}
+body.light-mode .theme-toggle-btn {
+  background: rgba(0,0,0,0.08);
+  border-color: rgba(0,0,0,0.18);
+  color: #334155;
+}
+body.light-mode .theme-toggle-btn:hover {
+  background: rgba(0,0,0,0.13);
+  color: #0a1628;
+}
+
+/* ── Header (old — kept for layout reference) ── */
+header {
+  display: none; /* replaced by top-bar */
+}
+
+/* ── Layout ── */
+.app-layout {
+  position: relative; z-index: 1;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  min-height: calc(100vh - 88px);
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+  overflow-y: auto;
+  padding: 20px 16px;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  padding: 0 4px 8px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 14px;
+  opacity: 0.85;
+}
+
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block;
+  font-size: 11px; font-family: var(--font-mono);
+  color: var(--text2);
+  margin-bottom: 5px;
+  letter-spacing: 0.5px;
+}
+.form-group input, .form-group select {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-group input:focus, .form-group select:focus {
+  outline: none;
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 2px rgba(0,180,216,0.15);
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+/* Spec bar visual */
+.spec-visual {
+  margin: 8px 0 14px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+}
+.spec-bar-track {
+  height: 8px; background: var(--surface3);
+  border-radius: 4px; position: relative; margin: 8px 0 4px;
+  overflow: hidden;
+}
+.spec-bar-fill {
+  position: absolute; height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--green));
+  border-radius: 4px;
+  transition: all 0.4s;
+}
+.spec-bar-labels {
+  display: flex; justify-content: space-between;
+  font-size: 10px; font-family: var(--font-mono);
+  color: var(--text3);
+}
+
+/* Rules toggle */
+.rules-section { margin-top: 18px; }
+.rule-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 7px 8px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.rule-item:hover { background: var(--surface2); }
+.rule-letter {
+  width: 20px; height: 20px; flex-shrink: 0;
+  background: var(--surface3);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-family: var(--font-mono);
+  color: var(--text2);
+  font-weight: 500;
+  margin-top: 1px;
+}
+.rule-item.active .rule-letter {
+  background: rgba(0,180,216,0.2);
+  color: var(--cyan);
+}
+.rule-text { font-size: 11px; color: var(--text2); line-height: 1.4; flex: 1; }
+.rule-toggle {
+  width: 28px; height: 16px; flex-shrink: 0;
+  background: var(--surface3);
+  border-radius: 8px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 3px;
+  border: none;
+}
+.rule-toggle::after {
+  content: '';
+  width: 10px; height: 10px;
+  background: var(--text3);
+  border-radius: 50%;
+  position: absolute; top: 3px; left: 3px;
+  transition: transform 0.2s, background 0.2s;
+}
+.rule-toggle.on { background: rgba(0,180,216,0.3); }
+.rule-toggle.on::after { transform: translateX(12px); background: var(--cyan); }
+
+/* Separator */
+.sep { height: 1px; background: var(--border); margin: 16px 0; }
+
+/* Action buttons */
+.btn {
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--green), #16a34a);
+  color: white;
+  box-shadow: 0 4px 15px rgba(29,185,84,0.3);
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(29,185,84,0.45); }
+.btn-primary:active { transform: translateY(0); }
+.btn-secondary {
+  background: var(--surface2);
+  color: var(--text2);
+  border: 1px solid var(--border);
+  margin-top: 8px;
+}
+.btn-secondary:hover { border-color: var(--border2); color: var(--text); }
+
+/* ── Main content ── */
+.main-content {
+  overflow-y: auto;
+  padding: 24px 28px;
+}
+.main-content::-webkit-scrollbar { width: 6px; }
+.main-content::-webkit-scrollbar-track { background: transparent; }
+.main-content::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* Data input area */
+.input-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.panel-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.panel-title .icon {
+  width: 28px; height: 28px;
+  background: var(--surface2);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+.panel-hint { font-size: 11px; color: var(--text3); font-family: var(--font-mono); }
+.paste-area {
+  padding: 16px 20px;
+  min-height: 120px;
+}
+textarea.data-input {
+  width: 100%;
+  min-height: 100px;
+  background: var(--surface2);
+  border: 1px dashed var(--border2);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 12px 14px;
+  resize: vertical;
+  line-height: 1.8;
+  transition: border-color 0.2s, box-shadow 0.2s, height 0.3s, opacity 0.2s;
+}
+/* Data preview — always shown inside results section, no display:none needed */
+.data-preview {
+  overflow-x: auto;
+  padding: 0 20px 16px;
+}
+textarea.data-input:focus {
+  outline: none;
+  border-color: var(--cyan);
+  border-style: solid;
+  box-shadow: 0 0 0 2px rgba(0,180,216,0.1);
+}
+textarea.data-input::placeholder { color: var(--text3); font-size: 11px; }
+
+/* Data preview table */
+.data-preview {
+  overflow-x: auto;
+  padding: 0 20px 16px;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+.data-table th {
+  text-align: center;
+  padding: 6px 10px;
+  background: var(--surface3);
+  color: var(--text2);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+.data-table td {
+  text-align: center;
+  padding: 5px 8px;
+  border-bottom: 1px solid rgba(42,51,82,0.5);
+  color: var(--text2);
+  transition: background 0.1s;
+}
+.data-table tr:hover td { background: var(--surface3); color: var(--text); }
+.data-table .xbar-cell { color: var(--accent); font-weight: 500; }
+.data-table .range-cell { color: var(--green); font-weight: 500; }
+.data-table .violation { background: rgba(255,77,109,0.08); color: var(--red) !important; font-weight: 600; }
+.data-table .violation-badge {
+  display: inline-block;
+  background: rgba(255,77,109,0.15);
+  border: 1px solid rgba(255,77,109,0.3);
+  color: var(--red);
+  border-radius: 3px;
+  padding: 0 4px;
+  font-size: 9px;
+  margin-left: 3px;
+}
+
+/* Stats row */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.stat-card:hover { border-color: var(--border2); }
+.stat-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.stat-card.blue::before { background: linear-gradient(90deg, var(--cyan), transparent); }
+.stat-card.gold::before { background: linear-gradient(90deg, var(--gold), transparent); }
+.stat-card.green::before { background: linear-gradient(90deg, var(--green2), transparent); }
+.stat-card.red::before { background: linear-gradient(90deg, var(--red), transparent); }
+.stat-card.purple::before { background: linear-gradient(90deg, var(--purple), transparent); }
+.stat-label {
+  font-size: 10px; font-family: var(--font-mono);
+  color: var(--text3); letter-spacing: 1px;
+  text-transform: uppercase; margin-bottom: 4px;
+}
+.stat-value {
+  font-family: var(--font-mono);
+  font-size: 22px; font-weight: 500;
+  color: var(--text);
+  line-height: 1;
+}
+.stat-sub { font-size: 10px; color: var(--text3); margin-top: 4px; }
+.stat-value.warn { color: var(--orange); }
+.stat-value.danger { color: var(--red); }
+.stat-value.good { color: var(--green); }
+
+/* Chart panels */
+.chart-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.chart-panel-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.chart-panel-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  display: flex; align-items: center; gap: 12px;
+}
+.chart-indicator {
+  width: 10px; height: 10px; border-radius: 50%;
+}
+.chart-legend {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  font-size: 10px; font-family: var(--font-mono);
+  color: var(--text3);
+}
+.legend-item { display: flex; align-items: center; gap: 5px; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+.legend-line { width: 16px; height: 2px; border-radius: 1px; }
+.chart-body { padding: 16px 20px 12px; position: relative; }
+.chart-body canvas { max-height: 280px; }
+
+/* Violation panel */
+.violations-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.violation-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 10px 20px;
+  border-bottom: 1px solid rgba(42,51,82,0.4);
+  font-size: 12px;
+  animation: slideIn 0.3s ease;
+}
+.violation-item:last-child { border-bottom: none; }
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.v-chart { font-family: var(--font-mono); font-size: 10px; color: var(--text3); width: 45px; }
+.v-rule {
+  width: 22px; height: 22px;
+  border-radius: 5px; flex-shrink: 0;
+  background: rgba(255,77,109,0.12);
+  border: 1px solid rgba(255,77,109,0.25);
+  color: var(--red);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-family: var(--font-mono); font-weight: 600;
+}
+.v-desc { color: var(--text2); flex: 1; }
+.v-sub { color: var(--text3); }
+.v-points {
+  font-family: var(--font-mono); font-size: 10px;
+  background: var(--surface2);
+  padding: 2px 8px; border-radius: 4px;
+  color: var(--orange);
+}
+.no-violations {
+  padding: 24px 20px;
+  text-align: center;
+  color: var(--green2);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+
+/* Capability panel */
+.capability-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.cap-group { padding: 16px 20px; }
+.cap-group:first-child { border-right: 1px solid var(--border); }
+.cap-title {
+  font-family: var(--font-mono);
+  font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 12px;
+}
+.cap-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(42,51,82,0.3);
+}
+.cap-row:last-child { border-bottom: none; }
+.cap-name { font-family: var(--font-mono); font-size: 12px; color: var(--text2); }
+.cap-val {
+  font-family: var(--font-mono); font-size: 13px; font-weight: 500;
+}
+.cap-val.good { color: var(--green); }
+.cap-val.warn { color: var(--orange); }
+.cap-val.bad { color: var(--red); }
+
+/* Histogram */
+.hist-bars { display: flex; align-items: flex-end; gap: 3px; height: 80px; padding: 0 4px; }
+.hist-bar {
+  flex: 1;
+  background: linear-gradient(180deg, var(--accent), rgba(79,142,247,0.4));
+  border-radius: 2px 2px 0 0;
+  min-height: 2px;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+.hist-bar:hover { background: linear-gradient(180deg, var(--accent2), var(--accent)); }
+
+/* Empty state */
+.empty-state {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--text3);
+  gap: 12px;
+}
+.empty-icon { font-size: 40px; opacity: 0.4; }
+.empty-title { font-family: var(--font-display); font-size: 20px; color: var(--text2); }
+.empty-desc { font-size: 12px; max-width: 300px; line-height: 1.6; }
+
+/* Pulse animation for data count */
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+.data-count { animation: pulse 2s infinite; }
+
+/* Scrollbar inside panels */
+.data-preview::-webkit-scrollbar { height: 4px; }
+.data-preview::-webkit-scrollbar-track { background: transparent; }
+.data-preview::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+/* ── Display Options toggles ── */
+.display-opt-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 8px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.display-opt-item:hover { background: var(--surface2); }
+.display-opt-swatch {
+  width: 12px; height: 12px; flex-shrink: 0;
+  border-radius: 3px;
+  border: 1.5px solid transparent;
+  margin-top: 1px;
+}
+.display-opt-text {
+  font-size: 11px; color: var(--text2); line-height: 1.4; flex: 1;
+}
+.display-opt-item.active .display-opt-text { color: var(--text); }
+.display-opt-toggle {
+  width: 28px; height: 16px; flex-shrink: 0;
+  background: var(--surface3);
+  border-radius: 8px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+  border: none;
+}
+.display-opt-toggle::after {
+  content: '';
+  width: 10px; height: 10px;
+  background: var(--text3);
+  border-radius: 50%;
+  position: absolute; top: 3px; left: 3px;
+  transition: transform 0.2s, background 0.2s;
+}
+.display-opt-toggle.on { background: rgba(0,180,216,0.3); }
+.display-opt-toggle.on::after { transform: translateX(12px); background: var(--cyan); }
+/* light mode */
+body.light-mode .display-opt-item:hover { background: var(--surface3); }
+body.light-mode .display-opt-text { color: var(--text2); }
+body.light-mode .display-opt-item.active .display-opt-text { color: var(--text); }
+body.light-mode .display-opt-toggle { background: var(--surface3); }
+
+/* Toast notification */
+.toast {
+  position: fixed; bottom: 24px; right: 24px; z-index: 1000;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 12px; font-family: var(--font-mono);
+  color: var(--text);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  transform: translateY(100px); opacity: 0;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex; align-items: center; gap: 10px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast .toast-icon { font-size: 16px; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .app-layout { grid-template-columns: 1fr; }
+  .sidebar { border-right: none; border-bottom: 1px solid var(--border); }
+  .capability-grid { grid-template-columns: 1fr; }
+  .cap-group:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <!-- Left: TMIC Logo + Company Name + Contact -->
+  <a href="index.html" class="brand-left">
+    <img src="assets/images/hero/00.png" alt="TMIC Logo" class="brand-logo">
+    <div class="brand-text-group">
+      <span class="brand-name">Trade Master International Co., Ltd.</span>
+      <span class="brand-slogan">ISO + AI Digital Technology</span>
+      <span class="brand-contact">โทร 081 924 6556 &nbsp;·&nbsp; trademasterinter@gmail.com</span>
+    </div>
+  </a>
+
+  <!-- Center: Tool title -->
+  <div class="header-center">
+    <h1>X̄-R <span>Control Chart</span></h1>
+    <p>Statistical Process Control · SPC Analysis</p>
+  </div>
+
+  <!-- Right: Status badges + Home + Theme toggle -->
+  <div class="header-badge">
+    <div class="badge-row">
+      <span class="badge">AIAG / IATF 16949</span>
+      <span class="badge active" id="statusBadge">Ready</span>
+    </div>
+    <div class="badge-row" style="justify-content:flex-end; gap:8px;">
+      <a href="index.html" class="badge home-btn" title="กลับหน้าหลัก">🏠 Home</a>
+      <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()">
+        <span class="theme-icon-pill" id="themeIconPill"></span>
+        <span id="themeLabel">🌙 Dark Mode</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="app-layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+
+    <!-- Spec Setup -->
+    <div class="section-label">⚙ Setup / ตั้งค่า</div>
+
+    <div class="form-group">
+      <label>SAMPLE SIZE n (2–10)</label>
+      <input type="number" id="sampleSize" value="5" min="2" max="10">
+    </div>
+
+    <div class="sep"></div>
+    <div style="font-size:11px;color:var(--text3);margin-bottom:10px;font-family:var(--font-mono)">Engineering Specification</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>USL (Max)</label>
+        <input type="number" id="usl" step="any" placeholder="1.0">
+      </div>
+      <div class="form-group">
+        <label>LSL (Min)</label>
+        <input type="number" id="lsl" step="any" placeholder="0.5">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Target</label>
+      <input type="number" id="target" step="any" placeholder="0.75">
+    </div>
+    <div class="form-group">
+      <label>Unit หน่วยวัด</label>
+      <input type="text" id="unit" value="mm." placeholder="mm.">
+    </div>
+
+    <div class="spec-visual" id="specVisual" style="display:none">
+      <div style="font-size:10px;color:var(--text3);font-family:var(--font-mono);margin-bottom:4px">Spec Range Visualization</div>
+      <div class="spec-bar-track"><div class="spec-bar-fill" id="specBarFill"></div></div>
+      <div class="spec-bar-labels">
+        <span id="lslLabel">LSL</span>
+        <span id="targetLabel" style="color:var(--gold)">▲ Target</span>
+        <span id="uslLabel">USL</span>
+      </div>
+    </div>
+
+    <div class="sep"></div>
+    <div style="font-size:11px;color:var(--text3);margin-bottom:10px;font-family:var(--font-mono)">Last Control Limits (Optional)</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Last UCL<sub>x</sub></label>
+        <input type="number" id="lastUclX" step="any" placeholder="0.95">
+      </div>
+      <div class="form-group">
+        <label>Last LCL<sub>x</sub></label>
+        <input type="number" id="lastLclX" step="any" placeholder="0.65">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Last UCL<sub>R</sub></label>
+        <input type="number" id="lastUclR" step="any" placeholder="0.55">
+      </div>
+      <div class="form-group">
+        <label>Last R̄</label>
+        <input type="number" id="lastRbar" step="any" placeholder="0.25">
+      </div>
+    </div>
+
+    <div class="sep"></div>
+
+    <!-- Display Options -->
+    <div class="rules-section">
+      <div class="section-label">👁 Display Options — X̄ Chart</div>
+      <div id="displayOpts"></div>
+    </div>
+
+    <div class="sep"></div>
+
+    <!-- X-bar Rules -->
+    <div class="rules-section">
+      <div class="section-label">📊 X̄ Chart — Out-of-Control Rules</div>
+      <div id="xbarRules"></div>
+    </div>
+
+    <div class="sep"></div>
+
+    <!-- R Chart Rules -->
+    <div class="rules-section">
+      <div class="section-label">📈 R Chart — Out-of-Control Rules</div>
+      <div id="rRules"></div>
+    </div>
+
+    <div class="sep"></div>
+    <button class="btn btn-primary" onclick="processData()">▶ วิเคราะห์ / Analyze</button>
+    <button class="btn btn-secondary" onclick="clearAll()">✕ Clear Data</button>
+    <button class="btn btn-secondary" onclick="loadSample()">⚡ Load Sample Data</button>
+  </aside>
+
+  <!-- ── MAIN CONTENT ── -->
+  <main class="main-content">
+
+    <!-- Data Input (always visible at top for pasting) -->
+    <div class="input-panel" id="inputPanel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <div class="icon">📋</div>
+          Data Input — วางข้อมูลจาก Excel
+        </div>
+        <span class="panel-hint" id="dataHint">Paste data from Excel (Tab-separated)</span>
+      </div>
+      <div class="paste-area">
+        <textarea class="data-input" id="dataInput" placeholder="วางข้อมูลจาก Excel ที่นี่&#10;รูปแบบ: Date  Time  X1  X2  X3  X4  X5  (หรือเฉพาะ X1...Xn)&#10;&#10;ตัวอย่าง:&#10;1/6   8   0.500  0.669  0.719  0.628  0.824&#10;1/6   10  0.838  0.781  0.754  0.754  0.664&#10;...&#10;&#10;หมายเหตุ: Date และ Time เป็น Optional — ระบบจะตรวจจับอัตโนมัติ"></textarea>
+      </div>
+    </div>
+
+    <!-- Results (hidden until data) -->
+    <div id="resultsSection" style="display:none">
+
+      <!-- Stats -->
+      <div class="stats-grid" id="statsGrid"></div>
+
+      <!-- Xbar Chart -->
+      <div class="chart-panel">
+        <div class="chart-panel-header">
+          <div class="chart-panel-title">
+            <span class="chart-indicator" style="background:var(--accent)"></span>
+            X̄ Chart — Average Chart
+          </div>
+          <div class="chart-legend">
+            <span class="legend-item"><span class="legend-line" style="background:var(--red)"></span>UCL/LCL</span>
+            <span class="legend-item"><span class="legend-line" style="background:var(--gold)"></span>X̄̄ (CL)</span>
+            <span class="legend-item"><span class="legend-dot" style="background:var(--cyan)"></span>X̄</span>
+            <span class="legend-item"><span class="legend-line" style="background:rgba(239,68,68,0.3);width:10px;height:1px;border-top:1px dashed var(--red)"></span>Violation</span>
+          </div>
+        </div>
+        <div class="chart-body"><canvas id="xbarChart"></canvas></div>
+      </div>
+
+      <!-- R Chart -->
+      <div class="chart-panel">
+        <div class="chart-panel-header">
+          <div class="chart-panel-title">
+            <span class="chart-indicator" style="background:var(--green)"></span>
+            R Chart — Range Chart
+          </div>
+          <div class="chart-legend">
+            <span class="legend-item"><span class="legend-line" style="background:var(--red)"></span>UCL</span>
+            <span class="legend-item"><span class="legend-line" style="background:var(--gold)"></span>R̄ (CL)</span>
+            <span class="legend-item"><span class="legend-dot" style="background:var(--green2)"></span>Range</span>
+          </div>
+        </div>
+        <div class="chart-body"><canvas id="rChart"></canvas></div>
+      </div>
+
+      <!-- Violations -->
+      <div class="violations-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <div class="icon">⚠</div>
+            Out-of-Control Signals — สัญญาณผิดปกติ
+          </div>
+          <span class="panel-hint" id="violationCount">—</span>
+        </div>
+        <div id="violationList"></div>
+      </div>
+
+      <!-- Capability -->
+      <div class="chart-panel" id="capabilityPanel">
+        <div class="chart-panel-header">
+          <div class="panel-title">
+            <div class="icon">📐</div>
+            Process Capability — สมรรถนะกระบวนการ
+          </div>
+        </div>
+        <div class="capability-grid" id="capabilityContent"></div>
+      </div>
+
+      <!-- Data Table — shown after analyze, below capability -->
+      <div class="input-panel" id="dataTablePanel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <div class="icon">🗂</div>
+            Data Table — ตารางข้อมูล Subgroup
+          </div>
+          <span class="panel-hint" id="dataTableHint">—</span>
+        </div>
+        <div class="data-preview" id="dataPreview">
+          <table class="data-table" id="dataTable"></table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Empty state -->
+    <div id="emptyState" class="empty-state">
+      <div class="empty-icon">📊</div>
+      <div class="empty-title">X̄-R Control Chart</div>
+      <div class="empty-desc">วางข้อมูลจาก Excel ในช่องด้านบน แล้วกด Analyze เพื่อดูผลการวิเคราะห์ SPC</div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span class="toast-icon">ℹ</span>
+  <span id="toastMsg"></span>
+</div>
+
+<!-- TMIC Footer -->
+<footer style="
+  position:relative;z-index:1;
+  background:var(--navy);
+  border-top:1px solid var(--border);
+  padding:14px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:11px;font-family:var(--font-mono);
+  color:var(--text3);
+">
+  <span>
+    <a href="index.html" style="color:var(--cyan);text-decoration:none;font-weight:600">
+      Trade Master International Co., Ltd.
+    </a>
+    &nbsp;·&nbsp; โทร 081 924 6556 &nbsp;·&nbsp; trademasterinter@gmail.com
+  </span>
+  <span style="color:var(--text3)">X̄-R SPC Control Chart · AIAG / IATF 16949 · ISO 9001</span>
+</footer>
+
+<script>
+// ── SPC Constants ──────────────────────────────────────────────
+const SPC_CONSTANTS = {
+  2:  { d2: 1.128, A2: 1.880, D3: 0,     D4: 3.267 },
+  3:  { d2: 1.693, A2: 1.023, D3: 0,     D4: 2.574 },
+  4:  { d2: 2.059, A2: 0.729, D3: 0,     D4: 2.282 },
+  5:  { d2: 2.326, A2: 0.577, D3: 0,     D4: 2.114 },
+  6:  { d2: 2.534, A2: 0.483, D3: 0,     D4: 2.004 },
+  7:  { d2: 2.704, A2: 0.419, D3: 0.076, D4: 1.924 },
+  8:  { d2: 2.847, A2: 0.373, D3: 0.136, D4: 1.864 },
+  9:  { d2: 2.970, A2: 0.337, D3: 0.184, D4: 1.816 },
+  10: { d2: 3.078, A2: 0.308, D3: 0.223, D4: 1.777 }
+};
+
+// ── State ──────────────────────────────────────────────────────
+let xbarChartInstance = null;
+let rChartInstance = null;
+let parsedData = [];
+
+// ── Rule Definitions ──────────────────────────────────────────
+const RULES = [
+  { id: 'a', label: 'Rule 1', desc: '1 point > 3σ from centerline', descTh: 'จุดเกิน 3σ จาก CL', n: 1 },
+  { id: 'b', label: 'Rule 2', desc: '7 points in a row same side of CL', descTh: '7 จุดต่อเนื่องด้านเดียว', n: 7 },
+  { id: 'c', label: 'Rule 3', desc: '6 points in a row trending up/down', descTh: '6 จุดต่อเนื่องขึ้น/ลง', n: 6 },
+  { id: 'd', label: 'Rule 4', desc: '14 points alternating up and down', descTh: '14 จุดสลับขึ้น-ลง', n: 14 },
+  { id: 'e', label: 'Rule 5', desc: '2 of 3 points > 2σ from CL (same side)', descTh: '2 ใน 3 จุด > 2σ ด้านเดียว', n: 3 },
+  { id: 'f', label: 'Rule 6', desc: '4 of 5 points > 1σ from CL (same side)', descTh: '4 ใน 5 จุด > 1σ ด้านเดียว', n: 5 },
+  { id: 'g', label: 'Rule 7', desc: '15 points in a row within 1σ of CL', descTh: '15 จุดต่อเนื่องใน 1σ รอบ CL', n: 15 },
+  { id: 'h', label: 'Rule 8', desc: '8 points in a row > 1σ from CL (either side)', descTh: '8 จุดต่อเนื่อง > 1σ ทั้งสองข้าง', n: 8 }
+];
+
+// Rule state: xbar and R independent
+const ruleState = {
+  xbar: { a:true,  b:false, c:false, d:false, e:false, f:false, g:false, h:false },
+  r:    { a:true,  b:true,  c:true,  d:true,  e:true,  f:true,  g:true,  h:true  }
+};
+
+// ── Display Options State ────────────────────────────────────
+const DISPLAY_OPTS = [
+  { id:'uslLsl',    label:'USL / LSL',             labelTh:'ขีดจำกัดสเปค',            color:'rgba(46,204,143,0.8)',  on: true  },
+  { id:'lastLimits',label:'Last UCL / LCL',        labelTh:'ขีดจำกัดรอบก่อน',         color:'rgba(160,120,255,0.8)', on: false },
+  { id:'target',    label:'Target',                 labelTh:'ค่าเป้าหมาย',              color:'rgba(240,192,64,0.8)',  on: true  },
+  { id:'currentCL', label:'Current UCL / LCL (3σ)', labelTh:'ขีดจำกัดปัจจุบัน',        color:'rgba(239,68,68,0.9)',   on: true  },
+  { id:'sigma12',   label:'1σ / 2σ Zones',          labelTh:'โซน 1σ และ 2σ',           color:'rgba(0,180,216,0.7)',   on: true  },
+  { id:'showXn',    label:'Display X(n) in chart',  labelTh:'แสดงค่า X แต่ละตัวบนกราฟ', color:'rgba(255,180,60,0.75)', on: false },
+];
+
+const displayState = {};
+DISPLAY_OPTS.forEach(o => { displayState[o.id] = o.on; });
+
+function buildDisplayOpts() {
+  const container = document.getElementById('displayOpts');
+  container.innerHTML = '';
+  DISPLAY_OPTS.forEach(opt => {
+    const on = displayState[opt.id];
+    const div = document.createElement('div');
+    div.className = `display-opt-item ${on ? 'active' : ''}`;
+    div.dataset.id = opt.id;
+    div.innerHTML = `
+      <div class="display-opt-swatch" style="background:${on ? opt.color : 'transparent'};border-color:${opt.color}"></div>
+      <div class="display-opt-text">
+        <b style="font-size:10.5px">${opt.label}</b><br>${opt.labelTh}
+      </div>
+      <button class="display-opt-toggle ${on ? 'on' : ''}" data-id="${opt.id}"></button>`;
+    div.querySelector('.display-opt-toggle').addEventListener('click', e => {
+      e.stopPropagation();
+      toggleDisplayOpt(opt.id);
+    });
+    div.addEventListener('click', () => toggleDisplayOpt(opt.id));
+    container.appendChild(div);
+  });
+}
+
+function toggleDisplayOpt(id) {
+  displayState[id] = !displayState[id];
+  buildDisplayOpts();
+  if (parsedData.length > 0) redrawCharts();
+}
+
+function redrawCharts() {
+  const n = parseInt(document.getElementById('sampleSize').value) || 5;
+  const stats = calcStats(parsedData, n);
+  xbars = stats.xbars;
+  ranges = stats.ranges;
+  const xV = detectViolations(xbars, stats.xbarbar, stats.xUCL, stats.xLCL, stats.xUCL2, stats.xLCL2, stats.xUCL1, stats.xLCL1, ruleState.xbar);
+  const rV = detectViolations(ranges, stats.rbar, stats.rUCL, stats.rLCL > 0 ? stats.rLCL : -Infinity, stats.rUCL2, stats.rLCL2, stats.rUCL1, stats.rLCL1, ruleState.r);
+  buildXbarChart(parsedData, stats, xV);
+  buildRChart(parsedData, stats, rV);
+}
+
+function buildRuleToggles() {
+  ['xbar','r'].forEach(chart => {
+    const container = document.getElementById(chart === 'xbar' ? 'xbarRules' : 'rRules');
+    container.innerHTML = '';
+    RULES.forEach(rule => {
+      const on = ruleState[chart][rule.id];
+      const div = document.createElement('div');
+      div.className = `rule-item ${on ? 'active' : ''}`;
+      div.dataset.chart = chart; div.dataset.rule = rule.id;
+      div.innerHTML = `
+        <div class="rule-letter">${rule.id.toUpperCase()}</div>
+        <div class="rule-text"><b>${rule.label}</b><br>${rule.descTh}</div>
+        <button class="rule-toggle ${on ? 'on' : ''}" data-chart="${chart}" data-rule="${rule.id}"></button>`;
+      div.querySelector('.rule-toggle').addEventListener('click', e => {
+        e.stopPropagation();
+        toggleRule(chart, rule.id);
+      });
+      div.addEventListener('click', () => toggleRule(chart, rule.id));
+      container.appendChild(div);
+    });
+  });
+}
+
+function toggleRule(chart, ruleId) {
+  ruleState[chart][ruleId] = !ruleState[chart][ruleId];
+  buildRuleToggles();
+  if (parsedData.length > 0) processData();
+}
+
+// Spec visual update — attach after DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  buildRuleToggles();
+  buildDisplayOpts();
+  ['usl','lsl','target'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateSpecVisual);
+  });
+});
+
+function updateSpecVisual() {
+  const usl = parseFloat(document.getElementById('usl').value);
+  const lsl = parseFloat(document.getElementById('lsl').value);
+  const tgt = parseFloat(document.getElementById('target').value);
+  const sv = document.getElementById('specVisual');
+  if (!isNaN(usl) && !isNaN(lsl) && usl > lsl) {
+    sv.style.display = 'block';
+    document.getElementById('lslLabel').textContent = `LSL: ${lsl}`;
+    document.getElementById('uslLabel').textContent = `USL: ${usl}`;
+    if (!isNaN(tgt)) {
+      const pct = ((tgt - lsl) / (usl - lsl) * 100).toFixed(1);
+      document.getElementById('targetLabel').textContent = `▲ ${tgt}`;
+      document.getElementById('targetLabel').style.marginLeft = `calc(${pct}% - 30px)`;
+    }
+    document.getElementById('specBarFill').style.width = '100%';
+  } else { sv.style.display = 'none'; }
+}
+
+// ── Parse pasted data ─────────────────────────────────────────
+function parseInput(raw) {
+  const lines = raw.trim().split('\n').filter(l => l.trim());
+  const rows = [];
+  const n = parseInt(document.getElementById('sampleSize').value) || 5;
+
+  for (let line of lines) {
+    const tokens = line.trim().split(/[\t,; ]+/).map(t => t.trim()).filter(t => t);
+    if (tokens.length < n) continue;
+
+    let date = '', time = '', xVals = [];
+    let startIdx = 0;
+
+    // Detect Date/Time columns
+    const firstNum = parseFloat(tokens[0]);
+    const secondNum = parseFloat(tokens[1]);
+
+    // Heuristic: if first token is not a valid number OR has '/', treat as date
+    const hasDate = isNaN(firstNum) || tokens[0].includes('/') || tokens[0].includes('-');
+    const hasTime = hasDate && tokens.length > n + 1;
+
+    if (hasDate) {
+      date = tokens[0]; startIdx = 1;
+      if (hasTime && isNaN(parseFloat(tokens[1])) === false && tokens.length > n + 1) {
+        time = tokens[1]; startIdx = 2;
+      } else if (tokens.length > n + 1) {
+        time = tokens[1]; startIdx = 2;
+      }
+    } else if (tokens.length > n) {
+      // Check if first 1-2 tokens might be date/time (non-measurement values)
+      // If there are more tokens than n, check if first is int-like time
+      const extra = tokens.length - n;
+      if (extra >= 2) { date = tokens[0]; time = tokens[1]; startIdx = 2; }
+      else if (extra === 1) { time = tokens[0]; startIdx = 1; }
+    }
+
+    xVals = tokens.slice(startIdx, startIdx + n).map(Number).filter(v => !isNaN(v));
+    if (xVals.length !== n) continue;
+
+    rows.push({ date, time, xVals });
+  }
+  return rows;
+}
+
+// ── SPC Calculations ──────────────────────────────────────────
+function calcStats(data, n) {
+  const consts = SPC_CONSTANTS[n] || SPC_CONSTANTS[5];
+  const xbars = data.map(r => r.xVals.reduce((a,b) => a+b,0) / n);
+  const ranges = data.map(r => Math.max(...r.xVals) - Math.min(...r.xVals));
+
+  const xbarbar = xbars.reduce((a,b)=>a+b,0) / xbars.length;
+  const rbar = ranges.reduce((a,b)=>a+b,0) / ranges.length;
+
+  const sigma_x = (consts.A2 * rbar) / 3; // = Rbar/d2/sqrt(n) * but using A2 shortcut
+  // Actually: sigma_x = Rbar / d2, process std = Rbar/d2, std of xbar = sigma_x / sqrt(n)
+  const sigma_process = rbar / consts.d2;
+  const sigma_xbar = sigma_process / Math.sqrt(n);
+
+  const xUCL = xbarbar + 3 * sigma_xbar;
+  const xLCL = xbarbar - 3 * sigma_xbar;
+  const xUCL2 = xbarbar + 2 * sigma_xbar;
+  const xLCL2 = xbarbar - 2 * sigma_xbar;
+  const xUCL1 = xbarbar + 1 * sigma_xbar;
+  const xLCL1 = xbarbar - 1 * sigma_xbar;
+
+  const rUCL = consts.D4 * rbar;
+  const rLCL = consts.D3 * rbar;
+  const rSigma = rbar * (consts.D4 - 1) / 3;
+  const rUCL2 = rbar + 2 * rSigma;
+  const rUCL1 = rbar + 1 * rSigma;
+  const rLCL1 = rbar - 1 * rSigma;
+  const rLCL2 = rbar - 2 * rSigma;
+
+  return { xbars, ranges, xbarbar, rbar, sigma_process, sigma_xbar,
+           xUCL, xLCL, xUCL2, xLCL2, xUCL1, xLCL1,
+           rUCL, rLCL, rSigma, rUCL2, rUCL1, rLCL1, rLCL2 };
+}
+
+// ── 8 Rules Detection ─────────────────────────────────────────
+function detectViolations(values, cl, ucl3, lcl3, ucl2, lcl2, ucl1, lcl1, rules) {
+  const v = values;
+  const violations = {}; // index -> [rule letters]
+  const k = v.length;
+
+  const flag = (idx, rule) => {
+    if (!violations[idx]) violations[idx] = [];
+    if (!violations[idx].includes(rule)) violations[idx].push(rule);
+  };
+
+  // Rule a: 1 point > 3σ
+  if (rules.a) {
+    v.forEach((x,i) => { if (x > ucl3 || x < lcl3) flag(i,'a'); });
+  }
+  // Rule b: 7 in a row same side
+  if (rules.b) {
+    for (let i = 6; i < k; i++) {
+      const seg = v.slice(i-6, i+1);
+      if (seg.every(x => x > cl) || seg.every(x => x < cl)) {
+        for (let j=i-6;j<=i;j++) flag(j,'b');
+      }
+    }
+  }
+  // Rule c: 6 in a row trending
+  if (rules.c) {
+    for (let i = 5; i < k; i++) {
+      const seg = v.slice(i-5, i+1);
+      let up=true, dn=true;
+      for (let j=1;j<seg.length;j++) {
+        if (seg[j]<=seg[j-1]) up=false;
+        if (seg[j]>=seg[j-1]) dn=false;
+      }
+      if (up||dn) { for(let j=i-5;j<=i;j++) flag(j,'c'); }
+    }
+  }
+  // Rule d: 14 alternating
+  if (rules.d) {
+    for (let i = 13; i < k; i++) {
+      const seg = v.slice(i-13, i+1);
+      let alt = true;
+      for (let j=1;j<seg.length;j++) {
+        if (j%2===1 && seg[j]<=seg[j-1]) { alt=false; break; }
+        if (j%2===0 && seg[j]>=seg[j-1]) { alt=false; break; }
+      }
+      if (alt) { for(let j=i-13;j<=i;j++) flag(j,'d'); }
+    }
+  }
+  // Rule e: 2 of 3 > 2σ same side
+  if (rules.e) {
+    for (let i = 2; i < k; i++) {
+      const seg = v.slice(i-2, i+1);
+      const aboveCount = seg.filter(x => x > ucl2).length;
+      const belowCount = seg.filter(x => x < lcl2).length;
+      if (aboveCount >= 2 || belowCount >= 2) {
+        for(let j=i-2;j<=i;j++) flag(j,'e');
+      }
+    }
+  }
+  // Rule f: 4 of 5 > 1σ same side
+  if (rules.f) {
+    for (let i = 4; i < k; i++) {
+      const seg = v.slice(i-4, i+1);
+      const aboveCount = seg.filter(x => x > ucl1).length;
+      const belowCount = seg.filter(x => x < lcl1).length;
+      if (aboveCount >= 4 || belowCount >= 4) {
+        for(let j=i-4;j<=i;j++) flag(j,'f');
+      }
+    }
+  }
+  // Rule g: 15 within 1σ
+  if (rules.g) {
+    for (let i = 14; i < k; i++) {
+      const seg = v.slice(i-14, i+1);
+      if (seg.every(x => x < ucl1 && x > lcl1)) {
+        for(let j=i-14;j<=i;j++) flag(j,'g');
+      }
+    }
+  }
+  // Rule h: 8 > 1σ either side
+  if (rules.h) {
+    for (let i = 7; i < k; i++) {
+      const seg = v.slice(i-7, i+1);
+      if (seg.every(x => x > ucl1 || x < lcl1)) {
+        for(let j=i-7;j<=i;j++) flag(j,'h');
+      }
+    }
+  }
+  return violations;
+}
+
+// ── Process Capability ────────────────────────────────────────
+function calcCapability(xbars, sigma, usl, lsl, target) {
+  if (isNaN(usl) || isNaN(lsl)) return null;
+  const mean = xbars.reduce((a,b)=>a+b,0)/xbars.length;
+  const allX = xbars; // using overall std too
+  const n = allX.length;
+  const variance = allX.reduce((s,x)=>s+(x-mean)**2,0)/(n-1);
+  const sigmaLT = Math.sqrt(variance);
+
+  const Cp  = (usl-lsl)/(6*sigma);
+  const Cpu = (usl-mean)/(3*sigma);
+  const Cpl = (mean-lsl)/(3*sigma);
+  const Cpk = Math.min(Cpu,Cpl);
+
+  const Pp  = (usl-lsl)/(6*sigmaLT);
+  const Ppu = (usl-mean)/(3*sigmaLT);
+  const Ppl = (mean-lsl)/(3*sigmaLT);
+  const Ppk = Math.min(Ppu,Ppl);
+
+  // PPM using normal distribution approximation
+  const normalCDF = z => {
+    const t=1/(1+0.2316419*Math.abs(z));
+    const poly=t*(0.319381530+t*(-0.356563782+t*(1.781477937+t*(-1.821255978+t*1.330274429))));
+    return z>=0 ? 1-0.3989422804*Math.exp(-z*z/2)*poly : 0.3989422804*Math.exp(-z*z/2)*poly;
+  };
+  const ppmUSL = (1 - normalCDF((usl-mean)/sigmaLT)) * 1e6;
+  const ppmLSL = normalCDF((lsl-mean)/sigmaLT) * 1e6;
+  const ppmTotal = ppmUSL + ppmLSL;
+
+  // Cpm
+  const T = !isNaN(target) ? target : (usl+lsl)/2;
+  const Cpm = (usl-lsl) / (6*Math.sqrt(sigma**2+(mean-T)**2));
+
+  return { Cp,Cpu,Cpl,Cpk, Pp,Ppu,Ppl,Ppk, ppmUSL,ppmLSL,ppmTotal, Cpm, mean, sigma, sigmaLT };
+}
+
+function capClass(v) {
+  if (v >= 1.67) return 'good';
+  if (v >= 1.33) return 'good';
+  if (v >= 1.0) return 'warn';
+  return 'bad';
+}
+
+// ── Build Charts ──────────────────────────────────────────────
+function buildXbarChart(data, stats, xViolations) {
+  if (xbarChartInstance) { xbarChartInstance.destroy(); xbarChartInstance = null; }
+  const labels = data.map((r,i) => {
+    if (r.date || r.time) return `${r.date||''} ${r.time||''}`.trim() || `S${i+1}`;
+    return `S${i+1}`;
+  });
+
+  const lastUclX = parseFloat(document.getElementById('lastUclX').value);
+  const lastLclX = parseFloat(document.getElementById('lastLclX').value);
+  const usl = parseFloat(document.getElementById('usl').value);
+  const lsl = parseFloat(document.getElementById('lsl').value);
+  const target = parseFloat(document.getElementById('target').value);
+
+  // ── Read display state ──
+  const showCurrentCL  = displayState.currentCL;
+  const showSigma12    = displayState.sigma12;
+  const showLastLimits = displayState.lastLimits;
+  const showUSLLSL     = displayState.uslLsl;
+  const showTarget     = displayState.target;
+  const showXn         = displayState.showXn;
+
+  // Colour palette for X1–X10 scatter dots
+  const XN_COLORS = [
+    'rgba(255,180,60,0.7)',   // X1 — amber
+    'rgba(192,100,255,0.7)',  // X2 — violet
+    'rgba(255,100,140,0.7)',  // X3 — rose
+    'rgba(60,220,180,0.7)',   // X4 — teal
+    'rgba(100,180,255,0.7)',  // X5 — sky
+    'rgba(255,140,60,0.7)',   // X6 — orange
+    'rgba(140,255,100,0.7)',  // X7 — lime
+    'rgba(255,80,80,0.7)',    // X8 — red
+    'rgba(80,200,255,0.7)',   // X9 — light blue
+    'rgba(220,180,60,0.7)',   // X10 — gold
+  ];
+
+  const datasets = [
+    // Current UCL/LCL 3σ
+    showCurrentCL
+      ? buildLimitLine(labels, stats.xUCL, '#ef4444', 'UCL (3σ)', [6,3])
+      : buildHiddenLine(labels, 'UCL (3σ)'),
+    showCurrentCL
+      ? buildLimitLine(labels, stats.xLCL, '#ef4444', 'LCL (3σ)', [6,3])
+      : buildHiddenLine(labels, 'LCL (3σ)'),
+    // 2σ zone
+    showSigma12
+      ? buildLimitLine(labels, stats.xUCL2, 'rgba(249,115,22,0.55)', '2σ+', [3,3])
+      : buildHiddenLine(labels, '2σ+'),
+    showSigma12
+      ? buildLimitLine(labels, stats.xLCL2, 'rgba(249,115,22,0.55)', '2σ−', [3,3])
+      : buildHiddenLine(labels, '2σ−'),
+    // 1σ zone
+    showSigma12
+      ? buildLimitLine(labels, stats.xUCL1, 'rgba(0,180,216,0.45)', '1σ+', [2,4])
+      : buildHiddenLine(labels, '1σ+'),
+    showSigma12
+      ? buildLimitLine(labels, stats.xLCL1, 'rgba(0,180,216,0.45)', '1σ−', [2,4])
+      : buildHiddenLine(labels, '1σ−'),
+    // CL (always shown)
+    buildLimitLine(labels, stats.xbarbar, '#d4a017', 'X̄̄ (CL)', []),
+    // X-bar data line (always shown)
+    {
+      label: 'X̄',
+      data: xbars,
+      borderColor: '#00b4d8',
+      backgroundColor: 'rgba(0,180,216,0.08)',
+      borderWidth: 2,
+      pointBackgroundColor: xbars.map((y,i) => xViolations[i] ? '#ef4444' : '#00b4d8'),
+      pointRadius: xbars.map((y,i) => xViolations[i] ? 6 : 4),
+      pointHoverRadius: 7,
+      tension: 0.3,
+      fill: false,
+      order: 1
+    }
+  ];
+
+  // ── X(n) individual readings scatter ──
+  if (showXn && data.length > 0) {
+    const n = data[0].xVals.length;
+    for (let xi = 0; xi < n; xi++) {
+      datasets.push({
+        label: `X${xi+1}`,
+        data: data.map(r => r.xVals[xi]),
+        borderColor: 'transparent',
+        backgroundColor: XN_COLORS[xi % XN_COLORS.length],
+        pointBackgroundColor: XN_COLORS[xi % XN_COLORS.length],
+        pointBorderColor: 'rgba(255,255,255,0.3)',
+        pointBorderWidth: 1,
+        pointRadius: 3,
+        pointHoverRadius: 5,
+        showLine: false,
+        fill: false,
+        order: 0   // render behind the X̄ line
+      });
+    }
+  }
+
+  // Conditional overlays
+  if (showLastLimits && !isNaN(lastUclX)) datasets.push(buildLimitLine(labels, lastUclX, 'rgba(160,120,255,0.7)', 'Last UCL', [4,2]));
+  if (showLastLimits && !isNaN(lastLclX)) datasets.push(buildLimitLine(labels, lastLclX, 'rgba(160,120,255,0.7)', 'Last LCL', [4,2]));
+  if (showUSLLSL && !isNaN(usl)) datasets.push(buildLimitLine(labels, usl, 'rgba(46,204,143,0.6)', 'USL', [8,4]));
+  if (showUSLLSL && !isNaN(lsl)) datasets.push(buildLimitLine(labels, lsl, 'rgba(46,204,143,0.6)', 'LSL', [8,4]));
+  if (showTarget  && !isNaN(target)) datasets.push(buildLimitLine(labels, target, 'rgba(240,192,64,0.55)', 'Target', [5,5]));
+
+  const ctx = document.getElementById('xbarChart').getContext('2d');
+  const allVals = [...xbars, stats.xUCL, stats.xLCL];
+  if (showUSLLSL && !isNaN(usl)) allVals.push(usl);
+  if (showUSLLSL && !isNaN(lsl)) allVals.push(lsl);
+  const pad = (Math.max(...allVals) - Math.min(...allVals)) * 0.12;
+
+  xbarChartInstance = new Chart(ctx, {
+    type: 'line',
+    data: { labels, datasets },
+    options: getChartOptions(Math.min(...allVals)-pad, Math.max(...allVals)+pad, 'X̄')
+  });
+}
+
+function buildRChart(data, stats, rViolations) {
+  if (rChartInstance) { rChartInstance.destroy(); rChartInstance = null; }
+  const labels = data.map((r,i) => r.date||r.time ? `${r.date||''} ${r.time||''}`.trim() : `S${i+1}`);
+
+  const showCurrentCL  = displayState.currentCL;
+  const showSigma12    = displayState.sigma12;
+  const showLastLimits = displayState.lastLimits;
+
+  const datasets = [
+    showCurrentCL
+      ? buildLimitLine(labels, stats.rUCL, '#ef4444', 'UCL_R (3σ)', [6,3])
+      : buildHiddenLine(labels, 'UCL_R (3σ)'),
+    showCurrentCL && stats.rLCL > 0
+      ? buildLimitLine(labels, stats.rLCL, '#ef4444', 'LCL_R', [6,3])
+      : buildHiddenLine(labels, 'LCL_R'),
+    showSigma12
+      ? buildLimitLine(labels, stats.rUCL2, 'rgba(249,115,22,0.55)', '2σ_R', [3,3])
+      : buildHiddenLine(labels, '2σ_R'),
+    showSigma12
+      ? buildLimitLine(labels, stats.rUCL1, 'rgba(0,180,216,0.45)', '1σ_R', [2,4])
+      : buildHiddenLine(labels, '1σ_R'),
+    // R̄ CL always shown
+    buildLimitLine(labels, stats.rbar, '#d4a017', 'R̄ (CL)', []),
+    // Range data line
+    {
+      label: 'Range',
+      data: ranges,
+      borderColor: '#1db954',
+      backgroundColor: 'rgba(29,185,84,0.08)',
+      borderWidth: 2,
+      pointBackgroundColor: ranges.map((y,i) => rViolations[i] ? '#ef4444' : '#1db954'),
+      pointRadius: ranges.map((y,i) => rViolations[i] ? 6 : 4),
+      pointHoverRadius: 7,
+      tension: 0.3,
+      fill: false,
+      order: 1
+    }
+  ];
+
+  const lastUclR = parseFloat(document.getElementById('lastUclR').value);
+  const lastRbar = parseFloat(document.getElementById('lastRbar').value);
+  if (showLastLimits && !isNaN(lastUclR)) datasets.push(buildLimitLine(labels, lastUclR, 'rgba(160,120,255,0.7)', 'Last UCL_R', [4,2]));
+  if (showLastLimits && !isNaN(lastRbar)) datasets.push(buildLimitLine(labels, lastRbar, 'rgba(240,192,64,0.55)', 'Last R̄', [5,5]));
+
+  const ctx = document.getElementById('rChart').getContext('2d');
+  const allVals = [...ranges, stats.rUCL, 0];
+  const pad = (Math.max(...allVals) - 0) * 0.12;
+
+  rChartInstance = new Chart(ctx, {
+    type: 'line',
+    data: { labels, datasets },
+    options: getChartOptions(0, Math.max(...allVals)+pad, 'Range')
+  });
+}
+
+function buildLimitLine(labels, val, color, label, dash=[]) {
+  if (val === null || val === undefined || isNaN(val)) return { data:[], label, hidden:true };
+  return {
+    label,
+    data: labels.map(() => val),
+    borderColor: color,
+    borderWidth: 1.5,
+    borderDash: dash,
+    pointRadius: 0,
+    fill: false,
+    tension: 0,
+    order: 2
+  };
+}
+
+function buildHiddenLine(labels, label) {
+  return { label, data: labels.map(() => null), hidden: true,
+           borderColor:'transparent', pointRadius:0, fill:false, order:2 };
+}
+
+function getChartOptions(yMin, yMax, yLabel) {
+  const isLight = document.body.classList.contains('light-mode');
+  const gridColor = isLight ? 'rgba(0,50,100,0.08)' : 'rgba(42,51,82,0.4)';
+  const tickColor = isLight ? '#5a7890' : '#9aaac5';
+  const borderColor = isLight ? '#c8d8e8' : '#2a3352';
+  const tooltipBg = isLight ? 'rgba(255,255,255,0.98)' : 'rgba(10,22,40,0.97)';
+  const tooltipBorder = isLight ? '#c8d8e8' : '#1a3358';
+  const tooltipTitle = isLight ? '#5a7890' : '#8faabf';
+  const tooltipBody = isLight ? '#0a1628' : '#e8f0f8';
+
+  return {
+    responsive: true,
+    maintainAspectRatio: true,
+    animation: { duration: 600, easing: 'easeInOutQuart' },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: tooltipBg,
+        borderColor: tooltipBorder,
+        borderWidth: 1,
+        padding: 10,
+        titleFont: { family: "'DM Mono',monospace", size: 11 },
+        bodyFont: { family: "'DM Mono',monospace", size: 12 },
+        titleColor: tooltipTitle,
+        bodyColor: tooltipBody,
+        callbacks: {
+          label: ctx => ` ${ctx.dataset.label}: ${typeof ctx.raw === 'number' ? ctx.raw.toFixed(5) : ''}`
+        },
+        filter: item => item.dataset.order === 1 || (item.dataset.order === 2 && item.dataIndex === 0)
+      }
+    },
+    scales: {
+      x: {
+        grid: { color: gridColor, lineWidth: 1 },
+        ticks: { color: tickColor, font: { family: "'DM Mono',monospace", size: 10 }, maxRotation: 45 },
+        border: { color: borderColor }
+      },
+      y: {
+        min: yMin, max: yMax,
+        grid: { color: gridColor, lineWidth: 1 },
+        ticks: {
+          color: isLight ? '#2d5070' : '#9aaac5',
+          font: { family: "'DM Mono',monospace", size: 10 },
+          callback: v => v.toFixed(4)
+        },
+        border: { color: borderColor }
+      }
+    }
+  };
+}
+
+// ── Violation Summary ──────────────────────────────────────────
+function renderViolations(xViolations, rViolations) {
+  const list = document.getElementById('violationList');
+  list.innerHTML = '';
+  let totalV = 0;
+  const allV = [];
+
+  const addV = (chart, violations) => {
+    Object.entries(violations).forEach(([idx, rules]) => {
+      rules.forEach(rule => {
+        const rDef = RULES.find(r=>r.id===rule);
+        allV.push({ chart, idx: parseInt(idx)+1, rule, desc: rDef?.desc||'', descTh: rDef?.descTh||'' });
+        totalV++;
+      });
+    });
+  };
+
+  addV('X̄', xViolations);
+  addV('R', rViolations);
+
+  if (allV.length === 0) {
+    list.innerHTML = `<div class="no-violations">✓ ไม่พบสัญญาณผิดปกติ — No out-of-control signals detected</div>`;
+    document.getElementById('violationCount').textContent = '✓ In Control';
+    document.getElementById('violationCount').style.color = 'var(--green)';
+    return;
+  }
+
+  document.getElementById('violationCount').textContent = `⚠ ${totalV} violation(s)`;
+  document.getElementById('violationCount').style.color = 'var(--red)';
+
+  // Group by rule
+  const grouped = {};
+  allV.forEach(v => {
+    const key = `${v.chart}-${v.rule}`;
+    if (!grouped[key]) grouped[key] = { ...v, points: [] };
+    grouped[key].points.push(v.idx);
+  });
+
+  Object.values(grouped).forEach(v => {
+    const div = document.createElement('div');
+    div.className = 'violation-item';
+    div.innerHTML = `
+      <span class="v-chart">${v.chart}</span>
+      <span class="v-rule">${v.rule.toUpperCase()}</span>
+      <span class="v-desc">${v.desc}<br><span class="v-sub">${v.descTh}</span></span>
+      <span class="v-points">Subgroup: ${[...new Set(v.points)].sort((a,b)=>a-b).join(', ')}</span>`;
+    list.appendChild(div);
+  });
+}
+
+// ── Stats Cards ───────────────────────────────────────────────
+let xbars, ranges; // module-level for chart access
+
+function renderStats(stats, n) {
+  const usl = parseFloat(document.getElementById('usl').value);
+  const lsl = parseFloat(document.getElementById('lsl').value);
+  const cap = calcCapability(stats.xbars, stats.sigma_process, usl, lsl, parseFloat(document.getElementById('target').value));
+  const unit = document.getElementById('unit').value || '';
+
+  const statsData = [
+    { label: 'X̄̄  (Grand Mean)', value: stats.xbarbar.toFixed(5), sub: unit, color: 'blue' },
+    { label: 'R̄  (Mean Range)', value: stats.rbar.toFixed(5), sub: unit, color: 'green' },
+    { label: 'σ̂  (Est. Process Std)', value: stats.sigma_process.toFixed(5), sub: `d₂=${SPC_CONSTANTS[n]?.d2}`, color: 'purple' },
+    { label: 'X UCL / LCL', value: `${stats.xUCL.toFixed(4)} / ${stats.xLCL.toFixed(4)}`, sub: '±3σ', color: 'red' },
+    { label: 'R UCL', value: stats.rUCL.toFixed(5), sub: `D₄=${SPC_CONSTANTS[n]?.D4}`, color: 'red' },
+    { label: 'Subgroups (k)', value: stats.xbars.length, sub: `n = ${n}`, color: 'gold' },
+  ];
+
+  if (cap) {
+    statsData.push({ label: 'Cp', value: cap.Cp.toFixed(3), sub: 'Potential', color: cap.Cp >= 1.33 ? 'green' : 'red' });
+    statsData.push({ label: 'Cpk', value: cap.Cpk.toFixed(3), sub: 'Actual', color: cap.Cpk >= 1.33 ? 'green' : 'red' });
+  }
+
+  const grid = document.getElementById('statsGrid');
+  grid.innerHTML = statsData.map(s => `
+    <div class="stat-card ${s.color}">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-value" style="font-size:${s.value.toString().length>8?'16px':'22px'}">${s.value}</div>
+      <div class="stat-sub">${s.sub}</div>
+    </div>`).join('');
+
+  // Capability table
+  if (cap) {
+    document.getElementById('capabilityPanel').style.display = '';
+    document.getElementById('capabilityContent').innerHTML = `
+      <div class="cap-group">
+        <div class="cap-title">Short-term (Within) — σ from R̄/d₂</div>
+        ${[['Cp',cap.Cp],['Cpu',cap.Cpu],['Cpl',cap.Cpl],['Cpk',cap.Cpk],['Cpm',cap.Cpm]].map(([k,v])=>`
+        <div class="cap-row">
+          <span class="cap-name">${k}</span>
+          <span class="cap-val ${capClass(v)}">${v.toFixed(4)}</span>
+        </div>`).join('')}
+        <div class="cap-row">
+          <span class="cap-name">σ̂ (within)</span>
+          <span class="cap-val">${cap.sigma.toFixed(5)}</span>
+        </div>
+      </div>
+      <div class="cap-group">
+        <div class="cap-title">Long-term (Overall) — σ from Sample Std</div>
+        ${[['Pp',cap.Pp],['Ppu',cap.Ppu],['Ppl',cap.Ppl],['Ppk',cap.Ppk]].map(([k,v])=>`
+        <div class="cap-row">
+          <span class="cap-name">${k}</span>
+          <span class="cap-val ${capClass(v)}">${v.toFixed(4)}</span>
+        </div>`).join('')}
+        <div class="cap-row"><span class="cap-name">PPM > USL</span><span class="cap-val warn">${cap.ppmUSL.toFixed(0)}</span></div>
+        <div class="cap-row"><span class="cap-name">PPM < LSL</span><span class="cap-val warn">${cap.ppmLSL.toFixed(0)}</span></div>
+        <div class="cap-row"><span class="cap-name">DPPM Total</span><span class="cap-val ${cap.ppmTotal > 6210 ? 'bad' : 'warn'}">${cap.ppmTotal.toFixed(0)}</span></div>
+      </div>`;
+  } else {
+    document.getElementById('capabilityPanel').style.display = 'none';
+  }
+}
+
+// ── Data Table ────────────────────────────────────────────────
+function renderDataTable(data, stats, n, xV, rV) {
+  const header = `<tr>
+    <th>#</th><th>Date</th><th>Time</th>
+    ${Array.from({length:n},(_,i)=>`<th>X${i+1}</th>`).join('')}
+    <th>X̄</th><th>R</th><th>X Status</th><th>R Status</th>
+  </tr>`;
+
+  const rows = data.map((r,i) => {
+    const hasXViol = xV[i] && xV[i].length > 0;
+    const hasRViol = rV[i] && rV[i].length > 0;
+    const xbadge = hasXViol ? xV[i].map(r=>`<span class="violation-badge">${r.toUpperCase()}</span>`).join('') : '';
+    const rbadge = hasRViol ? rV[i].map(r=>`<span class="violation-badge">${r.toUpperCase()}</span>`).join('') : '';
+    return `<tr>
+      <td style="color:var(--text3)">${i+1}</td>
+      <td>${r.date||'—'}</td><td>${r.time||'—'}</td>
+      ${r.xVals.map(v=>`<td>${v.toFixed(5)}</td>`).join('')}
+      <td class="xbar-cell ${hasXViol?'violation':''}">${stats.xbars[i].toFixed(5)}${xbadge}</td>
+      <td class="range-cell ${hasRViol?'violation':''}">${stats.ranges[i].toFixed(5)}${rbadge}</td>
+      <td>${hasXViol ? `<span style="color:var(--red)">⚠ ${xV[i].join(',').toUpperCase()}</span>` : `<span style="color:var(--green2)">✓</span>`}</td>
+      <td>${hasRViol ? `<span style="color:var(--red)">⚠ ${rV[i].join(',').toUpperCase()}</span>` : `<span style="color:var(--green2)">✓</span>`}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('dataTable').innerHTML = header + rows;
+  const hint = document.getElementById('dataTableHint');
+  if (hint) hint.textContent = `${data.length} subgroups × n=${n} — ${data.length * n} readings`;
+}
+
+// ── Main Process ──────────────────────────────────────────────
+function processData() {
+  const raw = document.getElementById('dataInput').value.trim();
+  if (!raw) { showToast('⚠', 'กรุณาวางข้อมูลก่อน Please paste data first'); return; }
+
+  const n = parseInt(document.getElementById('sampleSize').value) || 5;
+  if (n < 2 || n > 10) { showToast('⚠', 'Sample size n ต้องอยู่ระหว่าง 2–10'); return; }
+
+  parsedData = parseInput(raw);
+  if (parsedData.length < 2) { showToast('✕', `ไม่พบข้อมูลพอ พบ ${parsedData.length} subgroup (ต้องการ ≥2)`); return; }
+
+  const stats = calcStats(parsedData, n);
+  xbars = stats.xbars;
+  ranges = stats.ranges;
+
+  // Detect violations
+  const xV = detectViolations(
+    xbars, stats.xbarbar,
+    stats.xUCL, stats.xLCL,
+    stats.xUCL2, stats.xLCL2,
+    stats.xUCL1, stats.xLCL1,
+    ruleState.xbar
+  );
+  const rV = detectViolations(
+    ranges, stats.rbar,
+    stats.rUCL, stats.rLCL > 0 ? stats.rLCL : -Infinity,
+    stats.rUCL2, stats.rLCL2,
+    stats.rUCL1, stats.rLCL1,
+    ruleState.r
+  );
+
+  // Collapse textarea to compact mode after analysis
+  const ta = document.getElementById('dataInput');
+  ta.style.minHeight = '48px';
+  ta.style.height = '48px';
+  ta.style.resize = 'none';
+  ta.style.opacity = '0.6';
+  ta.style.cursor = 'pointer';
+  ta.title = 'คลิกเพื่อแก้ไขข้อมูล / Click to edit data';
+  ta.onclick = function() {
+    this.style.minHeight = '100px';
+    this.style.height = '';
+    this.style.resize = 'vertical';
+    this.style.opacity = '1';
+    this.style.cursor = '';
+    this.title = '';
+    this.onclick = null;
+  };
+
+  // Show / hide
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('resultsSection').style.display = '';
+  document.getElementById('dataHint').textContent = `${parsedData.length} subgroups × n=${n} — ${parsedData.length * n} readings total`;
+
+  renderStats(stats, n);
+  renderDataTable(parsedData, stats, n, xV, rV);
+  buildXbarChart(parsedData, stats, xV);
+  buildRChart(parsedData, stats, rV);
+  renderViolations(xV, rV);
+  updateStatusBadge(xV, rV);
+
+  showToast('✓', `วิเคราะห์สำเร็จ ${parsedData.length} subgroups`);
+}
+
+function updateStatusBadge(xV, rV) {
+  const hasViol = Object.keys(xV).length > 0 || Object.keys(rV).length > 0;
+  const badge = document.getElementById('statusBadge');
+  badge.textContent = hasViol ? '⚠ Out of Control' : '✓ In Control';
+  badge.className = hasViol ? 'badge' : 'badge active';
+  badge.style.color = hasViol ? 'var(--red)' : 'var(--green)';
+  badge.style.borderColor = hasViol ? 'var(--red)' : 'var(--green)';
+  badge.style.background = hasViol ? 'rgba(255,77,109,0.08)' : 'rgba(46,204,143,0.08)';
+}
+
+function clearAll() {
+  const ta = document.getElementById('dataInput');
+  ta.value = '';
+  ta.style.minHeight = '';
+  ta.style.height = '';
+  ta.style.resize = 'vertical';
+  ta.style.opacity = '1';
+  ta.style.cursor = '';
+  ta.title = '';
+  ta.onclick = null;
+  parsedData = [];
+  document.getElementById('resultsSection').style.display = 'none';
+  document.getElementById('emptyState').style.display = '';
+  document.getElementById('dataHint').textContent = 'Paste data from Excel (Tab-separated)';
+  if (xbarChartInstance) { xbarChartInstance.destroy(); xbarChartInstance = null; }
+  if (rChartInstance) { rChartInstance.destroy(); rChartInstance = null; }
+  const badge = document.getElementById('statusBadge');
+  badge.textContent = 'Ready'; badge.className = 'badge active';
+  badge.style = '';
+  showToast('✓', 'ล้างข้อมูลแล้ว');
+}
+
+// ── Sample Data ───────────────────────────────────────────────
+function loadSample() {
+  document.getElementById('sampleSize').value = 5;
+  document.getElementById('usl').value = 1.0;
+  document.getElementById('lsl').value = 0.5;
+  document.getElementById('target').value = 0.75;
+  document.getElementById('unit').value = 'mm.';
+  document.getElementById('lastUclX').value = 0.95;
+  document.getElementById('lastLclX').value = 0.65;
+  document.getElementById('lastUclR').value = 0.55;
+  document.getElementById('lastRbar').value = 0.25;
+  updateSpecVisual();
+
+  const sampleData = `1/6\t8\t0.500481\t0.669146\t0.719471\t0.628564\t0.824886
+1/6\t10\t0.837773\t0.781188\t0.754110\t0.754473\t0.664358
+1/6\t12\t0.740122\t0.609370\t0.813662\t0.641231\t0.737091
+1/6\t14\t0.951755\t0.830799\t0.601002\t0.661298\t0.643156
+2/6\t8\t0.654657\t0.930670\t0.761998\t0.598099\t0.538955
+2/6\t10\t0.706086\t0.697249\t0.482836\t0.643613\t0.671234
+2/6\t12\t0.650378\t0.618663\t0.769957\t0.850644\t0.718568
+2/6\t14\t0.704864\t0.664392\t0.695482\t0.718784\t0.599107
+3/6\t8\t0.713184\t0.677089\t0.841718\t0.724756\t0.657213
+3/6\t10\t0.728367\t0.706118\t0.705331\t0.709375\t0.734411
+3/6\t12\t0.770110\t0.585442\t0.826011\t0.774653\t0.825566
+3/6\t14\t0.682064\t0.585677\t0.769633\t0.605538\t0.717565
+5/6\t8\t0.691031\t0.461247\t0.883089\t0.713031\t0.767877
+5/6\t10\t0.534016\t0.723397\t0.806909\t0.711873\t0.873007
+5/6\t12\t0.809412\t0.791603\t0.787679\t0.701411\t0.645838
+5/6\t14\t0.701919\t0.754278\t0.599995\t0.823676\t0.560768
+5/6\t16\t0.954521\t0.840261\t0.537178\t0.809450\t0.500779
+6/6\t8\t0.785872\t0.741320\t0.802765\t0.654890\t0.826902
+6/6\t10\t0.784743\t0.575394\t0.797125\t0.618791\t0.724830
+7/6\t8\t0.556187\t0.670322\t0.611120\t0.785983\t0.752252
+7/6\t10\t0.708026\t0.669628\t0.906353\t0.851680\t0.838510
+7/6\t12\t0.748033\t0.762865\t0.666741\t0.554114\t0.641151
+7/6\t14\t0.810858\t0.550049\t0.606966\t0.633535\t0.762841
+8/6\t8\t0.807070\t0.744101\t0.716288\t0.671363\t0.717296
+8/6\t10\t0.793511\t0.805327\t0.722794\t0.690082\t0.458839
+8/6\t12\t0.597224\t0.753614\t0.730530\t0.576287\t0.683522
+8/6\t14\t0.630206\t0.770010\t0.629950\t0.544744\t0.748704
+8/6\t16\t0.962786\t0.745223\t0.509575\t0.698542\t0.876391`;
+
+  document.getElementById('dataInput').value = sampleData;
+  showToast('⚡', 'โหลด Sample Data แล้ว กด Analyze');
+}
+
+// ── Toast ─────────────────────────────────────────────────────
+function showToast(icon, msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.querySelector('.toast-icon').textContent = icon;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Theme Toggle ──────────────────────────────────────────────
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light-mode');
+  const label = document.getElementById('themeLabel');
+  label.textContent = isLight ? '☀ Light Mode' : '🌙 Dark Mode';
+  buildDisplayOpts();
+  if (parsedData.length > 0) redrawCharts();
+}
+
+// ── Chart.js defaults ─────────────────────────────────────────
+Chart.defaults.color = '#8faabf';
+Chart.defaults.font.family = "'Sarabun', sans-serif";
+</script>
+</body>
+</html>

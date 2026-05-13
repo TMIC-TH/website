@@ -118,7 +118,6 @@ body{font-family:'Sarabun',sans-serif;background:var(--navy);color:var(--text);d
 }
 
 /* Nav items */
-#sidenav{padding:8px 0;flex:1}
 .sb-section{
   padding:12px 18px 4px;
   font-size:9.5px;font-weight:700;
@@ -456,6 +455,7 @@ canvas{width:100%!important;max-height:300px}
   .cloud-stat-row{grid-template-columns:1fr 1fr}
 }
 </style>
+  <link rel="stylesheet" href="navbar.css">
 </head>
 <body>
 
@@ -481,51 +481,23 @@ canvas{width:100%!important;max-height:300px}
     <div class="sb-hw-tag">🖥 CoreMP135</div>
   </div>
 
-  <nav id="sidenav">
-    <a class="active" onclick="showPage('dashboard',this)">
-      <span class="nav-icon">📊</span><span>Dashboard</span>
-      <span class="status-dot" id="conn-dot"></span>
-    </a>
-    <a onclick="showPage('monitor',this)">
-      <span class="nav-icon">📈</span><span>Live Monitor</span>
-    </a>
-    <a onclick="showPage('history',this)">
-      <span class="nav-icon">🗂</span><span>History</span>
-    </a>
-    <a onclick="showPage('alarm',this)">
-      <span class="nav-icon">🔔</span><span>Alarm Log</span>
-    </a>
-    <a onclick="showPage('send-log',this)">
-      <span class="nav-icon">☁</span><span>Cloud Send Log</span>
-    </a>
-    <a onclick="showPage('tou-dashboard',this)">
-      <span class="nav-icon">⏱</span><span>TOU Dashboard</span>
-    </a>
-
-    <div class="sb-section">Settings</div>
-
-    <a onclick="showPage('s-meter',this)">
-      <span class="nav-icon">⚙</span><span>Meter Setup</span>
-    </a>
-    <a onclick="showPage('s-modbus',this)">
-      <span class="nav-icon">🔌</span><span>Modbus</span>
-    </a>
-    <a onclick="showPage('s-logger',this)">
-      <span class="nav-icon">💾</span><span>Data Logger</span>
-    </a>
-    <a onclick="showPage('s-tariff',this)">
-      <span class="nav-icon">💰</span><span>Energy Tariff</span>
-    </a>
-    <a onclick="showPage('s-tou',this)">
-      <span class="nav-icon">⏱</span><span>TOU Tariff</span>
-    </a>
-    <a onclick="showPage('s-cloud',this)">
-      <span class="nav-icon">🌿</span><span>Cloud Push</span>
-    </a>
-    <a onclick="showPage('s-system',this)">
-      <span class="nav-icon">🖥</span><span>System</span>
-    </a>
-  </nav>
+    <!-- ── Shared Navbar (loaded from navbar.html) ──────────────── -->
+  <div id="navbar-container"></div>
+  <script>
+    fetch('navbar.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('navbar-container').innerHTML = html;
+        // Run inline scripts inside the fetched HTML
+        document.getElementById('navbar-container')
+          .querySelectorAll('script')
+          .forEach(s => {
+            const ns = document.createElement('script');
+            ns.textContent = s.textContent;
+            document.body.appendChild(ns);
+          });
+      });
+  </script>
 </div>
 
 <!-- ══════════════ MAIN ══════════════ -->
