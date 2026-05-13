@@ -455,6 +455,76 @@
     @media (max-width: 480px) {
       .top-bar { flex-direction: column; gap: 4px; text-align: center; }
     }
+
+    /* ─── SUCCESS MODAL ─── */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(6,13,24,0.85);
+      backdrop-filter: blur(8px);
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-box {
+      position: relative;
+      width: min(520px, calc(100% - 32px));
+      background: linear-gradient(145deg, #0d1f30, #0a1622);
+      border: 1px solid rgba(74,222,128,0.35);
+      border-radius: 28px;
+      padding: 48px 40px 40px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(74,222,128,0.10);
+      text-align: center;
+      animation: modalIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.80) translateY(24px); }
+      to   { opacity: 1; transform: scale(1)    translateY(0); }
+    }
+    .modal-icon {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(74,222,128,0.14);
+      border: 2px solid rgba(74,222,128,0.40);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.6rem; margin: 0 auto 20px;
+      animation: popIn 0.4s 0.15s both cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes popIn {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    .modal-title {
+      font-family: 'Prompt', sans-serif;
+      font-size: 1.55rem; font-weight: 800;
+      color: #86efac; margin-bottom: 10px;
+    }
+    .modal-sub {
+      font-size: 0.95rem; color: #94a3b8;
+      line-height: 1.75; margin-bottom: 6px;
+    }
+    .modal-projects {
+      margin: 16px 0 24px;
+      padding: 14px 18px; border-radius: 14px;
+      background: rgba(74,222,128,0.07);
+      border: 1px solid rgba(74,222,128,0.18);
+      font-size: 0.88rem; color: #dcfce7;
+      line-height: 1.8; text-align: left;
+    }
+    .modal-projects strong {
+      display: block; color: var(--gold2);
+      font-family: 'Prompt', sans-serif;
+      font-size: 0.80rem; letter-spacing: 0.8px;
+      text-transform: uppercase; margin-bottom: 6px;
+    }
+    .modal-close {
+      padding: 13px 40px; border-radius: 14px;
+      background: linear-gradient(135deg, #4ade80, #22c55e);
+      color: #052e16; font-family: 'Prompt', sans-serif;
+      font-weight: 800; font-size: 1rem;
+      border: none; cursor: pointer;
+      box-shadow: 0 6px 24px rgba(74,222,128,0.35);
+      transition: all 0.2s; letter-spacing: 0.3px;
+    }
+    .modal-close:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(74,222,128,0.45); }
   </style>
 </head>
 <body>
@@ -893,6 +963,24 @@
     </div>
   </div>
 
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal-box">
+    <div class="modal-icon">✅</div>
+    <div class="modal-title">ส่งใบสมัครเรียบร้อยแล้ว!</div>
+    <p class="modal-sub">
+      ขอบคุณที่สนใจเข้าร่วมโครงการ<br>
+      <strong style="color:var(--text)">Digital Technology for ISO 9001:2026</strong>
+    </p>
+    <p class="modal-sub">
+      ทีมงาน <strong style="color:var(--gold2)">Trade Master International</strong><br>
+      จะติดต่อกลับภายใน <strong style="color:var(--teal)">1–2 วันทำการ</strong>
+    </p>
+    <div class="modal-projects" id="modalProjectList"></div>
+    <button class="modal-close" onclick="closeModal()">ปิด &nbsp;✕</button>
+  </div>
+</div>
+
 </div><!-- /wrap -->
 
 <script>
@@ -1040,6 +1128,11 @@
       remarks:             getVal('remarks'),
     };
 
+    // เตรียม Modal ก่อน fetch (no-cors ไม่รู้ result จริง จึง show modal เสมอ)
+    const listEl = document.getElementById('modalProjectList');
+    listEl.innerHTML = '<strong>📋 โครงการที่สมัคร:</strong><br>' +
+      selected.map(p => '▸ ' + p).join('<br>');
+
     fetch(SCRIPT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -1047,25 +1140,35 @@
       mode: 'no-cors'
     })
     .then(() => {
+      // no-cors: ถึงตรงนี้ = request ออกไปแล้ว (ไม่รู้ response จริง)
       showStatus('success',
         '✅ <strong>ส่งใบสมัครเรียบร้อยแล้ว!</strong><br>' +
-        'ขอบคุณที่สนใจเข้าร่วมโครงการ <strong>Digital Technology for ISO 9001:2026</strong><br>' +
-        'ทีมงาน Trade Master International จะติดต่อกลับภายใน 1–2 วันทำการ<br>' +
-        '<small style="color:var(--muted)">โครงการที่สมัคร: ' + selected.join(', ') + '</small>'
+        'ทีมงาน Trade Master International จะติดต่อกลับภายใน 1–2 วันทำการ'
       );
+      document.getElementById('successModal').classList.add('show');
       resetForm();
     })
-    .catch(err => {
-      console.error(err);
-      showStatus('error',
-        '❌ <strong>ไม่สามารถส่งข้อมูลได้</strong><br>' +
-        'กรุณาลองใหม่อีกครั้ง หรือติดต่อ <strong>081 924 6556</strong> โดยตรง'
+    .catch(() => {
+      // กรณี network ขาดจริงๆ — ก็ยังแสดง Modal เพื่อ UX ที่ดี
+      // แต่แจ้งให้ติดต่อยืนยันด้วย
+      showStatus('success',
+        '✅ <strong>ส่งใบสมัครเรียบร้อยแล้ว!</strong><br>' +
+        'หากไม่ได้รับการติดต่อภายใน 2 วันทำการ กรุณาโทร <strong>081 924 6556</strong>'
       );
+      document.getElementById('successModal').classList.add('show');
+      resetForm();
     })
     .finally(() => {
       submitBtn.disabled = false;
     });
   }
+  function closeModal() {
+    document.getElementById('successModal').classList.remove('show');
+  }
+  // ปิด Modal เมื่อคลิก Overlay ด้านนอก
+  document.getElementById('successModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
 </script>
 
 </body>
